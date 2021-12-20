@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import Layout from '../components/Layout';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
@@ -15,15 +16,26 @@ export const getStaticProps = wrapper.getStaticProps(
         }
 );
 
-const IndexPage: NextPage = () => (
-    <Layout title="Home | Next.js + TypeScript Example">
-        <h1>Hello Next.js 👋</h1>
-        <p>
-            <Link href="/about">
-                <a>About</a>
-            </Link>
-        </p>
-    </Layout>
-);
+const IndexPage: NextPage = () => {
+    // Test for next auth
+    const authTest = async () => {
+        await signIn('credentials', {
+            redirect: false,
+            email: 'Test@test.com',
+            password: 'Password',
+        });
+    };
+    return (
+        <Layout title="Home | Next.js + TypeScript Example">
+            <h1>Hello Next.js 👋</h1>
+            <p>
+                <Link href="/about">
+                    <a>About</a>
+                </Link>
+            </p>
+            <button onClick={authTest}>Auth Test</button>
+        </Layout>
+    );
+};
 
 export default IndexPage;
