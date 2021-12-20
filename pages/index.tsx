@@ -18,13 +18,10 @@ export const getStaticProps = wrapper.getStaticProps(
 
 const IndexPage: NextPage = () => {
     // Test for next auth
-    const authTest = async () => {
-        await signIn('credentials', {
-            redirect: false,
-            email: 'Test@test.com',
-            password: 'Password',
-        });
+    const googleTest = async () => {
+        await signIn('google');
     };
+
     return (
         <Layout title="Home | Next.js + TypeScript Example">
             <h1>Hello Next.js 👋</h1>
@@ -33,7 +30,7 @@ const IndexPage: NextPage = () => {
                     <a>About</a>
                 </Link>
             </p>
-            <button onClick={authTest}>Auth Test</button>
+            <button onClick={googleTest}>Google Test</button>
         </Layout>
     );
 };
