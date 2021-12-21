@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { Box } from '@mui/system';
 import Layout from '../components/Layout';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
@@ -31,6 +32,13 @@ const IndexPage: NextPage = () => {
                 </Link>
             </p>
             <button onClick={googleTest}>Google Test</button>
+            <Box
+                sx={{
+                    color: 'secondary.main',
+                }}
+            >
+                Styles Test
+            </Box>
         </Layout>
     );
 };

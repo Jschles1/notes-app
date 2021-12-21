@@ -7,10 +7,13 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.7.1",
+    "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.2.4",
     "@reduxjs/toolkit": "^1.7.1",
+    "clsx": "^1.1.1",
     "next": "latest",
     "next-auth": "^4.0.5",
     "next-redux-cookie-wrapper": "^2.1.2",
