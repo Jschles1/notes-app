@@ -24,7 +24,10 @@ export default NextAuth({
             async profile(profile) {
                 console.log('profile', profile);
                 return {
-                    id: 'hello',
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    image: profile.picture,
                 };
             },
         }),

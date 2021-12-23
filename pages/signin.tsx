@@ -9,7 +9,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     (store) =>
         async (ctx): Promise<any> => {
             const session = await getSession({ req: ctx.req });
-            console.log('session', session);
 
             if (session) {
                 return {
