@@ -2,7 +2,7 @@ import { Box } from '@mui/system';
 import { NextPage } from 'next';
 import { getSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
-import Layout from '../components/Layout';
+import AuthLayout from '../components/AuthLayout';
 import { wrapper } from '../store';
 
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -29,14 +29,13 @@ const SignInPage: NextPage = (props) => {
     // Test for next auth
     const googleTest = async () => {
         const profile = await signIn('google');
-        console.log('profile', profile);
     };
 
     return (
-        <Layout title="Home | Next.js + TypeScript Example">
+        <AuthLayout>
             <h1>Sign In</h1>
             <button onClick={googleTest}>Google Test</button>
-        </Layout>
+        </AuthLayout>
     );
 };
 
