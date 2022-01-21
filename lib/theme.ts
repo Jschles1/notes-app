@@ -1,14 +1,29 @@
 import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+
+declare module '@mui/material/styles' {
+    interface Palette {
+        bg: Palette['primary'];
+    }
+
+    // allow configuration using `createTheme`
+    interface PaletteOptions {
+        bg?: PaletteOptions['primary'];
+    }
+}
 
 // Create a theme instance.
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#282c34',
+            main: '#C5C6C7',
         },
         secondary: {
-            main: '#000080',
+            main: '#66FCF1',
+            dark: '#45A29E',
+        },
+        bg: {
+            main: '#1F2833',
+            dark: '#0B0C10',
         },
     },
     spacing: 8,
