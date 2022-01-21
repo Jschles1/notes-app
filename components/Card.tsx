@@ -14,6 +14,9 @@ const Card = ({ children, sx = [] }: Props) => {
             sx={[
                 {
                     bgcolor: 'bg.main',
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                    borderColor: 'secondary.main',
                     padding: 2,
                 },
                 // You cannot spread `sx` directly because `SxProps` (typeof sx) can be an array.
