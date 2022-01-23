@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Box } from '@mui/system';
 import Head from 'next/head';
 import Header from './Header';
 
@@ -8,22 +9,19 @@ type Props = {
 };
 
 const Layout = ({ children, title = 'This is the default title' }: Props) => (
-    <div>
+    <Box
+        sx={{
+            height: '100vh',
+        }}
+    >
         <Head>
             <title>{title}</title>
             <meta charSet="utf-8" />
-            <meta
-                name="viewport"
-                content="initial-scale=1.0, width=device-width"
-            />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <Header />
-        {children}
-        <footer>
-            <hr />
-            <span>I'm here to stay (Footer)</span>
-        </footer>
-    </div>
+        <Box sx={{ padding: 2 }}>{children}</Box>
+    </Box>
 );
 
 export default Layout;
