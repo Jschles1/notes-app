@@ -10,13 +10,10 @@ import { setUser } from '../store/auth/reducer';
 export const getServerSideProps = wrapper.getServerSideProps(
     (store) =>
         async (ctx): Promise<any> => {
-            console.log(
-                '2. Page.getStaticProps uses the store to dispatch things'
-            );
-
             const session = await getSession({ req: ctx.req });
 
             if (!session) {
+                store.dispatch(setUser(null));
                 return {
                     redirect: {
                         destination: '/signin',

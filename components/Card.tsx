@@ -25,6 +25,7 @@ const Card = ({ children, sx = [], isButton = false, onClick }: Props) => {
                     '&:hover': {
                         color: '#fff !important',
                         bgcolor: 'secondary.main',
+                        cursor: 'pointer',
                     },
                 },
                 // You cannot spread `sx` directly because `SxProps` (typeof sx) can be an array.
