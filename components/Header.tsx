@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { signOut } from 'next-auth/react';
 import { Box } from '@mui/system';
-import { Button } from '@mui/material';
+import EventNoteRounded from '@mui/icons-material/EventNoteRounded';
+import HeaderButton from './HeaderButton';
 
 const Header: FC = () => {
     const handleSignOut = async () => {
@@ -11,17 +12,29 @@ const Header: FC = () => {
     return (
         <Box
             sx={{
-                borderBottomWidth: '1px',
-                borderBottomColor: 'secondary.main',
-                borderBottomStyle: 'solid',
-                padding: 2,
+                paddingTop: 2,
+                paddingBottom: 2,
+                paddingLeft: 4,
+                paddingRight: 4,
                 color: 'secondary.main',
-                bgcolor: 'bg.main',
+                bgcolor: 'transparent',
+                display: 'flex',
             }}
             component="header"
         >
-            <Box>Encora Notes</Box>
-            <Button onClick={handleSignOut}>Sign Out</Button>
+            <HeaderButton href="/">
+                <Box
+                    sx={{
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
+                </Box>
+            </HeaderButton>
+            {/* <Button onClick={handleSignOut}>Sign Out</Button> */}
         </Box>
     );
 };

@@ -8,7 +8,13 @@ import theme from '../lib/theme';
 const globalStyles = (
     <GlobalStyles
         styles={(theme) => ({
-            body: { backgroundColor: '#0B0C10', color: '#C5C6C7' },
+            body: {
+                background: 'linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)',
+                backgroundColor: '#AFCDE9',
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed',
+                color: '#253449',
+            },
         })}
     />
 );

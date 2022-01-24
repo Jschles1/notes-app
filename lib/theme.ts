@@ -15,15 +15,14 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#C5C6C7',
+            main: '#253449',
         },
         secondary: {
-            main: '#66FCF1',
-            dark: '#45A29E',
+            main: '#768299',
         },
         bg: {
-            main: '#1F2833',
-            dark: '#0B0C10',
+            main: 'rgba(255, 255, 255, 0.6)',
+            dark: '#333',
         },
     },
     spacing: 8,
