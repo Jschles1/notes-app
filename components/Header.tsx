@@ -28,7 +28,7 @@ const Header: FC = () => {
                 justifyContent: 'space-between',
             }}
         >
-            <HeaderButton href="/notes" sx={{ marginRight: 2 }}>
+            <HeaderButton href="/folders" sx={{ marginRight: 2 }}>
                 <FolderRounded sx={{ marginRight: 1 }} /> Folders
             </HeaderButton>
 
