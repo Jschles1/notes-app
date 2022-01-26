@@ -1,19 +1,19 @@
 import { FC } from 'react';
 import { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { wrapper } from '../store';
 import theme from '../lib/theme';
 
 const globalStyles = (
     <GlobalStyles
-        styles={(theme) => ({
+        styles={(theme: Theme) => ({
             body: {
-                background: 'linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)',
-                backgroundColor: '#AFCDE9',
+                background: `linear-gradient(180deg, ${theme.palette.primary.light} 1%, ${theme.palette.secondary.light} 100%)`,
+                backgroundColor: theme.palette.primary.light,
                 backgroundRepeat: 'no-repeat',
                 backgroundAttachment: 'fixed',
-                color: '#253449',
+                color: theme.palette.primary.main,
             },
         })}
     />

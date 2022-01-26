@@ -9,7 +9,7 @@ type Props = {
     onClick?(): void;
 };
 
-const Card = ({ children, sx = [], isButton = false, onClick }: Props) => {
+const Card = ({ children, sx = [], isButton = false, onClick = () => {} }: Props) => {
     return (
         <Paper
             onClick={onClick}
@@ -24,7 +24,7 @@ const Card = ({ children, sx = [], isButton = false, onClick }: Props) => {
                 isButton && {
                     '&:hover': {
                         color: '#fff !important',
-                        bgcolor: 'secondary.main',
+                        bgcolor: 'primary.main',
                         cursor: 'pointer',
                     },
                 },
