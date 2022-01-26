@@ -31,7 +31,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 const SignInPage: NextPage = (props) => {
     const handleSignIn = async () => {
-        const profile = await signIn('google');
+        await signIn('google');
     };
 
     return (

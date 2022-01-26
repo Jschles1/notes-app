@@ -1,39 +1,50 @@
 import { FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { signOut } from 'next-auth/react';
 import { Box } from '@mui/system';
 import EventNoteRounded from '@mui/icons-material/EventNoteRounded';
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded';
+import CreateRounded from '@mui/icons-material/CreateRounded';
+import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
+import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
-import { setUser } from '../store/auth/reducer';
 import { selectUser } from '../store/auth/selectors';
 
 const Header: FC = () => {
-    const dispatch = useDispatch();
     const user = useSelector(selectUser);
 
     const isLoggedIn = !!user;
 
     const handleSignOut = async () => {
-        dispatch(setUser(null));
         // TODO: reset folders and notes state
         await signOut();
     };
 
     const renderSignedInButtons = () => (
-        <>
-            <HeaderButton onClick={handleSignOut}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <AccountCircleRounded sx={{ marginRight: 1 }} /> Sign Out
-                </Box>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+            <HeaderButton href="/notes" sx={{ marginRight: 2 }}>
+                <FolderRounded sx={{ marginRight: 1 }} /> Folders
             </HeaderButton>
-        </>
+
+            <HeaderButton href="/notes" sx={{ marginRight: 2 }}>
+                <TextSnippetRounded sx={{ marginRight: 1 }} /> Notes
+            </HeaderButton>
+
+            <HeaderButton onClick={() => {}} sx={{ marginRight: 2 }}>
+                {/* TODO: Add Sub menu */}
+                <CreateRounded sx={{ marginRight: 1 }} /> Create
+            </HeaderButton>
+
+            <HeaderButton onClick={handleSignOut}>
+                <AccountCircleRounded sx={{ marginRight: 1 }} /> Sign Out
+            </HeaderButton>
+        </Box>
     );
 
     return (
@@ -49,24 +60,15 @@ const Header: FC = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
             }}
-            component="header"
+            component="nav"
         >
             <Box>
                 <HeaderButton href="/">
-                    <Box
-                        sx={{
-                            fontWeight: 'bold',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
-                    </Box>
+                    <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
                 </HeaderButton>
             </Box>
 
-            <Box>{isLoggedIn ? renderSignedInButtons() : null}</Box>
+            {isLoggedIn ? renderSignedInButtons() : null}
         </Box>
     );
 };

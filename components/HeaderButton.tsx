@@ -1,4 +1,5 @@
 import { SxProps, Theme } from '@mui/material';
+import { Box } from '@mui/system';
 import { ReactNode } from 'react';
 import Card from './Card';
 import Link from './Link';
@@ -9,6 +10,18 @@ type Props = {
     sx?: SxProps<Theme>;
     onClick?(): void;
 };
+
+const HeaderCardContentContainer = ({ children }) => (
+    <Box
+        sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        }}
+    >
+        {children}
+    </Box>
+);
 
 const HeaderButton = ({ children, href, sx, onClick }: Props) => {
     if (href) {
@@ -23,14 +36,16 @@ const HeaderButton = ({ children, href, sx, onClick }: Props) => {
                     ...(Array.isArray(sx) ? sx : [sx]),
                 ]}
             >
-                <Card isButton>{children}</Card>
+                <Card isButton>
+                    <HeaderCardContentContainer>{children}</HeaderCardContentContainer>
+                </Card>
             </Link>
         );
     }
 
     return (
         <Card isButton onClick={onClick} sx={Array.isArray(sx) ? sx : [sx]}>
-            {children}
+            <HeaderCardContentContainer>{children}</HeaderCardContentContainer>
         </Card>
     );
 };
