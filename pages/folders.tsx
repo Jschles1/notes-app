@@ -1,10 +1,11 @@
-import { NextPage } from 'next';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { getSession } from 'next-auth/react';
 import Layout from '../components/Layout';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
+import { fetchFoldersInit } from '../store/folders/reducer';
 
-// Test dispatch
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
     const session = await getSession({ req: ctx.req });
 
@@ -25,12 +26,18 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
     };
 });
 
-const IndexPage: NextPage = (props) => {
+const FoldersPage = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchFoldersInit());
+    }, []);
+
     return (
-        <Layout title="Home | Next.js + TypeScript Example">
-            <h1>Hello Next.js 👋</h1>
+        <Layout title="Folders | Next.js + TypeScript Example">
+            <h1>Folders</h1>
         </Layout>
     );
 };
 
-export default IndexPage;
+export default FoldersPage;
