@@ -10,11 +10,11 @@ import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
 import { selectUser } from '../store/auth/selectors';
 
-const Header: FC = () => {
-    const user = useSelector(selectUser);
+type Props = {
+    isLoggedIn: boolean;
+};
 
-    const isLoggedIn = !!user;
-
+const Header: FC<Props> = ({ isLoggedIn }) => {
     const handleSignOut = async () => {
         // TODO: reset folders and notes state
         await signOut();
