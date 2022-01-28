@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { signOut } from 'next-auth/react';
 import { Box } from '@mui/system';
 import EventNoteRounded from '@mui/icons-material/EventNoteRounded';
@@ -8,7 +7,6 @@ import CreateRounded from '@mui/icons-material/CreateRounded';
 import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
-import { selectUser } from '../store/auth/selectors';
 
 type Props = {
     isLoggedIn: boolean;
