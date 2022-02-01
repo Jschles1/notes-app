@@ -7,6 +7,7 @@ import CreateRounded from '@mui/icons-material/CreateRounded';
 import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
+import Card from './Card';
 
 type Props = {
     isLoggedIn: boolean;
@@ -61,9 +62,17 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
             component="nav"
         >
             <Box>
-                <HeaderButton href="/">
-                    <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
-                </HeaderButton>
+                <Card>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
+                    </Box>
+                </Card>
             </Box>
 
             {isLoggedIn ? renderSignedInButtons() : null}

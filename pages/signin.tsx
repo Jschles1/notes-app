@@ -7,27 +7,24 @@ import Card from '../components/Card';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
 
-export const getServerSideProps = wrapper.getServerSideProps(
-    (store) =>
-        async (ctx): Promise<any> => {
-            const session = await getSession({ req: ctx.req });
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
+    const session = await getSession({ req: ctx.req });
 
-            if (session) {
-                return {
-                    redirect: {
-                        destination: '/',
-                        permanent: false,
-                    },
-                };
-            } else {
-                store.dispatch(setUser(null));
-            }
+    if (session) {
+        return {
+            redirect: {
+                destination: '/folders',
+                permanent: false,
+            },
+        };
+    } else {
+        store.dispatch(setUser(null));
+    }
 
-            return {
-                props: {},
-            };
-        }
-);
+    return {
+        props: {},
+    };
+});
 
 const SignInPage: NextPage = (props) => {
     const handleSignIn = async () => {
