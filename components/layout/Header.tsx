@@ -7,7 +7,7 @@ import CreateRounded from '@mui/icons-material/CreateRounded';
 import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
-import Card from './Card';
+import Card from '../ui/Card';
 
 type Props = {
     isLoggedIn: boolean;

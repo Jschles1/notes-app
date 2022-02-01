@@ -1,5 +1,5 @@
 import { CircularProgress, Box } from '@mui/material';
-import Card from '../Card';
+import Card from './Card';
 
 const centerStyles = {
     display: 'flex',

@@ -4,6 +4,7 @@ import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { wrapper } from '../store';
 import theme from '../lib/theme';
+import Layout from '../components/layout';
 
 const globalStyles = (
     <GlobalStyles
@@ -24,7 +25,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             {globalStyles}
-            <Component {...pageProps} />
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
         </ThemeProvider>
     );
 };

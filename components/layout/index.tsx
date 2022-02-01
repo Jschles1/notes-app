@@ -3,14 +3,13 @@ import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import Head from 'next/head';
 import Header from './Header';
-import { selectUser } from '../store/auth/selectors';
+import { selectUser } from '../../store/auth/selectors';
 
 type Props = {
     children?: ReactNode;
-    title?: string;
 };
 
-const Layout = ({ children, title = 'Next Notes' }: Props) => {
+const Layout = ({ children }: Props) => {
     const user = useSelector(selectUser);
 
     const isLoggedIn = !!user;
@@ -45,7 +44,7 @@ const Layout = ({ children, title = 'Next Notes' }: Props) => {
             }}
         >
             <Head>
-                <title>{title}</title>
+                <title>Next Notes</title>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>

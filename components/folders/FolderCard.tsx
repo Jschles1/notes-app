@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Box, Typography } from '@mui/material';
-import CardLink from '../CardLink';
+import CardLink from '../ui/CardLink';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import DoubleArrowRounded from '@mui/icons-material/DoubleArrowRounded';
 

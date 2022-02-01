@@ -2,8 +2,7 @@ import { Box } from '@mui/system';
 import { Button } from '@mui/material';
 import { NextPage } from 'next';
 import { getSession, signIn } from 'next-auth/react';
-import Layout from '../components/Layout';
-import Card from '../components/Card';
+import Card from '../components/ui/Card';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
 
@@ -32,41 +31,39 @@ const SignInPage: NextPage = (props) => {
     };
 
     return (
-        <Layout>
-            <Card
+        <Card
+            sx={{
+                width: 350,
+                paddingTop: 4,
+                paddingBottom: 4,
+            }}
+        >
+            <Box
                 sx={{
-                    width: 350,
-                    paddingTop: 4,
-                    paddingBottom: 4,
+                    textAlign: 'center',
+                    color: 'primary.main',
+                    marginBottom: 2,
                 }}
             >
-                <Box
-                    sx={{
-                        textAlign: 'center',
-                        color: 'primary.main',
-                        marginBottom: 2,
-                    }}
-                >
-                    Welcome! Please Sign In.
-                </Box>
-                <Button
-                    disableElevation
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSignIn}
-                    sx={{
-                        display: 'block',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        marginTop: 1,
-                        marginBottom: 1,
-                        textTransform: 'unset',
-                    }}
-                >
-                    Sign In w/ Google
-                </Button>
-            </Card>
-        </Layout>
+                Welcome! Please Sign In.
+            </Box>
+            <Button
+                disableElevation
+                variant="contained"
+                color="secondary"
+                onClick={handleSignIn}
+                sx={{
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    marginTop: 1,
+                    marginBottom: 1,
+                    textTransform: 'unset',
+                }}
+            >
+                Sign In w/ Google
+            </Button>
+        </Card>
     );
 };
 

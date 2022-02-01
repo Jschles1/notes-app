@@ -2,8 +2,8 @@
 import { SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode } from 'react';
-import Card from './Card';
-import CardLink from './CardLink';
+import Card from '../ui/Card';
+import CardLink from '../ui/CardLink';
 
 type Props = {
     children?: ReactNode;
