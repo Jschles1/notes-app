@@ -1,5 +1,6 @@
 import { SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/system';
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import Card from './Card';
 import Link from './Link';
@@ -24,6 +25,10 @@ const HeaderCardContentContainer = ({ children }) => (
 );
 
 const HeaderButton = ({ children, href, sx, onClick }: Props) => {
+    const router = useRouter();
+
+    const isActive = router.pathname === href;
+
     if (href) {
         return (
             <Link
@@ -36,7 +41,7 @@ const HeaderButton = ({ children, href, sx, onClick }: Props) => {
                     ...(Array.isArray(sx) ? sx : [sx]),
                 ]}
             >
-                <Card isButton>
+                <Card isButton isActive={isActive}>
                     <HeaderCardContentContainer>{children}</HeaderCardContentContainer>
                 </Card>
             </Link>

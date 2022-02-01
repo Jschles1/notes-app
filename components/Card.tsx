@@ -6,21 +6,29 @@ type Props = {
     children?: ReactNode;
     sx?: SxProps<Theme>;
     isButton?: boolean;
+    isActive?: boolean;
     onClick?(): void;
 };
 
-const Card = ({ children, sx = [], isButton = false, onClick = () => {} }: Props) => {
+const Card = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }: Props) => {
     return (
         <Paper
             onClick={onClick}
             elevation={0}
             sx={[
-                {
-                    bgcolor: 'bg.main',
-                    color: 'primary.main',
-                    padding: 2,
-                    transition: 'background-color 250ms',
-                },
+                isButton && isActive
+                    ? {
+                          color: '#fff !important',
+                          bgcolor: 'primary.main',
+                          cursor: 'pointer',
+                          padding: 2,
+                      }
+                    : {
+                          bgcolor: 'bg.main',
+                          color: 'primary.main',
+                          padding: 2,
+                          transition: 'background-color 250ms',
+                      },
                 isButton && {
                     '&:hover': {
                         color: '#fff !important',
