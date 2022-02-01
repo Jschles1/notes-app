@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Grid, Box } from '@mui/material';
-import { Folder } from '../interfaces';
+import { Folder } from '../../interfaces';
 
 type Props = {
     folders: Folder[];
