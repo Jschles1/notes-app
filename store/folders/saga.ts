@@ -1,17 +1,19 @@
+import { AnyAction } from '@reduxjs/toolkit';
 import * as Effects from 'redux-saga/effects';
 import { fetchFoldersSuccess, fetchFoldersFail } from './reducer';
+import { toggleLoading } from '../loading/reducer';
 
-const {  put }: any = Effects;
+const { call, put }: any = Effects;
 
 export function* fetchFoldersSaga() {
-    // yield put(loading());
+    yield put(toggleLoading());
     try {
         const response = yield fetch('/api/folders');
         const data = yield response.json();
         yield put(fetchFoldersSuccess(data.data));
-        // yield put(loading());
+        yield put(toggleLoading());
     } catch (e) {
-        // yield put(loading());
+        yield put(toggleLoading());
         yield put(fetchFoldersFail());
     }
 }

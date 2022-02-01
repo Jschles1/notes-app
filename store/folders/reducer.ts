@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import { Folder } from '../../interfaces';
 
 const initialState = {
@@ -50,6 +51,14 @@ const foldersSlice = createSlice({
         //   state.selected = action.payload;
         // },
         resetFolders: () => initialState,
+    },
+    extraReducers: {
+        [HYDRATE]: (state, action) => {
+            return {
+                ...state,
+                ...action.payload.folders,
+            };
+        },
     },
 });
 

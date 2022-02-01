@@ -2,27 +2,27 @@ import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState = {
-    user: null,
+    isLoading: false,
 };
 
-const authSlice = createSlice({
-    name: 'auth',
+const loadingSlice = createSlice({
+    name: 'loading',
     initialState,
     reducers: {
-        setUser(state, action) {
-            state.user = action.payload;
+        toggleLoading(state) {
+            state.isLoading = !state.isLoading;
         },
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
             return {
                 ...state,
-                ...action.payload.auth,
+                ...action.payload.loading,
             };
         },
     },
 });
 
-export const { setUser } = authSlice.actions;
+export const { toggleLoading } = loadingSlice.actions;
 
-export default authSlice.reducer;
+export default loadingSlice.reducer;
