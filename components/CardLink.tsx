@@ -9,9 +9,10 @@ type Props = {
     children?: ReactNode;
     href?: string;
     sx?: SxProps<Theme>;
+    cardSx?: SxProps<Theme>;
 };
 
-const CardLink = ({ children, href, sx }: Props) => {
+const CardLink = ({ children, href, sx, cardSx }: Props) => {
     const router = useRouter();
 
     const isActive = router.pathname === href;
@@ -27,7 +28,7 @@ const CardLink = ({ children, href, sx }: Props) => {
                 ...(Array.isArray(sx) ? sx : [sx]),
             ]}
         >
-            <Card isButton isActive={isActive}>
+            <Card isButton isActive={isActive} sx={Array.isArray(cardSx) ? cardSx : [cardSx]}>
                 {children}
             </Card>
         </Link>
