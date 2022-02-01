@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSession } from 'next-auth/react';
 import Layout from '../components/Layout';
+import FoldersList from '../components/FoldersList';
 import { wrapper } from '../store';
 import { setUser } from '../store/auth/reducer';
 import { fetchFoldersInit } from '../store/folders/reducer';
+import { selectFolders } from '../store/folders/selectors';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
     const session = await getSession({ req: ctx.req });
@@ -28,6 +30,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 
 const FoldersPage = () => {
     const dispatch = useDispatch();
+    const folders = useSelector(selectFolders);
 
     useEffect(() => {
         dispatch(fetchFoldersInit());
@@ -35,7 +38,7 @@ const FoldersPage = () => {
 
     return (
         <Layout title="Folders | Next.js + TypeScript Example">
-            <h1>Folders</h1>
+            <FoldersList folders={folders} />
         </Layout>
     );
 };
