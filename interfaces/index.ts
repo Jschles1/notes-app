@@ -17,3 +17,12 @@ export type Folder = {
     updated_at?: string;
     user: string;
 };
+
+export type Note = {
+    _id: string;
+    name: string;
+    created_at?: string;
+    updated_at?: string;
+    folder: string;
+    description: string;
+};

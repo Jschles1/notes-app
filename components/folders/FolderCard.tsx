@@ -12,7 +12,7 @@ type Props = {
 const FolderCard: FC<Props> = ({ name, id }) => {
     return (
         <CardLink
-            href={`/folders/${id}`}
+            href={`/folders/${id}/notes`}
             cardSx={{
                 height: 100,
                 width: 300,

@@ -1,4 +1,3 @@
-import { AnyAction } from '@reduxjs/toolkit';
 import * as Effects from 'redux-saga/effects';
 import { fetchFoldersSuccess, fetchFoldersFail } from './reducer';
 import { toggleLoading } from '../loading/reducer';
