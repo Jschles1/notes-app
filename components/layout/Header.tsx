@@ -4,7 +4,6 @@ import { Box } from '@mui/system';
 import EventNoteRounded from '@mui/icons-material/EventNoteRounded';
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded';
 import CreateRounded from '@mui/icons-material/CreateRounded';
-import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
 import Card from '../ui/Card';
@@ -28,11 +27,7 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
             }}
         >
             <HeaderButton href="/folders" sx={{ marginRight: 2 }}>
-                <FolderRounded sx={{ marginRight: 1 }} /> Folders
-            </HeaderButton>
-
-            <HeaderButton href="/notes" sx={{ marginRight: 2 }}>
-                <TextSnippetRounded sx={{ marginRight: 1 }} /> Notes
+                <FolderRounded sx={{ marginRight: 1 }} /> Home
             </HeaderButton>
 
             <HeaderButton onClick={() => {}} sx={{ marginRight: 2 }}>
