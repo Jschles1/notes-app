@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import Head from 'next/head';
@@ -10,9 +11,12 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
+    const router = useRouter();
     const user = useSelector(selectUser);
 
     const isLoggedIn = !!user;
+    const centeredLayoutRoutes = ['/create-folder'];
+    const isCentered = !isLoggedIn || centeredLayoutRoutes.includes(router.pathname);
 
     const renderContent = () => {
         const styles = {
@@ -26,12 +30,12 @@ const Layout = ({ children }: Props) => {
             height: '100%',
         };
 
-        return isLoggedIn ? (
+        return isCentered ? (
+            <Box sx={styles}>{children}</Box>
+        ) : (
             <Box sx={styles}>
                 <Box sx={{ width: '100%', height: '100%' }}>{children}</Box>
             </Box>
-        ) : (
-            <Box sx={styles}>{children}</Box>
         );
     };
 
