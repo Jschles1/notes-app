@@ -3,11 +3,11 @@ import { signOut } from 'next-auth/react';
 import { Box } from '@mui/system';
 import EventNoteRounded from '@mui/icons-material/EventNoteRounded';
 import AccountCircleRounded from '@mui/icons-material/AccountCircleRounded';
-import CreateRounded from '@mui/icons-material/CreateRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
 import Card from '../ui/Card';
 import Breadcrumbs from './Breadcrumbs';
+import CreateButton from './CreateButton';
 
 type Props = {
     isLoggedIn: boolean;
@@ -31,10 +31,7 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
                 <FolderRounded sx={{ marginRight: 1 }} /> Home
             </HeaderButton>
 
-            <HeaderButton onClick={() => {}} sx={{ marginRight: 2 }}>
-                {/* TODO: Add Sub menu */}
-                <CreateRounded sx={{ marginRight: 1 }} /> Create
-            </HeaderButton>
+            <CreateButton />
 
             <HeaderButton onClick={handleSignOut}>
                 <AccountCircleRounded sx={{ marginRight: 1 }} /> Sign Out

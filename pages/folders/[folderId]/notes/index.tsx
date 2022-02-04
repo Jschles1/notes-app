@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -7,7 +8,7 @@ import { fetchNotesInit } from '../../../../store/notes/reducer';
 
 export const getServerSideProps = serverSideAuthentication();
 
-const NotesPage = () => {
+const NotesPage: NextPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const folderId = router.query.folderId as string;

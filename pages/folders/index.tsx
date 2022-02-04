@@ -6,10 +6,11 @@ import { fetchFoldersInit } from '../../store/folders/reducer';
 import { selectFolders } from '../../store/folders/selectors';
 import { selectIsLoading } from '../../store/loading/selectors';
 import { serverSideAuthentication } from '../../lib/auth';
+import { NextPage } from 'next';
 
 export const getServerSideProps = serverSideAuthentication();
 
-const FoldersPage = () => {
+const FoldersPage: NextPage = () => {
     const dispatch = useDispatch();
     const folders = useSelector(selectFolders);
     const isLoading = useSelector(selectIsLoading);
