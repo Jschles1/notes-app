@@ -10,6 +10,7 @@ import {
     // deleteNoteFail,
 } from './reducer';
 import { toggleLoading } from '../loading/reducer';
+import { setSelectedFolder } from '../folders/reducer';
 // import { selectSelectedNote } from '../selectors/notes';
 // import { selectSelectedFolder } from '../selectors/folders';
 
@@ -29,7 +30,8 @@ export function* fetchNotesSaga(action) {
         const folderId = action.payload;
         const response = yield fetch(`/api/folders/${folderId}/notes`);
         const data = yield response.json();
-        yield put(fetchNotesSuccess(data.data));
+        yield put(fetchNotesSuccess(data.data.collection));
+        yield put(setSelectedFolder(data.data.folderName));
         yield put(toggleLoading());
     } catch (e) {
         yield put(toggleLoading());

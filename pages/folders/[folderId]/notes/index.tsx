@@ -1,39 +1,19 @@
 import { Box } from '@mui/material';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { wrapper } from '../../../../store';
-import { setUser } from '../../../../store/auth/reducer';
+import { serverSideAuthentication } from '../../../../lib/auth';
 import { fetchNotesInit } from '../../../../store/notes/reducer';
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
-    const session = await getSession({ req: ctx.req });
-
-    if (!session) {
-        store.dispatch(setUser(null));
-        return {
-            redirect: {
-                destination: '/signin',
-                permanent: false,
-            },
-        };
-    }
-
-    store.dispatch(setUser(session.user));
-
-    return {
-        props: { session },
-    };
-});
+export const getServerSideProps = serverSideAuthentication();
 
 const NotesPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    console.log(router.query.folderId);
+    const folderId = router.query.folderId as string;
 
     useEffect(() => {
-        dispatch(fetchNotesInit(router.query.folderId as string));
+        dispatch(fetchNotesInit(folderId));
     });
     return <Box>Notes Page</Box>;
 };

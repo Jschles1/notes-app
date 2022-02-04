@@ -4,7 +4,7 @@ import { Folder } from '../../interfaces';
 
 const initialState = {
     folders: [],
-    selected: null,
+    selected: '',
 };
 
 const foldersSlice = createSlice({
@@ -47,9 +47,9 @@ const foldersSlice = createSlice({
         //   state.folders = state.folders.filter((folder) => folder._id !== action.payload);
         // },
         // deleteFolderFail() {},
-        // setSelectedFolder(state, action) {
-        //   state.selected = action.payload;
-        // },
+        setSelectedFolder(state, action) {
+            state.selected = action.payload;
+        },
         resetFolders: () => initialState,
     },
     extraReducers: {
@@ -75,7 +75,7 @@ export const {
     // deleteFolderInit,
     // deleteFolderSuccess,
     // deleteFolderFail,
-    // setSelectedFolder,
+    setSelectedFolder,
     resetFolders,
 } = foldersSlice.actions;
 

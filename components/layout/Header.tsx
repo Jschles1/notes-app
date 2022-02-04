@@ -7,6 +7,7 @@ import CreateRounded from '@mui/icons-material/CreateRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import HeaderButton from './HeaderButton';
 import Card from '../ui/Card';
+import Breadcrumbs from './Breadcrumbs';
 
 type Props = {
     isLoggedIn: boolean;
@@ -50,27 +51,33 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
                 paddingRight: 4,
                 color: 'secondary.main',
                 bgcolor: 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
             }}
-            component="nav"
         >
-            <Box>
-                <Card>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
-                    </Box>
-                </Card>
-            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }}
+                component="nav"
+            >
+                <Box>
+                    <Card>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <EventNoteRounded sx={{ marginRight: 1 }} /> Next Notes
+                        </Box>
+                    </Card>
+                </Box>
 
-            {isLoggedIn ? renderSignedInButtons() : null}
+                {isLoggedIn ? renderSignedInButtons() : null}
+            </Box>
+            {isLoggedIn ? <Breadcrumbs /> : null}
         </Box>
     );
 };

@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 import mongoose from 'mongoose';
 import Note from '../../../../../lib/server/models/Note';
 import connectToDatabase from '../../../../../lib/server/connectToDatabase';
+import Folder from '../../../../../lib/server/models/Folder';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
@@ -14,10 +15,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         switch (req.method) {
             case 'GET':
                 try {
-                    const folders = await Note.find({ folder: folderId });
+                    const folder = await Folder.findById(folderId);
+                    const notes = await Note.find({ folder: folderId });
+                    const data = {
+                        collection: notes,
+                        folderName: folder.name,
+                    };
                     res.status(200).json({
                         message: 'success',
-                        data: folders,
+                        data,
                     });
                 } catch (e) {
                     res.status(400).json({ error: e.message });
