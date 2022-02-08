@@ -17,15 +17,15 @@ const foldersSlice = createSlice({
             state.selected = state.selected || action.payload[0]._id;
         },
         fetchFoldersFail() {},
-        // createFolderInit: {
-        //   reducer: () => {},
-        //   prepare: (name: { name: string }) => ({ payload: name }),
-        // },
-        // createFolderSuccess(state, action) {
-        //   state.folders = state.folders.concat(action.payload);
-        //   state.selected = (state.folders[state.folders.length - 1])._id;
-        // },
-        // createFolderFail() {},
+        createFolderInit: {
+            reducer: () => {},
+            prepare: (name: { name: string }) => ({ payload: name }),
+        },
+        createFolderSuccess(state, action) {
+            state.folders = state.folders.concat(action.payload);
+            state.selected = state.folders[state.folders.length - 1]._id;
+        },
+        createFolderFail() {},
         // updateFolderInit: {
         //   reducer: () => {},
         //   prepare: (folder: Folder) => ({ payload: folder }),
@@ -66,9 +66,9 @@ export const {
     fetchFoldersInit,
     fetchFoldersSuccess,
     fetchFoldersFail,
-    // createFolderInit,
-    // createFolderFail,
-    // createFolderSuccess,
+    createFolderInit,
+    createFolderFail,
+    createFolderSuccess,
     // updateFolderInit,
     // updateFolderSuccess,
     // updateFolderFail,
