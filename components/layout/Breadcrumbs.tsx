@@ -22,10 +22,18 @@ const Breadcrumbs = () => {
                 }}
             >
                 <Link href="/folders">Your Folders</Link>
+
                 {folderId && selectedFolder ? (
                     <>
                         <BreadcrumbArrow />
                         <Link href={`/folders/${folderId}/notes`}>{selectedFolder}</Link>
+                    </>
+                ) : null}
+
+                {router.pathname === '/create-folder' ? (
+                    <>
+                        <BreadcrumbArrow />
+                        <Link href="/create-folder">Create Folder</Link>
                     </>
                 ) : null}
             </Box>

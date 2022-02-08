@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Box } from '@mui/material';
 import { NextPage } from 'next';
-import Card from '../components/ui/Card';
 import CreateFolderForm from '../components/form/CreateFolderForm';
 import { serverSideAuthentication } from '../lib/auth';
 import { createFolderInit } from '../store/folders/reducer';
