@@ -16,8 +16,10 @@ const FoldersPage: NextPage = () => {
     const isLoading = useSelector(selectIsLoading);
 
     useEffect(() => {
-        dispatch(fetchFoldersInit());
-    }, []);
+        if (!folders.length) {
+            dispatch(fetchFoldersInit());
+        }
+    }, [folders]);
 
     return <>{isLoading ? <LoadingIndicator /> : <FoldersList folders={folders} />}</>;
 };
