@@ -12,6 +12,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const user = await User.findOne({ email: session.user.email });
 
+        let reqBody;
+
+        if (req.body) {
+            reqBody = JSON.parse(req.body);
+        }
+
         switch (req.method) {
             case 'GET':
                 try {
@@ -25,7 +31,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
                 break;
             case 'POST':
-                // TODO
+                try {
+                    const result = await new Folder({
+                        name: reqBody.name,
+                        user: user._id,
+                    });
+                    await result.save();
+                    res.status(200).json({
+                        message: 'success',
+                        data: result,
+                        id: result._id,
+                    });
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             default:
                 break;

@@ -15,7 +15,6 @@ const FolderCard: FC<Props> = ({ name, id }) => {
             href={`/folders/${id}/notes`}
             cardSx={{
                 height: 100,
-                width: 300,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

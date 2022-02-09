@@ -9,9 +9,9 @@ type Props = {
 
 const FoldersList: FC<Props> = ({ folders }) => {
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             {folders.map((folder) => (
-                <Grid item key={folder._id}>
+                <Grid item key={folder._id} xs={3}>
                     <FolderCard name={folder.name} id={folder._id} />
                 </Grid>
             ))}
