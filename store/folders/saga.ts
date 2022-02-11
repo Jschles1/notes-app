@@ -1,5 +1,13 @@
 import * as Effects from 'redux-saga/effects';
-import { fetchFoldersSuccess, fetchFoldersFail, createFolderSuccess, createFolderFail } from './reducer';
+import {
+    fetchFoldersSuccess,
+    fetchFoldersFail,
+    createFolderSuccess,
+    createFolderFail,
+    updateFolderSuccess,
+    updateFolderFail,
+    setSelectedFolder,
+} from './reducer';
 import { toggleLoading } from '../loading/reducer';
 import { setRedirect } from '../history/reducer';
 
@@ -37,5 +45,30 @@ export function* createFolderSaga(action) {
     } catch (e) {
         yield put(toggleLoading());
         yield put(createFolderFail());
+    }
+}
+
+export function* updateFolderSaga(action) {
+    const { name, _id } = action.payload;
+    yield put(toggleLoading());
+    try {
+        const body = JSON.stringify({
+            name,
+            id: _id,
+        });
+        const response = yield fetch(`/api/folders/${_id}`, {
+            method: 'PATCH',
+            body,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = yield response.json();
+        yield put(updateFolderSuccess({ name: data.name, _id }));
+        yield put(toggleLoading());
+        yield put(setSelectedFolder(data.name));
+    } catch (e) {
+        yield put(toggleLoading());
+        yield put(updateFolderFail());
     }
 }

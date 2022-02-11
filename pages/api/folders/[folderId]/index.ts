@@ -9,12 +9,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
     if (session) {
         await connectToDatabase();
-
         const user = await User.findOne({ email: session.user.email });
 
         switch (req.method) {
             case 'PATCH':
-                // TODO
+                const data = {
+                    name: req.body.name,
+                };
+                try {
+                    const result = await Folder.findOneAndUpdate({ _id: req.body.id, user: user._id }, data, {
+                        new: true,
+                    });
+                    res.json({
+                        message: 'success',
+                        data: result,
+                        id: result._id,
+                    });
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             case 'DELETE':
                 // TODO
