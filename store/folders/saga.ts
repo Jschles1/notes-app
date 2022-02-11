@@ -85,7 +85,6 @@ export function* deleteFolderSaga(action) {
     const id = action.payload;
     yield put(toggleLoading());
     try {
-        //   yield call(api.deleteFolder, { id });
         const response = yield fetch(`/api/folders/${id}`, {
             method: 'DELETE',
             headers: {
@@ -94,7 +93,12 @@ export function* deleteFolderSaga(action) {
         });
         const data = yield response.json();
         yield put(deleteFolderSuccess(action.payload));
-        // yield put(toggleLoading());
+        yield put(
+            setAlert({
+                type: 'success',
+                message: 'Folder Successfully Deleted!',
+            })
+        );
         yield put(setRedirect('/folders'));
     } catch (e) {
         yield put(toggleLoading());

@@ -12,12 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const user = await User.findOne({ email: session.user.email });
 
-        let reqBody;
-
-        if (req.body) {
-            reqBody = JSON.parse(req.body);
-        }
-
         switch (req.method) {
             case 'GET':
                 try {
@@ -33,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             case 'POST':
                 try {
                     const result = await new Folder({
-                        name: reqBody.name,
+                        name: req.body.name,
                         user: user._id,
                     });
                     await result.save();
