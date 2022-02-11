@@ -43,7 +43,6 @@ const Breadcrumbs = () => {
     return (
         <Card
             sx={{
-                marginTop: 2,
                 fontSize: '12px',
                 paddingY: 1,
                 display: 'inline-block',

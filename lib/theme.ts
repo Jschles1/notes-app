@@ -31,6 +31,33 @@ const theme = createTheme({
     typography: {
         fontSize: 16,
     },
+    components: {
+        MuiAlert: {
+            styleOverrides: {
+                root: {
+                    display: 'flex',
+                    alignItems: 'center',
+                },
+                action: {
+                    fontSize: '12px',
+                    padding: 0,
+                    '& svg': {
+                        width: '12px',
+                        height: '12px',
+                    },
+                },
+                message: {
+                    fontSize: '12px',
+                    padding: 0,
+                    marginRight: '4px',
+                },
+                icon: {
+                    fontSize: '12px',
+                    padding: 0,
+                },
+            },
+        },
+    },
 });
 
 export default theme;

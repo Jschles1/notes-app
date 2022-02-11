@@ -1,5 +1,12 @@
 import { AppState } from '..';
+import { createSelector } from '@reduxjs/toolkit';
 
-export const selectFolders = (state: AppState) => state.folders.folders;
+export const selectFolders = createSelector(
+    (state: AppState) => state.folders.folders,
+    (folders) => folders
+);
 
-export const selectSelectedFolder = (state: AppState) => state.folders.selected;
+export const selectSelectedFolder = createSelector(
+    (state: AppState) => state.folders.selected,
+    (selectedFolder) => selectedFolder
+);

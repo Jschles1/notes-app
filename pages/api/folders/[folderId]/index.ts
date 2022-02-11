@@ -10,6 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (session) {
         await connectToDatabase();
         const user = await User.findOne({ email: session.user.email });
+        const { folderId } = req.query;
 
         switch (req.method) {
             case 'PATCH':
@@ -17,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     name: req.body.name,
                 };
                 try {
-                    const result = await Folder.findOneAndUpdate({ _id: req.body.id, user: user._id }, data, {
+                    const result = await Folder.findOneAndUpdate({ _id: folderId, user: user._id }, data, {
                         new: true,
                     });
                     res.json({
@@ -30,7 +31,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
                 break;
             case 'DELETE':
-                // TODO
+                try {
+                    await Folder.findOneAndDelete({
+                        _id: folderId,
+                        user: user._id,
+                    });
+                    res.json({ message: 'deleted' });
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             default:
                 break;

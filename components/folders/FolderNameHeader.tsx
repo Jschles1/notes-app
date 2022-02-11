@@ -68,10 +68,11 @@ const FolderNameHeader = ({ name, onEdit, onDelete }: Props) => {
                     sx={{ marginRight: 2 }}
                     onClick={() => setIsEditing(true)}
                     startIcon={<Edit />}
+                    disabled={isLoading}
                 >
                     Edit
                 </Button>
-                <Button variant="outlined" color="error" onClick={onDelete} startIcon={<Delete />}>
+                <Button variant="outlined" color="error" onClick={onDelete} startIcon={<Delete />} disabled={isLoading}>
                     Delete
                 </Button>
             </Box>

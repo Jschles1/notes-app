@@ -7,9 +7,12 @@ import {
     updateFolderSuccess,
     updateFolderFail,
     setSelectedFolder,
+    deleteFolderSuccess,
+    deleteFolderFail,
 } from './reducer';
 import { toggleLoading } from '../loading/reducer';
 import { setRedirect } from '../history/reducer';
+import { setAlert } from '../alert/reducer';
 
 const { put }: any = Effects;
 
@@ -54,7 +57,6 @@ export function* updateFolderSaga(action) {
     try {
         const body = JSON.stringify({
             name,
-            id: _id,
         });
         const response = yield fetch(`/api/folders/${_id}`, {
             method: 'PATCH',
@@ -64,11 +66,38 @@ export function* updateFolderSaga(action) {
             },
         });
         const data = yield response.json();
-        yield put(updateFolderSuccess({ name: data.name, _id }));
+        yield put(updateFolderSuccess({ name: data.data.name }));
         yield put(toggleLoading());
-        yield put(setSelectedFolder(data.name));
+        yield put(setSelectedFolder(data.data.name));
+        yield put(
+            setAlert({
+                type: 'success',
+                message: 'Folder Successfully Updated!',
+            })
+        );
     } catch (e) {
         yield put(toggleLoading());
         yield put(updateFolderFail());
+    }
+}
+
+export function* deleteFolderSaga(action) {
+    const id = action.payload;
+    yield put(toggleLoading());
+    try {
+        //   yield call(api.deleteFolder, { id });
+        const response = yield fetch(`/api/folders/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = yield response.json();
+        yield put(deleteFolderSuccess(action.payload));
+        // yield put(toggleLoading());
+        yield put(setRedirect('/folders'));
+    } catch (e) {
+        yield put(toggleLoading());
+        yield put(deleteFolderFail());
     }
 }

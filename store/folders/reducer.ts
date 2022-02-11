@@ -39,14 +39,14 @@ const foldersSlice = createSlice({
             });
         },
         updateFolderFail() {},
-        // deleteFolderInit: {
-        //   reducer: () => {},
-        //   prepare: (id: string) => ({ payload: id }),
-        // },
-        // deleteFolderSuccess(state, action) {
-        //   state.folders = state.folders.filter((folder) => folder._id !== action.payload);
-        // },
-        // deleteFolderFail() {},
+        deleteFolderInit: {
+            reducer: () => {},
+            prepare: (id: string) => ({ payload: id }),
+        },
+        deleteFolderSuccess(state, action) {
+            state.folders = state.folders.filter((folder) => folder._id !== action.payload);
+        },
+        deleteFolderFail() {},
         setSelectedFolder(state, action) {
             state.selected = action.payload;
         },
@@ -72,9 +72,9 @@ export const {
     updateFolderInit,
     updateFolderSuccess,
     updateFolderFail,
-    // deleteFolderInit,
-    // deleteFolderSuccess,
-    // deleteFolderFail,
+    deleteFolderInit,
+    deleteFolderSuccess,
+    deleteFolderFail,
     setSelectedFolder,
     resetFolders,
 } = foldersSlice.actions;
