@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, FC } from 'react';
+import { FC } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Box, Typography, Button, TextField, Skeleton } from '@mui/material';
@@ -6,6 +7,7 @@ import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Cancel from '@mui/icons-material/Cancel';
+import FolderRounded from '@mui/icons-material/FolderRounded';
 import { selectIsLoading } from '../../store/loading/selectors';
 
 type Props = {
@@ -55,7 +57,13 @@ const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
                     minWidth: '40%',
                 }}
             >
-                {isLoading ? <Skeleton animation="wave" width="100%" /> : name}
+                {isLoading ? (
+                    <Skeleton animation="wave" width="100%" />
+                ) : (
+                    <>
+                        <FolderRounded sx={{ marginRight: 1, fontSize: '32px' }} /> {name}
+                    </>
+                )}
             </Typography>
 
             <Box
@@ -65,15 +73,22 @@ const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
             >
                 <Button
                     variant="outlined"
-                    sx={{ marginRight: 2 }}
+                    sx={{ marginRight: 2, textTransform: 'unset' }}
                     onClick={() => setIsEditing(true)}
                     startIcon={<Edit />}
                     disabled={isLoading}
                 >
-                    Edit
+                    Edit Folder Name
                 </Button>
-                <Button variant="outlined" color="error" onClick={onDelete} startIcon={<Delete />} disabled={isLoading}>
-                    Delete
+                <Button
+                    variant="outlined"
+                    sx={{ textTransform: 'unset' }}
+                    color="error"
+                    onClick={onDelete}
+                    startIcon={<Delete />}
+                    disabled={isLoading}
+                >
+                    Delete Folder
                 </Button>
             </Box>
         </>
