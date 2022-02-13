@@ -1,11 +1,14 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 import { ClickAwayListener, Box, styled } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import CreateRounded from '@mui/icons-material/CreateRounded';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import TextSnippetRounded from '@mui/icons-material/TextSnippetRounded';
 import HeaderButton from './HeaderButton';
 import Link from '../ui/Link';
+import { clearSelectedFolder } from '../../store/folders/reducer';
 
 const CreateButtonOptions = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -32,10 +35,25 @@ const createLinkIconStyles = {
 };
 
 const CreateButton: FC = () => {
+    const dispatch = useDispatch();
+    const router = useRouter();
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+
+    const folderId = router.query.folderId;
 
     const closeOptions = () => {
         setIsOptionsOpen(false);
+    };
+
+    const onCreateNoteClick = (e) => {
+        e.preventDefault();
+        setIsOptionsOpen(false);
+        if (folderId) {
+            router.push(`/create-note?folderId=${folderId}`);
+        } else {
+            dispatch(clearSelectedFolder());
+            router.push('/create-note');
+        }
     };
 
     return (
@@ -56,7 +74,7 @@ const CreateButton: FC = () => {
                             </Box>
 
                             <Box>
-                                <Link href="/create-note" sx={createLinkStyles} onClick={closeOptions}>
+                                <Link href="#" sx={createLinkStyles} onClick={onCreateNoteClick}>
                                     <TextSnippetRounded sx={createLinkIconStyles} />
                                     Create Note
                                 </Link>
