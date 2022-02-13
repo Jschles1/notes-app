@@ -10,7 +10,7 @@ type Props = {
     onClick?(): void;
 };
 
-const Card = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }: Props) => {
+const Card: FC<Props> = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }) => {
     return (
         <Paper
             onClick={onClick}

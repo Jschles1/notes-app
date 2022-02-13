@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
@@ -5,9 +6,9 @@ import Card from '../ui/Card';
 import Link from '../ui/Link';
 import { selectSelectedFolder } from '../../store/folders/selectors';
 
-const BreadcrumbArrow = () => <Box sx={{ marginX: 1 }}>{'>'}</Box>;
+const BreadcrumbArrow: FC = () => <Box sx={{ marginX: 1 }}>{'>'}</Box>;
 
-const Breadcrumbs = () => {
+const Breadcrumbs: FC = () => {
     const router = useRouter();
     const selectedFolder = useSelector(selectSelectedFolder);
     const { folderId } = router.query;

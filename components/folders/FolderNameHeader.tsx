@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Box, Typography, Button, TextField, Skeleton } from '@mui/material';
@@ -14,7 +14,7 @@ type Props = {
     onDelete(): void;
 };
 
-const FolderNameHeader = ({ name, onEdit, onDelete }: Props) => {
+const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
     const isLoading = useSelector(selectIsLoading);
     const [isEditing, setIsEditing] = useState(false);
     const { register, handleSubmit, reset, formState } = useForm({

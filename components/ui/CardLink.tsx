@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
@@ -12,7 +13,7 @@ type Props = {
     cardSx?: SxProps<Theme>;
 };
 
-const CardLink = ({ children, href, sx, cardSx }: Props) => {
+const CardLink: FC<Props> = ({ children, href, sx, cardSx }) => {
     const router = useRouter();
 
     const isActive = router.pathname === href;

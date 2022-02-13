@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { ClickAwayListener, Box, styled } from '@mui/material';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import CreateRounded from '@mui/icons-material/CreateRounded';
@@ -31,7 +31,7 @@ const createLinkIconStyles = {
     marginRight: 1,
 };
 
-const CreateButton = () => {
+const CreateButton: FC = () => {
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
     const closeOptions = () => {

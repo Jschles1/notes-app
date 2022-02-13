@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { CircularProgress, Box } from '@mui/material';
 import Card from './Card';
 
@@ -7,7 +8,7 @@ const centerStyles = {
     alignItems: 'center',
 };
 
-const LoadingIndicator = () => {
+const LoadingIndicator: FC = () => {
     return (
         <Box
             sx={{
