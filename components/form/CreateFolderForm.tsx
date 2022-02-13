@@ -8,7 +8,7 @@ type Props = {
 };
 
 const CreateFolderForm: FC<Props> = ({ onSubmit }) => {
-    const { register, handleSubmit, reset, formState } = useForm();
+    const { register, handleSubmit, formState } = useForm();
 
     return (
         <Card
