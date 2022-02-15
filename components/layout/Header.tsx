@@ -11,6 +11,8 @@ import Breadcrumbs from './Breadcrumbs';
 import CreateButton from './CreateButton';
 import { clearAlert } from '../../store/alert/reducer';
 import { selectAlert } from '../../store/alert/selectors';
+import { resetFolders } from '../../store/folders/reducer';
+import { resetNotes } from '../../store/notes/reducer';
 
 type Props = {
     isLoggedIn: boolean;
@@ -21,7 +23,8 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
     const alert = useSelector(selectAlert);
 
     const handleSignOut = async () => {
-        // TODO: reset folders and notes state
+        dispatch(resetFolders());
+        dispatch(resetNotes());
         await signOut();
     };
 

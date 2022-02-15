@@ -54,7 +54,7 @@ const notesSlice = createSlice({
         // toggleCreateNote(state) {
         //   state.isCreatingNote = !state.isCreatingNote;
         // },
-        // resetNotes: () => initialState,
+        resetNotes: () => initialState,
     },
 });
 
@@ -73,7 +73,7 @@ export const {
     // deleteNoteFail,
     // setSelectedNote,
     // toggleCreateNote,
-    // resetNotes,
+    resetNotes,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

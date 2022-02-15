@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import { FC } from 'react';
 import { Note } from '../../interfaces';
 import Card from '../ui/Card';
+import BasicButton from '../ui/BasicButton';
 
 interface Props {
     notes: Note[];
@@ -43,22 +44,21 @@ const NotesList: FC<Props> = ({ notes }) => {
                         This Folder Has No Notes!
                     </Typography>
 
-                    <NextLink href={`/create-note?folderId=${folderId}`} passHref>
-                        <Button
-                            disableElevation
-                            variant="contained"
-                            color="secondary"
+                    <NextLink
+                        href={`/create-note?folderId=${folderId}`}
+                        passHref
+                    >
+                        <BasicButton
                             sx={{
                                 display: 'block',
                                 marginLeft: 'auto',
                                 marginRight: 'auto',
                                 marginTop: 1,
                                 marginBottom: 1,
-                                textTransform: 'unset',
                             }}
                         >
                             Create Note
-                        </Button>
+                        </BasicButton>
                     </NextLink>
                 </Card>
             </Box>

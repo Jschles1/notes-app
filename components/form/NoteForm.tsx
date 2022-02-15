@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Card from '../ui/Card';
 
 const NoteForm: FC = () => {
-    return <Box>Note Form</Box>;
+    return <Card>Note Form</Card>;
 };
 
 export default NoteForm;
