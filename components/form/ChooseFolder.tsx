@@ -1,5 +1,6 @@
 import Edit from '@mui/icons-material/Edit';
 import FolderRounded from '@mui/icons-material/FolderRounded';
+import SaveRounded from '@mui/icons-material/SaveRounded';
 import { Box, Select, Skeleton, Typography, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -11,19 +12,19 @@ import Card from '../ui/Card';
 
 interface Props {
     folders: Folder[];
-    onSelect(): void;
+    onSelect(data): void;
     selectedFolder?: string;
-    selectedFolderId?: string;
+    setIsChoosingFolder(bool): void;
+    isChoosingFolder: boolean;
 }
 
-const ChooseFolder: FC<Props> = ({ folders, onSelect, selectedFolder, selectedFolderId }) => {
+const ChooseFolder: FC<Props> = ({ folders, onSelect, selectedFolder, isChoosingFolder, setIsChoosingFolder }) => {
     const { register, handleSubmit, formState, watch, control } = useForm({
         defaultValues: {
             folder: '',
         },
     });
     const isLoading = useSelector(selectIsLoading);
-    const [isChoosingFolder, setIsChoosingFolder] = useState(!(selectedFolder && selectedFolder));
 
     // Test
     useEffect(() => {
@@ -32,49 +33,44 @@ const ChooseFolder: FC<Props> = ({ folders, onSelect, selectedFolder, selectedFo
     }, [watch]);
 
     const renderChoosingFolder = () => (
-        <Box sx={{ width: '50%' }}>
-            <FormControl fullWidth>
-                <Controller
-                    name="folder"
-                    control={control}
-                    render={({ field: { onChange, value, name, ref } }) => (
-                        <>
-                            <InputLabel id="folder-select">Please Select a Folder:</InputLabel>
-                            <Select
-                                name={name}
-                                labelId="folder-select"
-                                inputRef={ref}
-                                onChange={onChange}
-                                value={value}
-                                // error={}
-                                label="Please Select a Folder:"
-                            >
-                                <MenuItem disabled value=""></MenuItem>
-                                {folders.map((folder) => (
-                                    <MenuItem key={folder._id} value={folder.name}>
-                                        {folder.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </>
-                    )}
-                />
-                {/* <InputLabel id="folder-select">
-                    Please Select a Folder:
-                </InputLabel>
-                <Select
-                    labelId="folder-select"
-                    {...register('folder')}
-                    renderValue={(selected) => selected}
-                    label="Please Select a Folder:"
-                >
-                    <MenuItem disabled value=""></MenuItem>
-                    {folders.map((folder) => (
-                        <MenuItem value={folder.name}>{folder.name}</MenuItem>
-                    ))}
-                </Select> */}
-            </FormControl>
-        </Box>
+        <>
+            <Box sx={{ width: '50%' }}>
+                <FormControl fullWidth>
+                    <Controller
+                        name="folder"
+                        control={control}
+                        render={({ field: { onChange, value, name, ref } }) => (
+                            <>
+                                <InputLabel id="folder-select">Please Select a Folder:</InputLabel>
+                                <Select
+                                    name={name}
+                                    labelId="folder-select"
+                                    inputRef={ref}
+                                    onChange={onChange}
+                                    value={value}
+                                    // error={}
+                                    label="Please Select a Folder:"
+                                >
+                                    <MenuItem disabled value=""></MenuItem>
+                                    {folders.map((folder) => (
+                                        <MenuItem key={folder._id} value={folder.name}>
+                                            {folder.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
+                        rules={{ required: true }}
+                    />
+                </FormControl>
+            </Box>
+
+            <Box>
+                <BasicButton startIcon={<SaveRounded />} onClick={handleSubmit(onSelect)}>
+                    Save
+                </BasicButton>
+            </Box>
+        </>
     );
 
     const renderChosenFolder = () => (

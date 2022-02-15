@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { serverSideAuthentication } from '../lib/auth';
 import NoteForm from '../components/form/NoteForm';
-import { fetchFoldersInit } from '../store/folders/reducer';
+import { fetchFoldersInit, setSelectedFolder } from '../store/folders/reducer';
 import { selectSelectedFolder, selectFolders } from '../store/folders/selectors';
 import { Box } from '@mui/material';
 import ChooseFolder from '../components/form/ChooseFolder';
@@ -18,8 +18,20 @@ const CreateNotePage: NextPage = () => {
     const folders = useSelector(selectFolders);
     const selectedFolder = useSelector(selectSelectedFolder);
     const [selectedFolderId, setSelectedFolderId] = useState((router.query.folderId as string) || '');
+    const [isChoosingFolder, setIsChoosingFolder] = useState(!selectedFolder);
 
-    const onFolderSelect = () => {};
+    const onFolderSelect = (data) => {
+        dispatch(setSelectedFolder(data.folder));
+        const newSelectedFolder = folders.find((folder) => folder.name === data.folder);
+        setSelectedFolderId(newSelectedFolder._id);
+        setIsChoosingFolder(false);
+        router.replace({
+            pathname: '/create-note',
+            query: {
+                folderId: newSelectedFolder._id,
+            },
+        });
+    };
 
     useEffect(() => {
         if (!folders.length) {
@@ -40,7 +52,8 @@ const CreateNotePage: NextPage = () => {
                 folders={folders}
                 onSelect={onFolderSelect}
                 selectedFolder={selectedFolder}
-                selectedFolderId={selectedFolderId}
+                setIsChoosingFolder={setIsChoosingFolder}
+                isChoosingFolder={isChoosingFolder}
             />
             {selectedFolder && selectedFolderId ? <NoteForm /> : null}
         </Box>
