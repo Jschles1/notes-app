@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import { Box, styled } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
+import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import { useForm, Controller } from 'react-hook-form';
 import Card from '../ui/Card';
 import BasicButton from '../ui/BasicButton';
@@ -32,29 +33,41 @@ const NoteForm: FC<Props> = ({ onSubmit, name, description }) => {
             <Box
                 sx={{
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'start',
                     justifyContent: 'space-between',
                 }}
             >
-                <Controller
-                    name="name"
-                    control={control}
-                    render={({ field: { onChange, value, name, ref } }) => (
-                        <TextField
-                            required
-                            name={name}
-                            value={value}
-                            onChange={onChange}
-                            inputRef={ref}
-                            label="Note Title"
-                            error={!!formState?.errors?.name}
-                            helperText={formState?.errors?.name?.message}
-                        />
-                    )}
-                    rules={{ required: 'Note Title is required.' }}
-                />
+                <Box sx={{ width: '50%' }}>
+                    <Controller
+                        name="name"
+                        control={control}
+                        render={({ field: { onChange, value, name, ref } }) => (
+                            <TextField
+                                fullWidth
+                                required
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                                inputRef={ref}
+                                label="Note Title"
+                                error={!!formState?.errors?.name}
+                                helperText={formState?.errors?.name?.message}
+                            />
+                        )}
+                        rules={{ required: 'Note Title is required.' }}
+                    />
+                </Box>
 
-                <BasicButton onClick={handleSubmit(onSubmit)}>Submit</BasicButton>
+                <BasicButton
+                    onClick={handleSubmit(onSubmit)}
+                    startIcon={<ArrowUpward />}
+                    sx={{
+                        paddingY: '16.5px',
+                        paddingX: 3,
+                    }}
+                >
+                    Submit
+                </BasicButton>
             </Box>
 
             <Box sx={{ marginTop: 2, height: '100%' }}>
