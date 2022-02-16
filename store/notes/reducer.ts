@@ -19,16 +19,18 @@ const notesSlice = createSlice({
             state.notes = action.payload;
         },
         fetchNotesFail() {},
-        // createNoteInit: {
-        //   reducer: () => {},
-        //   prepare: (note: { name: string; description: string; }) => ({ payload: note }),
-        // },
-        // createNoteSuccess(state, action) {
-        //   state.notes = [action.payload, ...state.notes];
-        //   state.selected = action.payload.id;
-        //   state.isCreatingNote = false;
-        // },
-        // createNoteFail() {},
+        createNoteInit: {
+            reducer: () => {},
+            prepare: (note: { name: string; description: string }) => ({
+                payload: note,
+            }),
+        },
+        createNoteSuccess(state, action) {
+            state.notes = [action.payload, ...state.notes];
+            state.selected = action.payload.id;
+            state.isCreatingNote = false;
+        },
+        createNoteFail() {},
         // updateNoteInit: {
         //   reducer: () => {},
         //   prepare: (note: { name: string; description: string; }) => ({ payload: note }),
@@ -62,9 +64,9 @@ export const {
     fetchNotesInit,
     fetchNotesSuccess,
     fetchNotesFail,
-    // createNoteInit,
-    // createNoteSuccess,
-    // createNoteFail,
+    createNoteInit,
+    createNoteSuccess,
+    createNoteFail,
     // updateNoteInit,
     // updateNoteSuccess,
     // updateNoteFail,

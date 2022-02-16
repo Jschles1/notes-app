@@ -30,7 +30,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
                 break;
             case 'POST':
-                // TODO
+                const data = {
+                    name: req.body.name,
+                    description: req.body.description,
+                    folder: folderId,
+                };
+
+                try {
+                    const result = await new Note(data);
+                    await result.save();
+                    res.json({
+                        message: 'success',
+                        data: result,
+                        id: result._id,
+                    });
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             default:
                 break;
