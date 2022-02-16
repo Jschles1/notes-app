@@ -3,7 +3,6 @@ import { Box, styled } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import Card from '../ui/Card';
-
 import BasicButton from '../ui/BasicButton';
 
 const NoteDescriptionTextArea = styled((props: TextFieldProps) => <TextField {...props} multiline fullWidth />)({
