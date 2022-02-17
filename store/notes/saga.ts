@@ -14,16 +14,9 @@ import { setSelectedFolder } from '../folders/reducer';
 // import { selectSelectedNote } from '../selectors/notes';
 import { selectSelectedFolder } from '../folders/selectors';
 import { setRedirect } from '../history/reducer';
+import { setAlert } from '../alert/reducer';
 
-const { call, put, select }: any = Effects;
-
-function* getFolderId(): Generator<any, any, any> {
-    return yield select(selectSelectedFolder);
-}
-
-// function* getNoteId(): Generator<any, any, any> {
-//   return yield select(selectSelectedNote);
-// }
+const { put }: any = Effects;
 
 export function* fetchNotesSaga(action) {
     yield put(toggleLoading());
@@ -41,7 +34,7 @@ export function* fetchNotesSaga(action) {
 }
 
 export function* createNoteSaga(action) {
-    const folderId = yield getFolderId();
+    const folderId = action.payload.id;
     yield put(toggleLoading());
     try {
         const body = JSON.stringify({
@@ -49,7 +42,7 @@ export function* createNoteSaga(action) {
             description: action.payload.description,
             id: folderId,
         });
-        const response = yield fetch('/api/folders', {
+        const response = yield fetch(`/api/folders/${folderId}/notes`, {
             method: 'POST',
             body,
             headers: {
@@ -57,10 +50,15 @@ export function* createNoteSaga(action) {
             },
         });
         const data = yield response.json();
-        // const data = yield call(api.createNote, params);
         yield put(createNoteSuccess(data.data));
-        yield put(setRedirect(`/folders/${folderId}/notes`));
         yield put(toggleLoading());
+        yield put(
+            setAlert({
+                type: 'success',
+                message: 'Note Successfully Created!',
+            })
+        );
+        yield put(setRedirect(`/folders/${folderId}/notes`));
     } catch (e) {
         yield put(toggleLoading());
         yield put(createNoteFail());

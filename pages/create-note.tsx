@@ -6,7 +6,11 @@ import { Box } from '@mui/material';
 import NoteForm from '../components/form/NoteForm';
 import ChooseFolder from '../components/form/ChooseFolder';
 import { fetchFoldersInit, setSelectedFolder } from '../store/folders/reducer';
-import { selectSelectedFolder, selectFolders } from '../store/folders/selectors';
+import {
+    selectSelectedFolder,
+    selectFolders,
+} from '../store/folders/selectors';
+import { createNoteInit } from '../store/notes/reducer';
 import { selectRedirect } from '../store/history/selectors';
 import { clearRedirect } from '../store/history/reducer';
 import { serverSideAuthentication } from '../lib/auth';
@@ -19,12 +23,16 @@ const CreateNotePage: NextPage = () => {
     const folders = useSelector(selectFolders);
     const selectedFolder = useSelector(selectSelectedFolder);
     const successRedirect = useSelector(selectRedirect);
-    const [selectedFolderId, setSelectedFolderId] = useState((router.query.folderId as string) || '');
+    const [selectedFolderId, setSelectedFolderId] = useState(
+        (router.query.folderId as string) || ''
+    );
     const [isChoosingFolder, setIsChoosingFolder] = useState(!selectedFolder);
 
     const onFolderSelect = (data) => {
         dispatch(setSelectedFolder(data.folder));
-        const newSelectedFolder = folders.find((folder) => folder.name === data.folder);
+        const newSelectedFolder = folders.find(
+            (folder) => folder.name === data.folder
+        );
         setSelectedFolderId(newSelectedFolder._id);
         setIsChoosingFolder(false);
         router.replace({
@@ -36,7 +44,8 @@ const CreateNotePage: NextPage = () => {
     };
 
     const onNoteSubmit = (data) => {
-        // TODO
+        const payload = { ...data, id: router.query.folderId };
+        dispatch(createNoteInit(payload));
     };
 
     useEffect(() => {
@@ -69,7 +78,9 @@ const CreateNotePage: NextPage = () => {
                 setIsChoosingFolder={setIsChoosingFolder}
                 isChoosingFolder={isChoosingFolder}
             />
-            {selectedFolder && selectedFolderId ? <NoteForm onSubmit={onNoteSubmit} /> : null}
+            {selectedFolder && selectedFolderId ? (
+                <NoteForm onSubmit={onNoteSubmit} />
+            ) : null}
         </Box>
     );
 };
