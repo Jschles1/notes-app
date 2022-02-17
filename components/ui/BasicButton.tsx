@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, forwardRef } from 'react';
 import { SxProps, Theme } from '@mui/material';
 import Button, { ButtonProps } from '@mui/material/Button';
 
@@ -7,11 +7,12 @@ interface Props extends ButtonProps {
     sx?: SxProps<Theme>;
 }
 
-const BasicButton: FC<Props> = (props) => {
+const BasicButton: FC<Props> = forwardRef(function BasicButton(props, ref) {
     const { sx, children, ...other } = props;
     return (
         <Button
             disableElevation
+            ref={ref}
             variant="contained"
             color="secondary"
             sx={[{ textTransform: 'unset' }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -20,6 +21,6 @@ const BasicButton: FC<Props> = (props) => {
             {children}
         </Button>
     );
-};
+});
 
 export default BasicButton;
