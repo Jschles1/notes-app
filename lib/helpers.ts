@@ -22,3 +22,11 @@ export const formatDate = (date: Date | string | undefined, isDetail = false): s
 
     return formattedDate;
 };
+
+export const renderDescriptionFirstLine = (description: string) => {
+    if (description.includes('\n')) {
+        return description.split('\n')[0];
+    }
+
+    return description;
+};
