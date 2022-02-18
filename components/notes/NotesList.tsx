@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { Box, Button, Grid, Typography } from '@mui/material';
@@ -11,7 +11,7 @@ interface Props {
     notes: Note[];
 }
 
-const NotesList: FC<Props> = ({ notes }) => {
+const NotesList: React.FC<Props> = ({ notes }) => {
     const router = useRouter();
     const folderId = router.query.folderId as string;
 
@@ -93,4 +93,4 @@ const NotesList: FC<Props> = ({ notes }) => {
     );
 };
 
-export default NotesList;
+export default React.memo(NotesList);

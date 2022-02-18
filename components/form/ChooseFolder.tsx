@@ -2,7 +2,7 @@ import Edit from '@mui/icons-material/Edit';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import SaveRounded from '@mui/icons-material/SaveRounded';
 import { Box, Select, Skeleton, Typography, MenuItem, InputLabel, FormControl } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Folder } from '../../interfaces';
@@ -19,18 +19,12 @@ interface Props {
 }
 
 const ChooseFolder: FC<Props> = ({ folders, onSelect, selectedFolder, isChoosingFolder, setIsChoosingFolder }) => {
-    const { register, handleSubmit, formState, watch, control } = useForm({
+    const { handleSubmit, control } = useForm({
         defaultValues: {
             folder: '',
         },
     });
     const isLoading = useSelector(selectIsLoading);
-
-    // Test
-    useEffect(() => {
-        const subscription = watch((value, { name, type }) => console.log(value, name, type));
-        return () => subscription.unsubscribe();
-    }, [watch]);
 
     const renderChoosingFolder = () => (
         <>

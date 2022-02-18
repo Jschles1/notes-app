@@ -61,4 +61,4 @@ const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description }) => (
     </Link>
 );
 
-export default NoteCard;
+export default React.memo(NoteCard);
