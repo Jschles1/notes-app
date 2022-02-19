@@ -30,3 +30,9 @@ export const renderDescriptionFirstLine = (description: string) => {
 
     return description;
 };
+
+export const findNote = (notes, noteId) => {
+    return notes.find((note) => {
+        return note._id === noteId;
+    });
+};

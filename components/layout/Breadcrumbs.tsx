@@ -1,17 +1,21 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import Card from '../ui/Card';
 import Link from '../ui/Link';
 import { selectSelectedFolder } from '../../store/folders/selectors';
+import { findNote } from '../../lib/helpers';
+import { selectNotes } from '../../store/notes/selectors';
 
-const BreadcrumbArrow: FC = () => <Box sx={{ marginX: 1 }}>{'>'}</Box>;
+const BreadcrumbArrow: React.FC = () => <Box sx={{ marginX: 1 }}>{'>'}</Box>;
 
-const Breadcrumbs: FC = () => {
+const Breadcrumbs: React.FC = () => {
     const router = useRouter();
     const selectedFolder = useSelector(selectSelectedFolder);
-    const { folderId } = router.query;
+    const notes = useSelector(selectNotes);
+    const { folderId, noteId } = router.query;
+    const selectedNote = React.useMemo(() => findNote(notes, noteId), [noteId]);
 
     const renderBreadcrumbs = () => {
         return (
@@ -28,6 +32,14 @@ const Breadcrumbs: FC = () => {
                     <>
                         <BreadcrumbArrow />
                         <Link href={`/folders/${folderId}/notes`}>{selectedFolder}</Link>
+
+                        {!!selectedNote ? (
+                            <>
+                                <BreadcrumbArrow />
+                                <Link href={`/folders/${folderId}/notes/${noteId}`}>{selectedNote.name}</Link>
+                            </>
+                        ) : null}
+
                         {router.pathname === '/create-note' ? (
                             <>
                                 <BreadcrumbArrow />

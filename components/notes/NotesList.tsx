@@ -74,7 +74,9 @@ const NotesList: React.FC<Props> = ({ notes }) => {
                 }}
             >
                 <Typography variant="h5">Notes:</Typography>
-                <BasicButton>Create Note</BasicButton>
+                <NextLink href={`/create-note?folderId=${folderId}`} passHref>
+                    <BasicButton>Create Note</BasicButton>
+                </NextLink>
             </Box>
 
             <Grid container spacing={2}>
