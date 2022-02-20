@@ -2,20 +2,25 @@ import mongoose, { Schema } from 'mongoose';
 
 const { String, ObjectId } = Schema.Types;
 
-const noteSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
+const noteSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        folder: {
+            type: ObjectId,
+            ref: 'folders',
+        },
     },
-    description: {
-        type: String,
-        required: true,
-    },
-    folder: {
-        type: ObjectId,
-        ref: 'folders',
-    },
-});
+    {
+        timestamps: true,
+    }
+);
 
 const Note = mongoose.models.notes || mongoose.model('notes', noteSchema);
 
