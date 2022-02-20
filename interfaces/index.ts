@@ -13,16 +13,16 @@ export type User = {
 export type Folder = {
     _id: string;
     name: string;
-    created_at?: string;
-    updated_at?: string;
+    createdAt?: string;
+    updatedAt?: string;
     user: string;
 };
 
 export type Note = {
     _id: string;
     name: string;
-    created_at?: string;
-    updated_at?: string;
+    createdAt?: string;
+    updatedAt?: string;
     folder: string;
     description: string;
 };

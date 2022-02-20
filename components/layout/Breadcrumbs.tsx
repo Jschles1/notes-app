@@ -15,7 +15,7 @@ const Breadcrumbs: React.FC = () => {
     const selectedFolder = useSelector(selectSelectedFolder);
     const notes = useSelector(selectNotes);
     const { folderId, noteId } = router.query;
-    const selectedNote = React.useMemo(() => findNote(notes, noteId), [noteId]);
+    const selectedNote = React.useMemo(() => findNote(notes, noteId), [noteId, notes]);
 
     const renderBreadcrumbs = () => {
         return (
