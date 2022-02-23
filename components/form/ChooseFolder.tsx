@@ -1,7 +1,7 @@
 import Edit from '@mui/icons-material/Edit';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import SaveRounded from '@mui/icons-material/SaveRounded';
-import { Box, Select, Skeleton, Typography, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Box, Select, Typography, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { Folder } from '../../interfaces';
 import { selectIsLoading } from '../../store/loading/selectors';
 import BasicButton from '../ui/BasicButton';
 import Card from '../ui/Card';
+import Skeleton from '../ui/Skeleton';
 
 interface Props {
     folders: Folder[];
@@ -76,20 +77,16 @@ const ChooseFolder: FC<Props> = ({ folders, onSelect, selectedFolder, isChoosing
                     minWidth: '40%',
                 }}
             >
-                {isLoading ? (
-                    <Skeleton animation="wave" width="100%" />
-                ) : (
-                    <>
-                        <FolderRounded
-                            sx={{
-                                marginRight: 1,
-                                fontSize: '28px',
-                                verticalAlign: 'text-top',
-                            }}
-                        />{' '}
-                        {selectedFolder}
-                    </>
-                )}
+                <Skeleton>
+                    <FolderRounded
+                        sx={{
+                            marginRight: 1,
+                            fontSize: '28px',
+                            verticalAlign: 'text-top',
+                        }}
+                    />{' '}
+                    {selectedFolder}
+                </Skeleton>
             </Typography>
 
             <BasicButton

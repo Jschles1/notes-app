@@ -2,12 +2,13 @@ import { FC } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Box, Typography, Button, TextField, Skeleton } from '@mui/material';
+import { Box, Typography, Button, TextField } from '@mui/material';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Cancel from '@mui/icons-material/Cancel';
 import FolderRounded from '@mui/icons-material/FolderRounded';
+import Skeleton from '../ui/Skeleton';
 import { selectIsLoading } from '../../store/loading/selectors';
 
 type Props = {
@@ -57,13 +58,9 @@ const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
                     minWidth: '40%',
                 }}
             >
-                {isLoading ? (
-                    <Skeleton animation="wave" width="100%" />
-                ) : (
-                    <>
-                        <FolderRounded sx={{ marginRight: 1, fontSize: '32px' }} /> {name}
-                    </>
-                )}
+                <Skeleton>
+                    <FolderRounded sx={{ marginRight: 1, fontSize: '32px' }} /> {name}
+                </Skeleton>
             </Typography>
 
             <Box
