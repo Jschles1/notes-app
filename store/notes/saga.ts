@@ -4,6 +4,8 @@ import {
     fetchNotesFail,
     createNoteSuccess,
     createNoteFail,
+    updateNoteSuccess,
+    updateNoteFail,
     // updateNoteSuccess,
     // updateNoteFail,
     // deleteNoteSuccess,
@@ -62,5 +64,35 @@ export function* createNoteSaga(action) {
     } catch (e) {
         yield put(toggleLoading());
         yield put(createNoteFail());
+    }
+}
+
+export function* updateNoteSaga(action) {
+    const { name, description, folderId, noteId } = action.payload;
+    yield put(toggleLoading());
+    try {
+        const body = JSON.stringify({
+            name,
+            description,
+        });
+        const response = yield fetch(`/api/folders/${folderId}/notes/${noteId}`, {
+            method: 'PATCH',
+            body,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = yield response.json();
+        yield put(updateNoteSuccess(data.data));
+        yield put(
+            setAlert({
+                type: 'success',
+                message: 'Note Successfully Updated!',
+            })
+        );
+        yield put(toggleLoading());
+    } catch (e) {
+        yield put(toggleLoading());
+        yield put(updateNoteFail());
     }
 }

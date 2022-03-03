@@ -1,7 +1,8 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Box, styled } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import Cancel from '@mui/icons-material/Cancel';
 import { useForm, Controller } from 'react-hook-form';
 import Card from '../ui/Card';
 import BasicButton from '../ui/BasicButton';
@@ -16,11 +17,13 @@ const NoteDescriptionTextArea = styled((props: TextFieldProps) => <TextField {..
 
 interface Props {
     onSubmit(data): void;
+    onCancel?(): void;
     name?: string;
     description?: string;
+    isUpdating?: boolean;
 }
 
-const NoteForm: FC<Props> = ({ onSubmit, name, description }) => {
+const NoteForm: FC<Props> = ({ onSubmit, name, description, isUpdating = false, onCancel }) => {
     const { control, handleSubmit, formState } = useForm({
         defaultValues: {
             name: name || '',
@@ -58,16 +61,36 @@ const NoteForm: FC<Props> = ({ onSubmit, name, description }) => {
                     />
                 </Box>
 
-                <BasicButton
-                    onClick={handleSubmit(onSubmit)}
-                    startIcon={<ArrowUpward />}
+                <Box
                     sx={{
-                        paddingY: '16.5px',
-                        paddingX: 3,
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
-                    Submit
-                </BasicButton>
+                    {isUpdating ? (
+                        <BasicButton
+                            onClick={onCancel}
+                            startIcon={<Cancel />}
+                            sx={{
+                                paddingY: '16.5px',
+                                paddingX: 3,
+                                marginRight: 2,
+                            }}
+                        >
+                            Cancel
+                        </BasicButton>
+                    ) : null}
+                    <BasicButton
+                        onClick={handleSubmit(onSubmit)}
+                        startIcon={<ArrowUpward />}
+                        sx={{
+                            paddingY: '16.5px',
+                            paddingX: 3,
+                        }}
+                    >
+                        Submit
+                    </BasicButton>
+                </Box>
             </Box>
 
             <Box sx={{ marginTop: 2, height: '100%' }}>

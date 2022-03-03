@@ -31,19 +31,19 @@ const notesSlice = createSlice({
             state.isCreatingNote = false;
         },
         createNoteFail() {},
-        // updateNoteInit: {
-        //   reducer: () => {},
-        //   prepare: (note: { name: string; description: string; }) => ({ payload: note }),
-        // },
-        // updateNoteSuccess(state, action) {
-        //   state.notes = state.notes.map((note: Note) => {
-        //     if (action.payload.id === note._id) {
-        //       return action.payload;
-        //     }
-        //     return note;
-        //   });
-        // },
-        // updateNoteFail() {},
+        updateNoteInit: {
+            reducer: () => {},
+            prepare: (note: { name: string; description: string }) => ({ payload: note }),
+        },
+        updateNoteSuccess(state, action) {
+            state.notes = state.notes.map((note: Note) => {
+                if (action.payload.id === note._id) {
+                    return action.payload;
+                }
+                return note;
+            });
+        },
+        updateNoteFail() {},
         // deleteNoteInit() {},
         // deleteNoteSuccess(state, action) {
         //   state.notes = state.notes.filter((notes) => notes._id !== action.payload);
@@ -67,9 +67,9 @@ export const {
     createNoteInit,
     createNoteSuccess,
     createNoteFail,
-    // updateNoteInit,
-    // updateNoteSuccess,
-    // updateNoteFail,
+    updateNoteInit,
+    updateNoteSuccess,
+    updateNoteFail,
     // deleteNoteInit,
     // deleteNoteSuccess,
     // deleteNoteFail,

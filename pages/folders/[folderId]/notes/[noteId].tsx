@@ -6,7 +6,9 @@ import { Box } from '@mui/material';
 import { serverSideAuthentication } from '../../../../lib/auth';
 import { selectNotes } from '../../../../store/notes/selectors';
 import { fetchNotesInit } from '../../../../store/notes/reducer';
-import { findNote } from '../../../../lib/helpers';
+import { findNote, formatDate } from '../../../../lib/helpers';
+import NoteDetail from '../../../../components/notes/NoteDetail';
+import NoteForm from '../../../../components/form/NoteForm';
 
 export const getServerSideProps = serverSideAuthentication();
 
@@ -17,7 +19,6 @@ const NoteDetailPage: NextPage = () => {
     const folderId = router.query.folderId as string;
     const noteId = router.query.noteId as string;
     const note = React.useMemo(() => findNote(notes, noteId), [notes]);
-    console.log('note', note);
 
     React.useEffect(() => {
         if (!notes.length) {
@@ -25,9 +26,19 @@ const NoteDetailPage: NextPage = () => {
         }
     }, [notes]);
 
+    // TODO: redirect if notes are present and note not found
+
     return (
-        <Box>
-            <Box>Note Detail</Box>
+        <Box
+            sx={{
+                maxWidth: '80%',
+                margin: '0 auto',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
+            <NoteDetail note={note} folderId={folderId} noteId={noteId} />
         </Box>
     );
 };

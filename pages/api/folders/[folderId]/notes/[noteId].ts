@@ -10,28 +10,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (session) {
         await connectToDatabase();
 
-        const folderId = req.query.folderId;
-        const noteId = req.query.noteId;
+        const folderId = req.query.folderId as string;
+        const noteId = req.query.noteId as string;
 
         switch (req.method) {
-            case 'GET':
-            // try {
-            //     const folder = await Folder.findById(folderId);
-            //     const notes = await Note.find({ folder: folderId });
-            //     const data = {
-            //         collection: notes,
-            //         folderName: folder.name,
-            //     };
-            //     res.status(200).json({
-            //         message: 'success',
-            //         data,
-            //     });
-            // } catch (e) {
-            //     res.status(400).json({ error: e.message });
-            // }
-            // break;
             case 'PATCH':
-                // TODO
+                const data = {
+                    name: req.body.name,
+                    description: req.body.description,
+                };
+
+                try {
+                    const note = await Note.findOneAndUpdate({ folder: folderId, _id: noteId }, data, {
+                        new: true,
+                    }).clone();
+                    res.json({
+                        message: 'success',
+                        data: note,
+                    });
+                    res.status(200);
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             case 'DELETE':
                 // TODO
