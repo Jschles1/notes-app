@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Box, Typography, Button, TextField } from '@mui/material';
@@ -17,11 +16,11 @@ type Props = {
     onDelete(): void;
 };
 
-const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
+const FolderNameHeader: React.FC<Props> = ({ name, onEdit, onDelete }) => {
     const isLoading = useSelector(selectIsLoading);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = React.useState(false);
     const { register, handleSubmit, reset, formState } = useForm({
-        defaultValues: useMemo(
+        defaultValues: React.useMemo(
             () => ({
                 name,
             }),
@@ -39,13 +38,13 @@ const FolderNameHeader: FC<Props> = ({ name, onEdit, onDelete }) => {
         setIsEditing(false);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (formState.isSubmitSuccessful) {
             resetForm();
         }
     }, [formState, reset]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         reset({ name });
     }, [name]);
 

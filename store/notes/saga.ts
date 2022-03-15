@@ -8,15 +8,9 @@ import {
     updateNoteFail,
     deleteNoteSuccess,
     deleteNoteFail,
-    // updateNoteSuccess,
-    // updateNoteFail,
-    // deleteNoteSuccess,
-    // deleteNoteFail,
 } from './reducer';
 import { toggleLoading } from '../loading/reducer';
 import { setSelectedFolder } from '../folders/reducer';
-// import { selectSelectedNote } from '../selectors/notes';
-import { selectSelectedFolder } from '../folders/selectors';
 import { setRedirect } from '../history/reducer';
 import { setAlert } from '../alert/reducer';
 

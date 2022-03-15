@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Box, Typography } from '@mui/material';
+import * as React from 'react';
+import { Box } from '@mui/material';
 import CardLink from '../ui/CardLink';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import DoubleArrowRounded from '@mui/icons-material/DoubleArrowRounded';
@@ -9,7 +9,7 @@ type Props = {
     id: string;
 };
 
-const FolderCard: FC<Props> = ({ name, id }) => {
+const FolderCard: React.FC<Props> = ({ name, id }) => {
     return (
         <CardLink
             href={`/folders/${id}/notes`}

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { Grid } from '@mui/material';
 import { Folder } from '../../interfaces';
 import FolderCard from './FolderCard';
@@ -7,7 +7,7 @@ type Props = {
     folders: Folder[];
 };
 
-const FoldersList: FC<Props> = ({ folders }) => {
+const FoldersList: React.FC<Props> = ({ folders }) => {
     return (
         <Grid container spacing={2}>
             {folders.map((folder) => (
