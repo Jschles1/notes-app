@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { Box, styled } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
@@ -23,7 +23,7 @@ interface Props {
     isUpdating?: boolean;
 }
 
-const NoteForm: FC<Props> = ({ onSubmit, name, description, isUpdating = false, onCancel }) => {
+const NoteForm: React.FC<Props> = ({ onSubmit, name, description, isUpdating = false, onCancel }) => {
     const { control, handleSubmit, formState } = useForm({
         defaultValues: {
             name: name || '',

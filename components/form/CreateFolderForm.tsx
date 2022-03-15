@@ -1,13 +1,13 @@
-import { FC } from 'react';
-import { TextField, Box, Button } from '@mui/material';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { TextField, Box, Button } from '@mui/material';
 import Card from '../ui/Card';
 
 type Props = {
     onSubmit(data: any): void;
 };
 
-const CreateFolderForm: FC<Props> = ({ onSubmit }) => {
+const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
     const { register, handleSubmit, formState } = useForm();
 
     return (
