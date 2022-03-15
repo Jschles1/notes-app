@@ -21,7 +21,7 @@ import Delete from '@mui/icons-material/Delete';
 import { formatDate } from '../../lib/helpers';
 import NoteForm from '../form/NoteForm';
 import Skeleton from '../ui/Skeleton';
-import { updateNoteInit } from '../../store/notes/reducer';
+import { deleteNoteInit, updateNoteInit } from '../../store/notes/reducer';
 
 const NoteDescription = styled((props: TextFieldProps) => <TextField {...props} multiline fullWidth disabled />)(
     ({ theme }) => ({
@@ -54,7 +54,9 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         dispatch(updateNoteInit(payload));
     };
 
-    const onDelete = () => {};
+    const onDelete = () => {
+        dispatch(deleteNoteInit({ folderId, noteId }));
+    };
 
     const handleClose = () => {
         setOpen(false);

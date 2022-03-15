@@ -34,7 +34,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
                 break;
             case 'DELETE':
-                // TODO
+                try {
+                    await Note.findByIdAndDelete(noteId);
+                    res.json({ message: 'deleted' });
+                } catch (e: any) {
+                    res.status(400).json({ error: e.message });
+                }
                 break;
             default:
                 break;

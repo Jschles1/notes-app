@@ -8,7 +8,8 @@ import { selectNotes } from '../../../../store/notes/selectors';
 import { fetchNotesInit } from '../../../../store/notes/reducer';
 import { findNote, formatDate } from '../../../../lib/helpers';
 import NoteDetail from '../../../../components/notes/NoteDetail';
-import NoteForm from '../../../../components/form/NoteForm';
+import { selectRedirect } from '../../../../store/history/selectors';
+import { clearRedirect } from '../../../../store/history/reducer';
 
 export const getServerSideProps = serverSideAuthentication();
 
@@ -16,15 +17,23 @@ const NoteDetailPage: NextPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const notes = useSelector(selectNotes);
+    const successRedirect = useSelector(selectRedirect);
     const folderId = router.query.folderId as string;
     const noteId = router.query.noteId as string;
     const note = React.useMemo(() => findNote(notes, noteId), [notes]);
 
     React.useEffect(() => {
         if (!notes.length) {
-            dispatch(fetchNotesInit(folderId));
+            router.push(`/folders/${folderId}/notes`);
         }
     }, [notes]);
+
+    React.useEffect(() => {
+        if (successRedirect) {
+            router.push(successRedirect);
+            dispatch(clearRedirect());
+        }
+    }, [successRedirect, dispatch]);
 
     // TODO: redirect if notes are present and note not found
 

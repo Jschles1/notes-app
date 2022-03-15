@@ -6,6 +6,8 @@ import {
     createNoteFail,
     updateNoteSuccess,
     updateNoteFail,
+    deleteNoteSuccess,
+    deleteNoteFail,
     // updateNoteSuccess,
     // updateNoteFail,
     // deleteNoteSuccess,
@@ -94,5 +96,31 @@ export function* updateNoteSaga(action) {
     } catch (e) {
         yield put(toggleLoading());
         yield put(updateNoteFail());
+    }
+}
+
+export function* deleteNoteSaga(action) {
+    const { noteId, folderId } = action.payload;
+
+    yield put(toggleLoading());
+    try {
+        yield fetch(`/api/folders/${folderId}/notes/${noteId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        yield put(deleteNoteSuccess(noteId));
+        yield put(toggleLoading());
+        yield put(
+            setAlert({
+                type: 'success',
+                message: 'Note Successfully Deleted!',
+            })
+        );
+        yield put(setRedirect(`/folders/${folderId}/notes`));
+    } catch (e) {
+        yield put(toggleLoading());
+        yield put(deleteNoteFail());
     }
 }
