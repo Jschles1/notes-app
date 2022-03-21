@@ -10,11 +10,11 @@ import FolderRounded from '@mui/icons-material/FolderRounded';
 import Skeleton from '../ui/Skeleton';
 import { selectIsLoading } from '../../store/loading/selectors';
 
-type Props = {
+interface Props {
     name: string;
     onEdit(data): void;
     onDelete(): void;
-};
+}
 
 const FolderNameHeader: React.FC<Props> = ({ name, onEdit, onDelete }) => {
     const isLoading = useSelector(selectIsLoading);
