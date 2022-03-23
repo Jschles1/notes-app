@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import * as React from 'react';
 import { ClickAwayListener, Box, styled } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -34,10 +34,10 @@ const createLinkIconStyles = {
     marginRight: 1,
 };
 
-const CreateButton: FC = () => {
+const CreateButton: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+    const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
 
     const folderId = router.query.folderId;
 

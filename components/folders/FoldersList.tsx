@@ -3,9 +3,9 @@ import { Grid } from '@mui/material';
 import { Folder } from '../../interfaces';
 import FolderCard from './FolderCard';
 
-type Props = {
+interface Props {
     folders: Folder[];
-};
+}
 
 const FoldersList: React.FC<Props> = ({ folders }) => {
     return (

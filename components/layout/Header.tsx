@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from 'next-auth/react';
 import { Box, Alert, Fade, AlertColor } from '@mui/material';
@@ -14,11 +14,11 @@ import { selectAlert } from '../../store/alert/selectors';
 import { resetFolders } from '../../store/folders/reducer';
 import { resetNotes } from '../../store/notes/reducer';
 
-type Props = {
+interface Props {
     isLoggedIn: boolean;
-};
+}
 
-const Header: FC<Props> = ({ isLoggedIn }) => {
+const Header: React.FC<Props> = ({ isLoggedIn }) => {
     const dispatch = useDispatch();
     const alert = useSelector(selectAlert);
 
@@ -32,7 +32,7 @@ const Header: FC<Props> = ({ isLoggedIn }) => {
         dispatch(clearAlert);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (alert.type === 'success') {
             setTimeout(() => dispatch(clearAlert()), 5000);
         }

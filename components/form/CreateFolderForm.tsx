@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { TextField, Box, Button } from '@mui/material';
 import Card from '../ui/Card';
 
-type Props = {
+interface Props {
     onSubmit(data: any): void;
-};
+}
 
 const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
     const { register, handleSubmit, formState } = useForm();

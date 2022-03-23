@@ -4,10 +4,10 @@ import CardLink from '../ui/CardLink';
 import FolderRounded from '@mui/icons-material/FolderRounded';
 import DoubleArrowRounded from '@mui/icons-material/DoubleArrowRounded';
 
-type Props = {
+interface Props {
     name: string;
     id: string;
-};
+}
 
 const FolderCard: React.FC<Props> = ({ name, id }) => {
     return (

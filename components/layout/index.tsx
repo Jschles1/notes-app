@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
@@ -6,11 +6,11 @@ import Head from 'next/head';
 import Header from './Header';
 import { selectUser } from '../../store/auth/selectors';
 
-type Props = {
-    children?: ReactNode;
-};
+interface Props {
+    children?: React.ReactNode;
+}
 
-const Layout = ({ children }: Props) => {
+const Layout: React.FC<Props> = ({ children }) => {
     const router = useRouter();
     const user = useSelector(selectUser);
 

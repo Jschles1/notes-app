@@ -1,15 +1,15 @@
+import * as React from 'react';
 import { SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/system';
-import { ReactNode, FC } from 'react';
 import Card from '../ui/Card';
 import CardLink from '../ui/CardLink';
 
-type Props = {
-    children?: ReactNode;
+interface Props {
+    children?: React.ReactNode;
     href?: string;
     sx?: SxProps<Theme>;
     onClick?(): void;
-};
+}
 
 const HeaderCardContentContainer = ({ children }) => (
     <Box
@@ -23,7 +23,7 @@ const HeaderCardContentContainer = ({ children }) => (
     </Box>
 );
 
-const HeaderButton: FC<Props> = ({ children, href, sx, onClick }) => {
+const HeaderButton: React.FC<Props> = ({ children, href, sx, onClick }) => {
     if (href) {
         return (
             <CardLink href={href} sx={Array.isArray(sx) ? sx : [sx]}>
