@@ -1,16 +1,16 @@
-import { FC, ReactNode } from 'react';
-import { Box, SxProps } from '@mui/system';
+import * as React from 'react';
+import { SxProps } from '@mui/system';
 import { Paper, Theme } from '@mui/material';
 
-type Props = {
-    children?: ReactNode;
+interface Props {
+    children?: React.ReactNode;
     sx?: SxProps<Theme>;
     isButton?: boolean;
     isActive?: boolean;
     onClick?(): void;
-};
+}
 
-const Card: FC<Props> = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }) => {
+const Card: React.FC<Props> = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }) => {
     return (
         <Paper
             onClick={onClick}
