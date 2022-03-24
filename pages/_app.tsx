@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import * as React from 'react';
 import { AppProps } from 'next/app';
 import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
@@ -20,7 +20,7 @@ const globalStyles = (
     />
 );
 
-const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
