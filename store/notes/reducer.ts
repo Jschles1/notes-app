@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 import { Note } from '../../interfaces';
 
 const initialState = {
@@ -57,13 +58,15 @@ const notesSlice = createSlice({
             state.selected = null;
         },
         deleteNoteFail() {},
-        // setSelectedNote(state, action) {
-        //   state.selected = action.payload;
-        // },
-        // toggleCreateNote(state) {
-        //   state.isCreatingNote = !state.isCreatingNote;
-        // },
         resetNotes: () => initialState,
+    },
+    extraReducers: {
+        [HYDRATE]: (state, action) => {
+            return {
+                ...state,
+                ...action.payload.notes,
+            };
+        },
     },
 });
 
