@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
@@ -18,7 +18,7 @@ const CreateFolderPage: NextPage = () => {
         dispatch(createFolderInit(data));
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (successRedirect) {
             router.push(successRedirect);
             dispatch(clearRedirect());

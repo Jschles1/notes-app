@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
@@ -6,10 +6,7 @@ import { Box } from '@mui/material';
 import NoteForm from '../components/form/NoteForm';
 import ChooseFolder from '../components/form/ChooseFolder';
 import { fetchFoldersInit, setSelectedFolder } from '../store/folders/reducer';
-import {
-    selectSelectedFolder,
-    selectFolders,
-} from '../store/folders/selectors';
+import { selectSelectedFolder, selectFolders } from '../store/folders/selectors';
 import { createNoteInit } from '../store/notes/reducer';
 import { selectRedirect } from '../store/history/selectors';
 import { clearRedirect } from '../store/history/reducer';
@@ -23,16 +20,12 @@ const CreateNotePage: NextPage = () => {
     const folders = useSelector(selectFolders);
     const selectedFolder = useSelector(selectSelectedFolder);
     const successRedirect = useSelector(selectRedirect);
-    const [selectedFolderId, setSelectedFolderId] = useState(
-        (router.query.folderId as string) || ''
-    );
-    const [isChoosingFolder, setIsChoosingFolder] = useState(!selectedFolder);
+    const [selectedFolderId, setSelectedFolderId] = React.useState((router.query.folderId as string) || '');
+    const [isChoosingFolder, setIsChoosingFolder] = React.useState(!selectedFolder);
 
     const onFolderSelect = (data) => {
         dispatch(setSelectedFolder(data.folder));
-        const newSelectedFolder = folders.find(
-            (folder) => folder.name === data.folder
-        );
+        const newSelectedFolder = folders.find((folder) => folder.name === data.folder);
         setSelectedFolderId(newSelectedFolder._id);
         setIsChoosingFolder(false);
         router.replace({
@@ -48,13 +41,13 @@ const CreateNotePage: NextPage = () => {
         dispatch(createNoteInit(payload));
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!folders.length) {
             dispatch(fetchFoldersInit());
         }
     }, [folders]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (successRedirect) {
             router.push(successRedirect);
             dispatch(clearRedirect());
@@ -78,9 +71,7 @@ const CreateNotePage: NextPage = () => {
                 setIsChoosingFolder={setIsChoosingFolder}
                 isChoosingFolder={isChoosingFolder}
             />
-            {selectedFolder && selectedFolderId ? (
-                <NoteForm onSubmit={onNoteSubmit} />
-            ) : null}
+            {selectedFolder && selectedFolderId ? <NoteForm onSubmit={onNoteSubmit} /> : null}
         </Box>
     );
 };

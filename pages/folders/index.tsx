@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FoldersList from '../../components/folders/FoldersList';
 import LoadingIndicator from '../../components/ui/LoadingIndicator';
@@ -15,8 +15,9 @@ const FoldersPage: NextPage = () => {
     const folders = useSelector(selectFolders);
     const isLoading = useSelector(selectIsLoading);
 
-    useEffect(() => {
+    React.useEffect(() => {
         dispatch(fetchFoldersInit());
+        // TODO: Reset selected folder
     }, []);
 
     return <>{isLoading ? <LoadingIndicator /> : <FoldersList folders={folders} />}</>;

@@ -1,8 +1,8 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box } from '@mui/material';
+import * as React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box } from '@mui/material';
 import Card from '../../../../components/ui/Card';
 import FolderNameHeader from '../../../../components/folders/FolderNameHeader';
 import NotesList from '../../../../components/notes/NotesList';
@@ -26,10 +26,12 @@ const NotesPage: NextPage = () => {
     const selectedFolder = useSelector(selectSelectedFolder);
     const notes = useSelector(selectNotes);
     const successRedirect = useSelector(selectRedirect);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
     const router = useRouter();
 
     const folderId = router.query.folderId as string;
+
+    console.log({ notes });
 
     const onEditSubmit = (data) => {
         const updatedFolder = { name: data.name, _id: folderId, user: user.id };
@@ -48,11 +50,11 @@ const NotesPage: NextPage = () => {
         setOpen(false);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         dispatch(fetchNotesInit(folderId));
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (successRedirect) {
             router.push(successRedirect);
             dispatch(clearRedirect());
