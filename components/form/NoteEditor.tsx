@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, styled } from '@mui/material';
+import { Box, styled, BoxProps } from '@mui/material';
 // import { CKEditor } from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // import TextField, { TextFieldProps } from '@mui/material/TextField';
@@ -10,26 +10,39 @@ import Card from '../ui/Card';
 import LoadingIndicator from '../ui/LoadingIndicator';
 // import BasicButton from '../ui/BasicButton';
 
-const EditorContainer = styled(Box)(({ theme }) => ({
+const EditorContainerWrapper = React.forwardRef<HTMLDivElement, BoxProps>(function EditorContainerWrapper(
+    { children, ...other },
+    ref
+) {
+    return (
+        <Box ref={ref} {...other}>
+            {children}
+        </Box>
+    );
+});
+
+const EditorContainer = styled(EditorContainerWrapper, {
+    shouldForwardProp: (prop) => prop !== 'maxHeight',
+})<{ maxHeight: string }>(({ theme, maxHeight }) => ({
     height: '100%',
     width: '100%',
-    maxHeight: '100%',
+    maxHeight,
     '& .ck-editor__editable_inline': {
         color: theme.palette.primary.main,
-        height: '100%',
-        maxHeight: '100%',
+        height: `calc(${maxHeight} - 40px)`,
+        maxHeight: `calc(${maxHeight} - 40px)`,
     },
     '& .ck.ck-editor': {
-        height: '100%',
+        height: maxHeight,
         width: '100%',
-        maxHeight: '100%',
+        maxHeight,
         display: 'flex',
         flexDirection: 'column',
     },
     '& .ck.ck-editor__main': {
-        height: '100%',
+        height: maxHeight,
         width: '100%',
-        maxHeight: '100%',
+        maxHeight,
     },
 }));
 
@@ -44,7 +57,9 @@ interface Props {
 
 const NoteEditor: React.FC<Props> = () => {
     const [isLoaded, setIsLoaded] = React.useState(false);
+    const [editorHeight, setEditorHeight] = React.useState('');
     const editorRef = React.useRef() as any;
+    const containerRef = React.createRef() as any;
     const { CKEditor, ClassicEditor } = (editorRef.current || {}) as any;
 
     React.useEffect(() => {
@@ -55,6 +70,14 @@ const NoteEditor: React.FC<Props> = () => {
         setIsLoaded(true);
     }, []);
 
+    React.useEffect(() => {
+        if (isLoaded) {
+            setTimeout(() => {
+                setEditorHeight(`${containerRef.current.getBoundingClientRect().height}px`);
+            }, 0);
+        }
+    }, [isLoaded]);
+
     return (
         <Card
             sx={{
@@ -62,26 +85,17 @@ const NoteEditor: React.FC<Props> = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'start',
             }}
         >
             {isLoaded ? (
-                <EditorContainer>
+                <EditorContainer ref={containerRef} maxHeight={editorHeight || '100%'}>
                     <CKEditor
                         editor={ClassicEditor}
                         data="<p>Hello from CKEditor 5!</p>"
                         onReady={(editor) => {
                             // You can store the "editor" and use when it is needed.
                             console.log('Editor is ready to use!', editor);
-
-                            editor.editing.view.change((writer) => {
-                                console.log('chage');
-                                // writer.setStyle(
-                                //     'height',
-                                //     '1%',
-                                //     editor.editing.view.document.getRoot()
-                                // );
-                            });
                         }}
                     />
                 </EditorContainer>
