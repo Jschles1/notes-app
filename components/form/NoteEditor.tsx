@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Box, styled, BoxProps } from '@mui/material';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '../../ckeditor5/build/ckeditor';
 // import TextField, { TextFieldProps } from '@mui/material/TextField';
 // import ArrowUpward from '@mui/icons-material/ArrowUpward';
 // import Cancel from '@mui/icons-material/Cancel';
@@ -60,13 +61,15 @@ const NoteEditor: React.FC<Props> = () => {
     const [editorHeight, setEditorHeight] = React.useState('');
     const editorRef = React.useRef() as any;
     const containerRef = React.createRef() as any;
-    const { CKEditor, ClassicEditor } = (editorRef.current || {}) as any;
+    // const { CKEditor, ClassicEditor, SimpleUploadAdapter } =
+    //     (editorRef.current || {}) as any;
 
     React.useEffect(() => {
-        editorRef.current = {
-            CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
-            ClassicEditor: require('@ckeditor/ckeditor5-build-classic'),
-        };
+        // editorRef.current = {
+        //     ClassicEditor: require('../../ckeditor5/build/ckeditor'),
+        //     CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
+        //     // SimpleUploadAdapter: require('@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'),
+        // };
         setIsLoaded(true);
     }, []);
 
@@ -96,6 +99,11 @@ const NoteEditor: React.FC<Props> = () => {
                         onReady={(editor) => {
                             // You can store the "editor" and use when it is needed.
                             console.log('Editor is ready to use!', editor);
+                        }}
+                        config={{
+                            simpleUpload: {
+                                uploadUrl: '/api/upload',
+                            },
                         }}
                     />
                 </EditorContainer>

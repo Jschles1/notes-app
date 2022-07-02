@@ -19,6 +19,7 @@
     "clsx": "^1.1.1",
     "date-fns": "^2.28.0",
     "mongoose": "^6.1.7",
+    "multiparty": "^4.2.3",
     "next": "latest",
     "next-auth": "^4.0.5",
     "next-redux-cookie-wrapper": "^2.1.2",
