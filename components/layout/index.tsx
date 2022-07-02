@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import Head from 'next/head';
 import Header from './Header';
 import { selectUser } from '../../store/auth/selectors';
+import Navigation from './Navigation';
 
 interface Props {
     children?: React.ReactNode;
@@ -44,7 +45,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             sx={{
                 height: '100vh',
                 display: 'flex',
-                flexDirection: 'column',
+                // flexDirection: 'column',
             }}
         >
             <Head>
@@ -52,8 +53,11 @@ const Layout: React.FC<Props> = ({ children }) => {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <Header isLoggedIn={isLoggedIn} />
-            {renderContent()}
+            {/* <Header isLoggedIn={isLoggedIn} />
+            {renderContent()} */}
+            {isLoggedIn ? <Navigation /> : <>{children}</>}
+            {/* <Navigation /> */}
+            {/* {children} */}
         </Box>
     );
 };

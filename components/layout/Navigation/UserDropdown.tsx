@@ -38,7 +38,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
                     <Button
                         sx={{
                             width: '100%',
-                            fontSize: 16,
+                            fontSize: 20,
                             position: 'relative',
                         }}
                         startIcon={
@@ -71,7 +71,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
                         onClose={() => setOpen(false)}
                         PaperProps={{
                             style: {
-                                width: 218,
+                                width: 268,
                                 marginTop: -3.8,
                             },
                         }}

@@ -1,21 +1,26 @@
 import * as React from 'react';
-import { Grid } from '@mui/material';
-import { Folder } from '../../interfaces';
-import FolderCard from './FolderCard';
+import { useSelector } from 'react-redux';
+import { Grid, Box } from '@mui/material';
+import { selectFolders } from '../../store/folders/selectors';
 
-interface Props {
-    folders: Folder[];
-}
-
-const FoldersList: React.FC<Props> = ({ folders }) => {
+const FoldersList: React.FC = () => {
+    const folders = useSelector(selectFolders);
     return (
-        <Grid container spacing={2}>
-            {folders.map((folder) => (
-                <Grid item key={folder._id} xs={3}>
-                    <FolderCard name={folder.name} id={folder._id} />
-                </Grid>
-            ))}
-        </Grid>
+        <Box sx={{ height: '60%', maxHeight: '60%' }}>
+            <Box
+                sx={{
+                    fontWeight: 'bold',
+                }}
+            >
+                Your Folders:
+            </Box>
+            {/* <Grid container spacing={2}> */}
+            <Box sx={{ overflowY: 'scroll', height: '100%' }}>
+                {folders.map((folder) => (
+                    <Box>{folder.name}</Box>
+                ))}
+            </Box>
+        </Box>
     );
 };
 
