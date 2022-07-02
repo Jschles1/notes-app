@@ -28,6 +28,7 @@ export default NextAuth({
                         const newUser = await new User({
                             email: profile.email,
                             name: profile.name,
+                            image: profile.picture,
                         });
 
                         const savedUser = await newUser.save();

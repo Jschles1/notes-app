@@ -16,6 +16,9 @@ export const userSchema = new Schema(
             required: true,
             trim: true,
         },
+        image: {
+            type: String,
+        },
         folders: [{ type: ObjectId, ref: 'folders' }],
     },
     {
