@@ -15,21 +15,34 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#253449',
-            light: '#4F91CF',
+            main: '#060606',
+            light: '#676767',
         },
         secondary: {
-            main: '#768299',
-            light: '#F7FBE7',
+            main: '#C0BEC0',
+            // light: '#F7FBE7',
         },
         bg: {
-            main: 'rgba(255, 255, 255, 0.6)',
-            dark: '#333',
+            main: '#eee',
+            // dark: '#333',
         },
     },
     spacing: 8,
     typography: {
         fontSize: 16,
+        fontFamily: [
+            'Nunito',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
     },
     components: {
         MuiAlert: {
