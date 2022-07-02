@@ -4,25 +4,26 @@
 //
 // import { User } from 'path/to/interfaces';
 
-export type User = {
+export interface User {
     id: number;
     name: string;
     email: string;
-};
+    image: string;
+}
 
-export type Folder = {
+export interface Folder {
     _id: string;
     name: string;
     createdAt?: string;
     updatedAt?: string;
     user: string;
-};
+}
 
-export type Note = {
+export interface Note {
     _id: string;
     name: string;
     createdAt?: string;
     updatedAt?: string;
     folder: string;
     description: string;
-};
+}
