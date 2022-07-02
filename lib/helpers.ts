@@ -36,3 +36,9 @@ export const findNote = (notes, noteId) => {
         return note._id === noteId;
     });
 };
+
+export const decodeHtml = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+};

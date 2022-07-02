@@ -2,7 +2,7 @@ import * as React from 'react';
 import DoubleArrowRounded from '@mui/icons-material/DoubleArrowRounded';
 import { Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import { renderDescriptionFirstLine } from '../../lib/helpers';
+import { renderDescriptionFirstLine, decodeHtml } from '../../lib/helpers';
 import Link from '../ui/Link';
 
 interface Props {
@@ -50,7 +50,7 @@ const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description }) => (
                         textOverflow: 'ellipsis',
                     }}
                 >
-                    {renderDescriptionFirstLine(description)}
+                    {decodeHtml(renderDescriptionFirstLine(description))}
                 </Box>
             </Box>
 

@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 import mongoose from 'mongoose';
 import Note from '../../../../../lib/server/models/Note';
 import connectToDatabase from '../../../../../lib/server/connectToDatabase';
-import Folder from '../../../../../lib/server/models/Folder';
+import sanitize from '../../../../../lib/server/sanitize';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             case 'PATCH':
                 const data = {
                     name: req.body.name,
-                    description: req.body.description,
+                    description: sanitize(req.body.description) as any,
                 };
 
                 try {
