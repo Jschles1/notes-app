@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 import { Grid, Box } from '@mui/material';
 import { selectFolders } from '../../store/folders/selectors';
 
-const FoldersList: React.FC = () => {
+interface Props {
+    isNav?: boolean;
+}
+
+const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
     return (
         <Box sx={{ height: '60%', maxHeight: '60%' }}>
@@ -15,7 +19,12 @@ const FoldersList: React.FC = () => {
                 Your Folders:
             </Box>
             {/* <Grid container spacing={2}> */}
-            <Box sx={{ overflowY: 'scroll', height: '100%' }}>
+            <Box
+                sx={{
+                    // overflowY: 'scroll',
+                    height: '100%',
+                }}
+            >
                 {folders.map((folder) => (
                     <Box>{folder.name}</Box>
                 ))}

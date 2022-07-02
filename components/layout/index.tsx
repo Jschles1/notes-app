@@ -55,7 +55,14 @@ const Layout: React.FC<Props> = ({ children }) => {
             </Head>
             {/* <Header isLoggedIn={isLoggedIn} />
             {renderContent()} */}
-            {isLoggedIn ? <Navigation /> : <>{children}</>}
+            {isLoggedIn ? (
+                <>
+                    <Navigation />
+                    {children}
+                </>
+            ) : (
+                <>{children}</>
+            )}
             {/* <Navigation /> */}
             {/* {children} */}
         </Box>
