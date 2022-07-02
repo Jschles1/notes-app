@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, Box } from '@mui/material';
+import { Stack, Box } from '@mui/material';
+import FolderLink from './FolderLink';
 import { selectFolders } from '../../store/folders/selectors';
 
 interface Props {
@@ -9,26 +10,36 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
+    const containerHeight = isNav ? '60%' : '100%';
     return (
-        <Box sx={{ height: '60%', maxHeight: '60%' }}>
+        <Box
+            sx={{
+                height: containerHeight,
+                maxHeight: containerHeight,
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             <Box
                 sx={{
                     fontWeight: 'bold',
+                    fontSize: isNav ? 24 : 32,
+                    marginBottom: 2,
                 }}
             >
                 Your Folders:
             </Box>
-            {/* <Grid container spacing={2}> */}
-            <Box
+            <Stack
                 sx={{
-                    // overflowY: 'scroll',
-                    height: '100%',
+                    overflowY: 'auto',
+                    flex: 1,
                 }}
+                spacing={2}
             >
                 {folders.map((folder) => (
-                    <Box>{folder.name}</Box>
+                    <FolderLink _id={folder._id} name={folder.name} isNav={isNav} />
                 ))}
-            </Box>
+            </Stack>
         </Box>
     );
 };
