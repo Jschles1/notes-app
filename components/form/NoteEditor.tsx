@@ -1,85 +1,46 @@
 import * as React from 'react';
 import { Box, styled, BoxProps } from '@mui/material';
-// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '../../ckeditor5/build/ckeditor';
-// import TextField, { TextFieldProps } from '@mui/material/TextField';
-// import ArrowUpward from '@mui/icons-material/ArrowUpward';
-// import Cancel from '@mui/icons-material/Cancel';
-// import { useForm, Controller } from 'react-hook-form';
+import TextField from '@mui/material/TextField';
+import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import Cancel from '@mui/icons-material/Cancel';
+import { useForm, Controller } from 'react-hook-form';
 import Card from '../ui/Card';
-import LoadingIndicator from '../ui/LoadingIndicator';
-// import BasicButton from '../ui/BasicButton';
-
-const EditorContainerWrapper = React.forwardRef<HTMLDivElement, BoxProps>(function EditorContainerWrapper(
-    { children, ...other },
-    ref
-) {
-    return (
-        <Box ref={ref} {...other}>
-            {children}
-        </Box>
-    );
-});
-
-const EditorContainer = styled(EditorContainerWrapper, {
-    shouldForwardProp: (prop) => prop !== 'maxHeight',
-})<{ maxHeight: string }>(({ theme, maxHeight }) => ({
-    height: '100%',
-    width: '100%',
-    maxHeight,
-    '& .ck-editor__editable_inline': {
-        color: theme.palette.primary.main,
-        height: `calc(${maxHeight} - 40px)`,
-        maxHeight: `calc(${maxHeight} - 40px)`,
-    },
-    '& .ck.ck-editor': {
-        height: maxHeight,
-        width: '100%',
-        maxHeight,
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    '& .ck.ck-editor__main': {
-        height: maxHeight,
-        width: '100%',
-        maxHeight,
-    },
-}));
+import BasicButton from '../ui/BasicButton';
+import EditorContainer from '../ui/EditorContainer';
 
 interface Props {
-    // onSubmit(data): void;
-    // onCancel?(): void;
-    // name?: string;
-    // description?: string;
-    // isUpdating?: boolean;
-    // isLoaded: boolean;
+    onSubmit(data): void;
+    onCancel?(): void;
+    name?: string;
+    description?: string;
+    isUpdating?: boolean;
 }
 
-const NoteEditor: React.FC<Props> = () => {
-    const [isLoaded, setIsLoaded] = React.useState(false);
+const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, onCancel }) => {
     const [editorHeight, setEditorHeight] = React.useState('');
-    const editorRef = React.useRef() as any;
-    const containerRef = React.createRef() as any;
-    // const { CKEditor, ClassicEditor, SimpleUploadAdapter } =
-    //     (editorRef.current || {}) as any;
+    const rootRef = React.useRef() as any;
+    const { control, handleSubmit, formState, setValue } = useForm({
+        defaultValues: {
+            name: name || '',
+            description: description || '',
+        },
+    });
 
     React.useEffect(() => {
-        // editorRef.current = {
-        //     ClassicEditor: require('../../ckeditor5/build/ckeditor'),
-        //     CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
-        //     // SimpleUploadAdapter: require('@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'),
-        // };
-        setIsLoaded(true);
-    }, []);
-
-    React.useEffect(() => {
-        if (isLoaded) {
-            setTimeout(() => {
-                setEditorHeight(`${containerRef.current.getBoundingClientRect().height}px`);
+        function changeEditorHeight(): void {
+            setTimeout((): void => {
+                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - 32 - 61}px`);
             }, 0);
         }
-    }, [isLoaded]);
+
+        changeEditorHeight();
+
+        window.addEventListener('resize', changeEditorHeight);
+
+        return () => window.removeEventListener('resize', changeEditorHeight);
+    }, []);
 
     return (
         <Card
@@ -87,29 +48,89 @@ const NoteEditor: React.FC<Props> = () => {
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
                 justifyContent: 'start',
             }}
+            ref={rootRef}
         >
-            {isLoaded ? (
-                <EditorContainer ref={containerRef} maxHeight={editorHeight || '100%'}>
-                    <CKEditor
-                        editor={ClassicEditor}
-                        data="<p>Hello from CKEditor 5!</p>"
-                        onReady={(editor) => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log('Editor is ready to use!', editor);
-                        }}
-                        config={{
-                            simpleUpload: {
-                                uploadUrl: '/api/upload',
-                            },
-                        }}
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'start',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Box sx={{ width: '50%' }}>
+                    <Controller
+                        name="name"
+                        control={control}
+                        render={({ field: { onChange, value, name, ref } }) => (
+                            <TextField
+                                fullWidth
+                                required
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                                inputRef={ref}
+                                label="Note Title"
+                                error={!!formState?.errors?.name}
+                                helperText={formState?.errors?.name?.message}
+                            />
+                        )}
+                        rules={{ required: 'Note Title is required.' }}
                     />
-                </EditorContainer>
-            ) : (
-                <LoadingIndicator />
-            )}
+                </Box>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
+                >
+                    {isUpdating ? (
+                        <BasicButton
+                            onClick={onCancel}
+                            startIcon={<Cancel />}
+                            sx={{
+                                paddingY: '16.5px',
+                                paddingX: 3,
+                                marginRight: 2,
+                            }}
+                        >
+                            Cancel
+                        </BasicButton>
+                    ) : null}
+                    <BasicButton
+                        onClick={handleSubmit(onSubmit)}
+                        startIcon={<ArrowUpward />}
+                        sx={{
+                            paddingY: '16.5px',
+                            paddingX: 3,
+                        }}
+                    >
+                        Submit
+                    </BasicButton>
+                </Box>
+            </Box>
+
+            <EditorContainer maxHeight={editorHeight || '100%'}>
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={description || '<p>Note Description *</p>'}
+                    onReady={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log('Editor is ready to use!', editor);
+                    }}
+                    onChange={(_, editor) => {
+                        const data = editor.getData();
+                        setValue('description', data);
+                    }}
+                    config={{
+                        simpleUpload: {
+                            uploadUrl: '/api/upload',
+                        },
+                    }}
+                />
+            </EditorContainer>
         </Card>
     );
 };

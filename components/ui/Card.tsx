@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SxProps } from '@mui/system';
-import { Paper, Theme } from '@mui/material';
+import { Paper, PaperProps, Theme } from '@mui/material';
 
 interface Props {
     children?: React.ReactNode;
@@ -10,9 +10,13 @@ interface Props {
     onClick?(): void;
 }
 
-const Card: React.FC<Props> = ({ children, sx = [], isButton = false, isActive = false, onClick = () => {} }) => {
+const Card = React.forwardRef<HTMLDivElement, PaperProps>(function Card(
+    { children, sx = [], isButton = false, isActive = false, onClick = () => {} }: Props,
+    ref
+) {
     return (
         <Paper
+            ref={ref}
             onClick={onClick}
             elevation={0}
             sx={[
@@ -43,6 +47,6 @@ const Card: React.FC<Props> = ({ children, sx = [], isButton = false, isActive =
             {children}
         </Paper>
     );
-};
+});
 
 export default Card;
