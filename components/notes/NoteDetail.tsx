@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import dynamic from 'next/dynamic';
 import {
     Box,
     Button,
@@ -23,19 +24,27 @@ import NoteForm from '../form/NoteForm';
 import Skeleton from '../ui/Skeleton';
 import { deleteNoteInit, updateNoteInit } from '../../store/notes/reducer';
 
-const NoteDescription = styled((props: TextFieldProps) => <TextField {...props} multiline fullWidth disabled />)(
-    ({ theme }) => ({
-        height: '100%',
-        '& .MuiOutlinedInput-root': {
-            height: '100%',
-            display: 'block',
-        },
-        '& .Mui-disabled': {
-            color: theme.palette.primary.main,
-            WebkitTextFillColor: `${theme.palette.primary.main} !important`,
-        },
-    })
-);
+// const NoteDescription = styled((props: TextFieldProps) => (
+//     <TextField {...props} multiline fullWidth disabled />
+// ))(({ theme }) => ({
+//     height: '100%',
+//     '& .MuiOutlinedInput-root': {
+//         height: '100%',
+//         display: 'block',
+//     },
+//     '& .Mui-disabled': {
+//         color: theme.palette.primary.main,
+//         WebkitTextFillColor: `${theme.palette.primary.main} !important`,
+//     },
+// }));
+
+const NoteEditor = dynamic(() => import('../form/NoteEditor'), {
+    ssr: false,
+});
+
+const NoteDescription = dynamic(() => import('./NoteDescription'), {
+    ssr: false,
+});
 
 interface Props {
     note: Note;
@@ -66,8 +75,10 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         setIsUpdating(false);
     }, [note]);
 
+    console.log('NoteEditor', NoteEditor);
+
     return isUpdating ? (
-        <NoteForm
+        <NoteEditor
             name={note.name}
             description={note.description}
             onSubmit={onUpdate}
@@ -129,7 +140,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                     </Box>
                 </Box>
 
-                <NoteDescription value={note?.description} />
+                <NoteDescription value={note?.description} height={''} />
             </Card>
 
             <Dialog
