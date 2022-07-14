@@ -23,7 +23,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const updatingFolder = useSelector(selectUpdatingFolder);
     const user = useSelector(selectUser);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
-    const { register, handleSubmit, reset, formState } = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: React.useMemo(
             () => ({
                 name,
@@ -32,8 +32,6 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
         ),
     });
 
-    // console.log('isUpdating', isUpdating);
-
     const handleIconClick = () => {
         setIsOptionsOpen((prev) => !prev);
     };
@@ -41,23 +39,14 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const handeUpdateClick = () => {
         setIsOptionsOpen(false);
         dispatch(setUpdating(_id));
-        // Add is updating folder global state
     };
 
     const onSubmit = (data: { name: string }) => {
         const newName = data.name.trim();
         if (newName && newName !== name) {
-            // Make API call
-            //   if (name && onUpdate) {
-            //     onUpdate(data);
-            //   } else if (onCreate) {
-            //     onCreate(data);
-            //   }
             const updatedFolder = { name: newName, _id, user: user.id };
             dispatch(updateFolderInit(updatedFolder));
         } else {
-            // unmount component
-            //   onCancel();
             dispatch(setUpdating(''));
         }
     };
