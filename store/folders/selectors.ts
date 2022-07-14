@@ -10,3 +10,8 @@ export const selectSelectedFolder = createSelector(
     (state: AppState) => state.folders.selected,
     (selectedFolder) => selectedFolder
 );
+
+export const selectUpdatingFolder = createSelector(
+    (state: AppState) => state.folders.updating,
+    (updating) => updating
+);

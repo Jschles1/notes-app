@@ -9,6 +9,7 @@ import {
     setSelectedFolder,
     deleteFolderSuccess,
     deleteFolderFail,
+    setUpdating,
 } from './reducer';
 import { toggleLoading } from '../loading/reducer';
 import { setRedirect } from '../history/reducer';
@@ -66,9 +67,10 @@ export function* updateFolderSaga(action) {
             },
         });
         const data = yield response.json();
-        yield put(updateFolderSuccess({ name: data.data.name }));
+        yield put(updateFolderSuccess({ name: data.data.name, _id }));
         yield put(toggleLoading());
-        yield put(setSelectedFolder(data.data.name));
+        // yield put(setSelectedFolder(data.data.name));
+        yield put(setUpdating(''));
         yield put(
             setAlert({
                 type: 'success',
