@@ -6,6 +6,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import Card from '../../../../components/ui/Card';
 import FolderNameHeader from '../../../../components/folders/FolderNameHeader';
 import NotesList from '../../../../components/notes/NotesList';
+import NotesSelection from '../../../../components/notes/NoteSelection';
 import { serverSideAuthentication } from '../../../../lib/auth';
 import { fetchNotesInit } from '../../../../store/notes/reducer';
 import { selectSelectedFolder } from '../../../../store/folders/selectors';
@@ -62,35 +63,53 @@ const NotesPage: NextPage = () => {
     }, [successRedirect, dispatch]);
 
     return (
-        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Card>
-                <FolderNameHeader name={selectedFolder} onEdit={onEditSubmit} onDelete={onDeleteClick} />
-            </Card>
+        // <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        //     <Card>
+        //         <FolderNameHeader
+        //             name={selectedFolder}
+        //             onEdit={onEditSubmit}
+        //             onDelete={onDeleteClick}
+        //         />
+        //     </Card>
 
-            {isLoading ? <LoadingIndicator /> : <NotesList notes={notes} />}
+        //     {isLoading ? <LoadingIndicator /> : <NotesList notes={notes} />}
 
-            <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="delete-confirm-title"
-                aria-describedby="delete-confirm-description"
-            >
-                <DialogTitle id="delete-confirm-title">{'Delete Folder?'}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="delete-confirm-description">
-                        Are you sure you want to delete "{selectedFolder}"?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="outlined" color="success" onClick={onDeleteFolderConfirm} disabled={isLoading}>
-                        Confirm
-                    </Button>
-                    <Button variant="outlined" color="error" onClick={handleClose} autoFocus disabled={isLoading}>
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
+        //     <Dialog
+        //         open={open}
+        //         onClose={() => setOpen(false)}
+        //         aria-labelledby="delete-confirm-title"
+        //         aria-describedby="delete-confirm-description"
+        //     >
+        //         <DialogTitle id="delete-confirm-title">
+        //             {'Delete Folder?'}
+        //         </DialogTitle>
+        //         <DialogContent>
+        //             <DialogContentText id="delete-confirm-description">
+        //                 Are you sure you want to delete "{selectedFolder}"?
+        //             </DialogContentText>
+        //         </DialogContent>
+        //         <DialogActions>
+        //             <Button
+        //                 variant="outlined"
+        //                 color="success"
+        //                 onClick={onDeleteFolderConfirm}
+        //                 disabled={isLoading}
+        //             >
+        //                 Confirm
+        //             </Button>
+        //             <Button
+        //                 variant="outlined"
+        //                 color="error"
+        //                 onClick={handleClose}
+        //                 autoFocus
+        //                 disabled={isLoading}
+        //             >
+        //                 Cancel
+        //             </Button>
+        //         </DialogActions>
+        //     </Dialog>
+        // </Box>
+        <NotesSelection />
     );
 };
 
