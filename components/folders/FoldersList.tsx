@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Stack, Box } from '@mui/material';
+import Link from '../ui/Link';
 import FolderLink from './FolderLink';
 import { selectFolders } from '../../store/folders/selectors';
 
@@ -10,25 +11,26 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
-    const containerHeight = isNav ? '60%' : '100%';
     return (
         <Box
             sx={{
-                height: containerHeight,
-                maxHeight: containerHeight,
+                flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
+                marginTop: isNav ? 2 : 'auto',
             }}
         >
-            <Box
+            <Link
+                href="/folders"
                 sx={{
                     fontWeight: 'bold',
                     fontSize: isNav ? 24 : 32,
                     marginBottom: 2,
+                    textDecoration: 'none',
                 }}
             >
                 Your Folders:
-            </Box>
+            </Link>
             <Stack
                 sx={{
                     overflowY: 'auto',
