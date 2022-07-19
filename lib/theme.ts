@@ -27,6 +27,15 @@ const theme = createTheme({
             // dark: '#333',
         },
     },
+    breakpoints: {
+        values: {
+            xs: 360,
+            sm: 768,
+            md: 1024,
+            lg: 1200,
+            xl: 1440,
+        },
+    },
     spacing: 8,
     typography: {
         fontSize: 16,
