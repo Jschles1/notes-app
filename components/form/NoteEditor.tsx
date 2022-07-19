@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Box, styled, BoxProps } from '@mui/material';
+import { Box } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '../../ckeditor5/build/ckeditor';
-import TextField from '@mui/material/TextField';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Cancel from '@mui/icons-material/Cancel';
 import { useForm, Controller } from 'react-hook-form';
@@ -18,13 +17,7 @@ interface Props {
     isUpdating?: boolean;
 }
 
-const NoteEditor: React.FC<Props> = ({
-    name,
-    description,
-    onSubmit,
-    isUpdating,
-    onCancel,
-}) => {
+const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, onCancel }) => {
     const [editorHeight, setEditorHeight] = React.useState('');
     const rootRef = React.useRef() as any;
     const { control, handleSubmit, formState, setValue } = useForm({
@@ -37,11 +30,7 @@ const NoteEditor: React.FC<Props> = ({
     React.useEffect(() => {
         function changeEditorHeight(): void {
             setTimeout((): void => {
-                setEditorHeight(
-                    `${
-                        rootRef?.current?.getBoundingClientRect().height - 109
-                    }px`
-                );
+                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - 109}px`);
             }, 0);
         }
 
