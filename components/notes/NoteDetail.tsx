@@ -88,7 +88,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                         >
                             <Box>
                                 <Typography
-                                    variant="h4"
+                                    variant="h5"
                                     sx={{
                                         marginBottom: 1,
                                         marginTop: 0,
@@ -107,27 +107,31 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                                     </Skeleton>
                                 </Typography>
                             </Box>
+                        </Box>
 
-                            <Box>
-                                <Button
-                                    color="bg.main"
-                                    sx={{ marginRight: 2, fontSize: '12px' }}
-                                    onClick={() => setIsUpdating(true)}
-                                    startIcon={<Edit />}
-                                    disabled={isLoading}
-                                >
-                                    Update
-                                </Button>
-                                <OptionButton
-                                    variant="warning"
-                                    onClick={() => setOpen(true)}
-                                    sx={{ fontSize: '12px' }}
-                                    startIcon={<Delete />}
-                                    disabled={isLoading}
-                                >
-                                    Delete Note
-                                </OptionButton>
-                            </Box>
+                        <Box
+                            sx={{
+                                marginTop: 1,
+                            }}
+                        >
+                            <Button
+                                color="bg.main"
+                                sx={{ marginRight: 2, fontSize: '12px' }}
+                                onClick={() => setIsUpdating(true)}
+                                startIcon={<Edit />}
+                                disabled={isLoading}
+                            >
+                                Update
+                            </Button>
+                            <OptionButton
+                                variant="warning"
+                                onClick={() => setOpen(true)}
+                                sx={{ fontSize: '12px' }}
+                                startIcon={<Delete />}
+                                disabled={isLoading}
+                            >
+                                Delete
+                            </OptionButton>
                         </Box>
 
                         <NoteDescription value={note?.description} />
