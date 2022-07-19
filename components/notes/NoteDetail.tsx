@@ -91,10 +91,10 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                                 fontWeight: 'bold',
                             }}
                         >
-                            <Skeleton>{note?.name}</Skeleton>
+                            <Skeleton width="250px">{note?.name}</Skeleton>
                         </Typography>
                         <Typography paragraph sx={{ marginBottom: 0 }}>
-                            <Skeleton>
+                            <Skeleton width="250px">
                                 <Typography component="span" sx={{ color: 'primary.light' }}>
                                     Last updated:
                                 </Typography>{' '}
