@@ -20,6 +20,7 @@ import Skeleton from '../ui/Skeleton';
 import Button from '../ui/Button';
 import TextInput from '../ui/TextInput';
 import Link from '../ui/Link';
+import OptionButton from '../ui/OptionButton';
 import { selectUpdatingFolder } from '../../store/folders/selectors';
 import { deleteFolderInit, setUpdating, updateFolderInit } from '../../store/folders/reducer';
 import { selectUser } from '../../store/auth/selectors';
@@ -182,29 +183,12 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        // variant="outlined"
-                        color="#2e7d32"
-                        onClick={onDeleteFolderConfirm}
-                        disabled={isLoading}
-                        sx={{
-                            color: '#fff',
-                        }}
-                    >
+                    <OptionButton variant="success" onClick={onDeleteFolderConfirm} disabled={isLoading}>
                         Confirm
-                    </Button>
-                    <Button
-                        // variant="outlined"
-                        color="#d32f2f"
-                        onClick={handleModalClose}
-                        autoFocus
-                        disabled={isLoading}
-                        sx={{
-                            color: '#fff',
-                        }}
-                    >
+                    </OptionButton>
+                    <OptionButton variant="warning" onClick={handleModalClose} autoFocus disabled={isLoading}>
                         Cancel
-                    </Button>
+                    </OptionButton>
                 </DialogActions>
             </Dialog>
         </>
