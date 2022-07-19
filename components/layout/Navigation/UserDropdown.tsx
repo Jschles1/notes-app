@@ -8,6 +8,7 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import UserIcon from '@mui/icons-material/AccountCircleRounded';
 import { User } from '../../../interfaces';
 import Button from '../../ui/Button';
+import ProfileImage from '../../ui/ProfileImage';
 import { resetFolders } from '../../../store/folders/reducer';
 import { resetNotes } from '../../../store/notes/reducer';
 
@@ -41,17 +42,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
                             fontSize: 20,
                             position: 'relative',
                         }}
-                        startIcon={
-                            <Box
-                                sx={{
-                                    display: 'inline-flex',
-                                    borderRadius: '100%',
-                                    overflow: 'hidden',
-                                }}
-                            >
-                                <NextImage src={user.image} width={25} height={25} />
-                            </Box>
-                        }
+                        startIcon={<ProfileImage imageSrc={user.image} />}
                         onClick={toggleOpen}
                         ref={buttonRef}
                         endIcon={open ? <UpIcon /> : <DownIcon />}
