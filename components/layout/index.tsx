@@ -6,6 +6,7 @@ import Head from 'next/head';
 import Header from './Header';
 import { selectUser } from '../../store/auth/selectors';
 import Navigation from './Navigation';
+import NoteSelection from '../notes/NoteSelection';
 
 interface Props {
     children?: React.ReactNode;
@@ -19,26 +20,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     const centeredLayoutRoutes = ['/create-folder'];
     const isCentered = !isLoggedIn || centeredLayoutRoutes.includes(router.pathname);
 
-    const renderContent = () => {
-        const styles = {
-            paddingTop: 2,
-            paddingBottom: 2,
-            paddingLeft: 4,
-            paddingRight: 4,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-        };
-
-        return isCentered ? (
-            <Box sx={styles}>{children}</Box>
-        ) : (
-            <Box sx={styles}>
-                <Box sx={{ width: '100%', height: '100%' }}>{children}</Box>
-            </Box>
-        );
-    };
+    const isNotePage = router.pathname.includes('/notes');
 
     return (
         <Box
@@ -58,6 +40,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             {isLoggedIn ? (
                 <>
                     <Navigation />
+                    {isNotePage && <NoteSelection />}
                     {children}
                 </>
             ) : (
