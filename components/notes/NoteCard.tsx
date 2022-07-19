@@ -1,8 +1,7 @@
 import * as React from 'react';
-import DoubleArrowRounded from '@mui/icons-material/DoubleArrowRounded';
 import { Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import { renderDescriptionFirstLine, decodeHtml } from '../../lib/helpers';
+import { renderDescriptionFirstLine, decodeHtml, formatDate } from '../../lib/helpers';
 import Link from '../ui/Link';
 
 interface Props {
@@ -10,34 +9,37 @@ interface Props {
     noteId: string;
     name: string;
     description: string;
+    updatedAt: string;
+    selectedNote?: string;
 }
 
-const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description }) => (
-    <Link href={`/folders/${folderId}/notes/${noteId}`} sx={{ textDecoration: 'none' }}>
-        <Paper
-            sx={{
-                backgroundColor: '#fff',
-                paddingX: 2,
-                paddingY: 3,
-                borderRadius: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'background-color 250ms',
-                '&:hover': {
-                    color: '#fff !important',
-                    bgcolor: 'primary.main',
-                    cursor: 'pointer',
-                },
-            }}
-        >
-            <Box sx={{ width: '90%' }}>
+const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description, updatedAt, selectedNote }) => {
+    const isSelected = noteId === selectedNote;
+    return (
+        <Link href={`/folders/${folderId}/notes/${noteId}`} sx={{ textDecoration: 'none' }}>
+            <Paper
+                elevation={0}
+                sx={{
+                    backgroundColor: 'bg.main',
+                    padding: 2,
+                    borderRadius: 2,
+                    transition: 'opacity 250ms',
+                    opacity: isSelected ? 1 : 0.5,
+                    '&:hover': {
+                        opacity: 1,
+                        cursor: 'pointer',
+                    },
+                }}
+            >
+                <Box sx={{ fontSize: 14 }}>{formatDate(updatedAt)}</Box>
                 <Box
                     sx={{
                         fontWeight: 'bold',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
+                        marginY: 1,
+                        color: 'primary.light',
                     }}
                 >
                     {name}
@@ -48,17 +50,15 @@ const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description }) => (
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
+                        color: 'primary.light',
+                        fontSize: 14,
                     }}
                 >
                     {decodeHtml(renderDescriptionFirstLine(description))}
                 </Box>
-            </Box>
-
-            <Box>
-                <DoubleArrowRounded />
-            </Box>
-        </Paper>
-    </Link>
-);
+            </Paper>
+        </Link>
+    );
+};
 
 export default React.memo(NoteCard);

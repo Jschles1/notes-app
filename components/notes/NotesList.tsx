@@ -11,6 +11,7 @@ interface Props {
 const NotesList: React.FC<Props> = ({ notes }) => {
     const router = useRouter();
     const folderId = router.query.folderId as string;
+    const noteId = router.query.folderId as string;
 
     return (
         <Stack
@@ -26,6 +27,8 @@ const NotesList: React.FC<Props> = ({ notes }) => {
                     noteId={note._id}
                     name={note.name}
                     description={note.description}
+                    updatedAt={note.updatedAt}
+                    selectedNote={noteId}
                 />
             ))}
         </Stack>
