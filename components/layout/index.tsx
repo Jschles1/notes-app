@@ -16,7 +16,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     const user = useSelector(selectUser);
 
     const isLoggedIn = !!user;
-    const isNotePage = router.pathname.includes('/notes');
+    const isNotePage = router.pathname.includes('/notes') || router.pathname === '/create-note';
 
     return (
         <Box
