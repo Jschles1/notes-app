@@ -1,42 +1,17 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    styled,
-    TextField,
-    TextFieldProps,
-    Typography,
-} from '@mui/material';
-import Card from '../ui/Card';
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
 import { selectIsLoading } from '../../store/loading/selectors';
 import { Note } from '../../interfaces';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import { formatDate } from '../../lib/helpers';
-import NoteForm from '../form/NoteForm';
 import Skeleton from '../ui/Skeleton';
+import Button from '../ui/Button';
+import OptionButton from '../ui/OptionButton';
 import { deleteNoteInit, updateNoteInit } from '../../store/notes/reducer';
-
-// const NoteDescription = styled((props: TextFieldProps) => (
-//     <TextField {...props} multiline fullWidth disabled />
-// ))(({ theme }) => ({
-//     height: '100%',
-//     '& .MuiOutlinedInput-root': {
-//         height: '100%',
-//         display: 'block',
-//     },
-//     '& .Mui-disabled': {
-//         color: theme.palette.primary.main,
-//         WebkitTextFillColor: `${theme.palette.primary.main} !important`,
-//     },
-// }));
+import Breadcrumbs from '../layout/Breadcrumbs';
 
 const NoteEditor = dynamic(() => import('../form/NoteEditor'), {
     ssr: false,
@@ -87,15 +62,20 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         />
     ) : (
         <>
-            <Card
+            <Box
                 sx={{
+                    paddingX: 2,
+                    backgroundColor: 'secondary.light',
                     height: '100%',
+                    maxHeight: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
                 }}
             >
+                <Breadcrumbs />
                 <Box
                     sx={{
+                        marginTop: 3,
                         display: 'flex',
                         alignItems: 'start',
                         justifyContent: 'space-between',
@@ -108,40 +88,45 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                                 marginBottom: 1,
                                 marginTop: 0,
                                 lineHeight: 1,
+                                fontWeight: 'bold',
                             }}
                         >
                             <Skeleton>{note?.name}</Skeleton>
                         </Typography>
-                        <Typography paragraph>
-                            <Skeleton>Last updated: {formatDate(note?.updatedAt)}</Skeleton>
+                        <Typography paragraph sx={{ marginBottom: 0 }}>
+                            <Skeleton>
+                                <Typography component="span" sx={{ color: 'primary.light' }}>
+                                    Last updated:
+                                </Typography>{' '}
+                                {formatDate(note?.updatedAt)}
+                            </Skeleton>
                         </Typography>
                     </Box>
 
                     <Box>
                         <Button
-                            variant="outlined"
-                            sx={{ marginRight: 2, textTransform: 'unset' }}
+                            color="bg.main"
+                            sx={{ marginRight: 2, fontSize: '12px' }}
                             onClick={() => setIsUpdating(true)}
                             startIcon={<Edit />}
                             disabled={isLoading}
                         >
-                            Update Note
+                            Update
                         </Button>
-                        <Button
-                            variant="outlined"
-                            sx={{ textTransform: 'unset' }}
-                            color="error"
+                        <OptionButton
+                            variant="warning"
                             onClick={() => setOpen(true)}
+                            sx={{ fontSize: '12px' }}
                             startIcon={<Delete />}
                             disabled={isLoading}
                         >
                             Delete Note
-                        </Button>
+                        </OptionButton>
                     </Box>
                 </Box>
 
-                <NoteDescription value={note?.description} height={''} />
-            </Card>
+                <NoteDescription value={note?.description} />
+            </Box>
 
             <Dialog
                 open={open}

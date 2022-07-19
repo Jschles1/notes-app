@@ -23,64 +23,47 @@ const Breadcrumbs: React.FC = () => {
             <Box
                 sx={{
                     display: 'flex',
-                    alignItems: 'space-around',
                     justifyContent: 'space-between',
                 }}
             >
-                <Link href="/folders">Your Folders</Link>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'space-around',
+                        // justifyContent: 'space-between',
+                    }}
+                >
+                    <Link href={`/folders/${folderId}/notes`}>
+                        <Skeleton width="100px">{selectedFolder}</Skeleton>
+                    </Link>
 
-                {folderId && selectedFolder ? (
-                    <>
-                        <BreadcrumbArrow />
-                        <Link href={`/folders/${folderId}/notes`}>
-                            <Skeleton width="100px">{selectedFolder}</Skeleton>
-                        </Link>
-
-                        {!!selectedNote ? (
-                            <>
-                                <BreadcrumbArrow />
-                                <Link href={`/folders/${folderId}/notes/${noteId}`}>
-                                    <Skeleton width="100px">{selectedNote.name}</Skeleton>
-                                </Link>
-                            </>
-                        ) : null}
-
-                        {router.pathname === '/create-note' ? (
-                            <>
-                                <BreadcrumbArrow />
-                                <Link href={`/create-note?folderId=${folderId}`}>Create Note</Link>
-                            </>
-                        ) : null}
-                    </>
-                ) : null}
-
-                {router.pathname === '/create-folder' ? (
-                    <>
-                        <BreadcrumbArrow />
-                        <Link href="/create-folder">Create Folder</Link>
-                    </>
-                ) : null}
-
-                {!folderId && router.pathname === '/create-note' ? (
-                    <>
-                        <BreadcrumbArrow />
-                        <Link href="/create-note">Choose Folder</Link>
-                    </>
-                ) : null}
+                    {!!selectedNote ? (
+                        <>
+                            <BreadcrumbArrow />
+                            <Link href={`/folders/${folderId}/notes/${noteId}`}>
+                                <Skeleton width="100px">{selectedNote.name}</Skeleton>
+                            </Link>
+                        </>
+                    ) : null}
+                </Box>
             </Box>
         );
     };
 
     return (
-        <Card
+        <Box
             sx={{
-                fontSize: '12px',
-                paddingY: 1,
-                display: 'inline-block',
+                // fontSize: '16px',
+                paddingTop: 3,
+                paddingBottom: 2,
+                // display: 'inline-block',
+                borderBottom: '2px solid',
+                borderColor: 'bg.main',
+                fontWeight: 'bold',
             }}
         >
             {renderBreadcrumbs()}
-        </Card>
+        </Box>
     );
 };
 
