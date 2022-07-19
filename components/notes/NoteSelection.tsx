@@ -9,18 +9,29 @@ import Button from '../ui/Button';
 import Link from '../ui/Link';
 import LoadingIndicator from '../ui/LoadingIndicator';
 import { selectSelectedFolder } from '../../store/folders/selectors';
-import { selectNotes } from '../../store/notes/selectors';
+import { selectNotes, selectNotesSearchQuery } from '../../store/notes/selectors';
 import { fetchNotesInit } from '../../store/notes/reducer';
 import { selectIsLoading } from '../../store/loading/selectors';
+import { decodeHtml } from '../../lib/helpers';
 
 const NoteSelection: React.FC = () => {
     const dispatch = useDispatch();
     const selectedFolder = useSelector(selectSelectedFolder);
     const notes = useSelector(selectNotes);
+    const searchQuery = useSelector(selectNotesSearchQuery);
     const isLoading = useSelector(selectIsLoading);
     const router = useRouter();
 
     const folderId = router.query.folderId as string;
+
+    const selectedNotes = notes.filter((note) => {
+        return (
+            note.name.toLowerCase().includes(searchQuery) ||
+            decodeHtml(note.description).toLowerCase().includes(searchQuery)
+        );
+    });
+
+    console.log('selectedNotes', selectedNotes);
 
     React.useEffect(() => {
         dispatch(fetchNotesInit(folderId));
@@ -46,7 +57,7 @@ const NoteSelection: React.FC = () => {
                 <LoadingIndicator />
             ) : (
                 <Box sx={{ marginTop: 3 }}>
-                    {notes.length ? <NotesList notes={notes} /> : <Box>No notes found.</Box>}
+                    {selectedNotes.length ? <NotesList notes={selectedNotes} /> : <Box>No notes found.</Box>}
                 </Box>
             )}
         </SelectionContainer>
