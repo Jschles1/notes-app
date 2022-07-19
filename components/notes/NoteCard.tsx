@@ -31,7 +31,7 @@ const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description, update
                     },
                 }}
             >
-                <Box sx={{ fontSize: 14 }}>{formatDate(updatedAt)}</Box>
+                <Box sx={{ fontSize: 14, color: 'primary.light' }}>{formatDate(updatedAt)}</Box>
                 <Box
                     sx={{
                         fontWeight: 'bold',
