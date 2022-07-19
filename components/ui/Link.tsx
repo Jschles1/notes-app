@@ -84,7 +84,17 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
     }
 
     return (
-        <MuiLink component={NextLinkComposed} linkAs={linkAs} className={className} ref={ref} to={href} {...other} />
+        <MuiLink
+            component={NextLinkComposed}
+            linkAs={linkAs}
+            className={className}
+            ref={ref}
+            to={href}
+            sx={{
+                textDecoration: 'none',
+            }}
+            {...other}
+        />
     );
 });
 
