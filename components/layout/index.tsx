@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import Head from 'next/head';
-import Header from './Header';
 import { selectUser } from '../../store/auth/selectors';
 import Navigation from './Navigation';
 import NoteSelection from '../notes/NoteSelection';
@@ -17,9 +16,6 @@ const Layout: React.FC<Props> = ({ children }) => {
     const user = useSelector(selectUser);
 
     const isLoggedIn = !!user;
-    const centeredLayoutRoutes = ['/create-folder'];
-    const isCentered = !isLoggedIn || centeredLayoutRoutes.includes(router.pathname);
-
     const isNotePage = router.pathname.includes('/notes');
 
     return (
@@ -27,7 +23,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             sx={{
                 height: '100vh',
                 display: 'flex',
-                // flexDirection: 'column',
+                maxWidth: '100vw',
+                overflowX: 'hidden',
             }}
         >
             <Head>
@@ -35,8 +32,6 @@ const Layout: React.FC<Props> = ({ children }) => {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            {/* <Header isLoggedIn={isLoggedIn} />
-            {renderContent()} */}
             {isLoggedIn ? (
                 <>
                     <Navigation />
@@ -46,8 +41,6 @@ const Layout: React.FC<Props> = ({ children }) => {
             ) : (
                 <>{children}</>
             )}
-            {/* <Navigation /> */}
-            {/* {children} */}
         </Box>
     );
 };

@@ -37,15 +37,7 @@ const NoteDetailPage: NextPage = () => {
     // TODO: redirect if notes are present and note not found
 
     return (
-        <Box
-            sx={{
-                maxWidth: '80%',
-                margin: '0 auto',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-            }}
-        >
+        <Box sx={{ flex: 1 }}>
             <NoteDetail note={note} folderId={folderId} noteId={noteId} />
         </Box>
     );
