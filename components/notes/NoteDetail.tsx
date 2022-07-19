@@ -52,15 +52,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
 
     console.log('NoteEditor', NoteEditor);
 
-    return isUpdating ? (
-        <NoteEditor
-            name={note.name}
-            description={note.description}
-            onSubmit={onUpdate}
-            onCancel={() => setIsUpdating(false)}
-            isUpdating
-        />
-    ) : (
+    return (
         <>
             <Box
                 sx={{
@@ -72,60 +64,72 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                     flexDirection: 'column',
                 }}
             >
-                <Breadcrumbs />
-                <Box
-                    sx={{
-                        marginTop: 3,
-                        display: 'flex',
-                        alignItems: 'start',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Box>
-                        <Typography
-                            variant="h4"
+                {isUpdating ? (
+                    <NoteEditor
+                        name={note.name}
+                        description={note.description}
+                        onSubmit={onUpdate}
+                        onCancel={() => setIsUpdating(false)}
+                        isUpdating
+                    />
+                ) : (
+                    <>
+                        <Breadcrumbs />
+                        <Box
                             sx={{
-                                marginBottom: 1,
-                                marginTop: 0,
-                                lineHeight: 1,
-                                fontWeight: 'bold',
+                                marginTop: 3,
+                                display: 'flex',
+                                alignItems: 'start',
+                                justifyContent: 'space-between',
                             }}
                         >
-                            <Skeleton width="250px">{note?.name}</Skeleton>
-                        </Typography>
-                        <Typography paragraph sx={{ marginBottom: 0 }}>
-                            <Skeleton width="250px">
-                                <Typography component="span" sx={{ color: 'primary.light' }}>
-                                    Last updated:
-                                </Typography>{' '}
-                                {formatDate(note?.updatedAt)}
-                            </Skeleton>
-                        </Typography>
-                    </Box>
+                            <Box>
+                                <Typography
+                                    variant="h4"
+                                    sx={{
+                                        marginBottom: 1,
+                                        marginTop: 0,
+                                        lineHeight: 1,
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    <Skeleton width="250px">{note?.name}</Skeleton>
+                                </Typography>
+                                <Typography paragraph sx={{ marginBottom: 0 }}>
+                                    <Skeleton width="250px">
+                                        <Typography component="span" sx={{ color: 'primary.light' }}>
+                                            Last updated:
+                                        </Typography>{' '}
+                                        {formatDate(note?.updatedAt)}
+                                    </Skeleton>
+                                </Typography>
+                            </Box>
 
-                    <Box>
-                        <Button
-                            color="bg.main"
-                            sx={{ marginRight: 2, fontSize: '12px' }}
-                            onClick={() => setIsUpdating(true)}
-                            startIcon={<Edit />}
-                            disabled={isLoading}
-                        >
-                            Update
-                        </Button>
-                        <OptionButton
-                            variant="warning"
-                            onClick={() => setOpen(true)}
-                            sx={{ fontSize: '12px' }}
-                            startIcon={<Delete />}
-                            disabled={isLoading}
-                        >
-                            Delete Note
-                        </OptionButton>
-                    </Box>
-                </Box>
+                            <Box>
+                                <Button
+                                    color="bg.main"
+                                    sx={{ marginRight: 2, fontSize: '12px' }}
+                                    onClick={() => setIsUpdating(true)}
+                                    startIcon={<Edit />}
+                                    disabled={isLoading}
+                                >
+                                    Update
+                                </Button>
+                                <OptionButton
+                                    variant="warning"
+                                    onClick={() => setOpen(true)}
+                                    sx={{ fontSize: '12px' }}
+                                    startIcon={<Delete />}
+                                    disabled={isLoading}
+                                >
+                                    Delete Note
+                                </OptionButton>
+                            </Box>
+                        </Box>
 
-                <NoteDescription value={note?.description} />
+                        <NoteDescription value={note?.description} />
+                    </>
+                )}
             </Box>
 
             <Dialog
