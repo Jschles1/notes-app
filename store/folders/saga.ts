@@ -69,7 +69,6 @@ export function* updateFolderSaga(action) {
         const data = yield response.json();
         yield put(updateFolderSuccess({ name: data.data.name, _id }));
         yield put(toggleLoading());
-        // yield put(setSelectedFolder(data.data.name));
         yield put(setUpdating(''));
         yield put(
             setAlert({
@@ -101,7 +100,11 @@ export function* deleteFolderSaga(action) {
                 message: 'Folder Successfully Deleted!',
             })
         );
-        yield put(setRedirect('/folders'));
+        if (window.location.href.includes(id)) {
+            yield put(setRedirect('/folders'));
+        } else {
+            yield put(toggleLoading());
+        }
     } catch (e) {
         yield put(toggleLoading());
         yield put(deleteFolderFail());
