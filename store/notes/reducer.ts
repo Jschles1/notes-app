@@ -6,6 +6,7 @@ const initialState = {
     notes: [],
     selected: null,
     isCreatingNote: false,
+    searchQuery: '',
 };
 
 const notesSlice = createSlice({
@@ -58,6 +59,9 @@ const notesSlice = createSlice({
             state.selected = null;
         },
         deleteNoteFail() {},
+        setSearchQuery(state, action) {
+            state.searchQuery = action.payload;
+        },
         resetNotes: () => initialState,
     },
     extraReducers: {
@@ -83,8 +87,7 @@ export const {
     deleteNoteInit,
     deleteNoteSuccess,
     deleteNoteFail,
-    // setSelectedNote,
-    // toggleCreateNote,
+    setSearchQuery,
     resetNotes,
 } = notesSlice.actions;
 
