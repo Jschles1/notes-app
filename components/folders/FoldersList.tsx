@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, useMediaQuery } from '@mui/material';
 import Link from '../ui/Link';
 import FolderLink from './FolderLink';
 import { selectFolders } from '../../store/folders/selectors';
@@ -11,13 +11,16 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
+    // const sm = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+    console.log('fodlers', folders);
     return (
         <Box
             sx={{
                 flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                marginTop: isNav ? 2 : 'auto',
+                marginTop: isNav ? 0 : 'auto',
+                maxHeight: isNav ? '74%' : 'auto',
             }}
         >
             <Link
@@ -39,7 +42,7 @@ const FoldersList: React.FC<Props> = ({ isNav = false }) => {
                 spacing={2}
             >
                 {folders.map((folder) => (
-                    <FolderLink _id={folder._id} name={folder.name} isNav={isNav} />
+                    <FolderLink key={folder._id} _id={folder._id} name={folder.name} isNav={isNav} />
                 ))}
             </Stack>
         </Box>
