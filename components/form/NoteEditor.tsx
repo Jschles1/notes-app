@@ -7,7 +7,7 @@ import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Cancel from '@mui/icons-material/Cancel';
 import { useForm, Controller } from 'react-hook-form';
 import TextInput from '../ui/TextInput';
-import BasicButton from '../ui/BasicButton';
+import Button from '../ui/Button';
 import EditorContainer from '../ui/EditorContainer';
 
 interface Props {
@@ -18,7 +18,13 @@ interface Props {
     isUpdating?: boolean;
 }
 
-const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, onCancel }) => {
+const NoteEditor: React.FC<Props> = ({
+    name,
+    description,
+    onSubmit,
+    isUpdating,
+    onCancel,
+}) => {
     const [editorHeight, setEditorHeight] = React.useState('');
     const rootRef = React.useRef() as any;
     const { control, handleSubmit, formState, setValue } = useForm({
@@ -31,7 +37,11 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
     React.useEffect(() => {
         function changeEditorHeight(): void {
             setTimeout((): void => {
-                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - 109}px`);
+                setEditorHeight(
+                    `${
+                        rootRef?.current?.getBoundingClientRect().height - 109
+                    }px`
+                );
             }, 0);
         }
 
@@ -88,7 +98,8 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                     }}
                 >
                     {isUpdating ? (
-                        <BasicButton
+                        <Button
+                            color="bg.main"
                             onClick={onCancel}
                             startIcon={<Cancel />}
                             sx={{
@@ -98,9 +109,10 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                             }}
                         >
                             Cancel
-                        </BasicButton>
+                        </Button>
                     ) : null}
-                    <BasicButton
+                    <Button
+                        color="bg.main"
                         onClick={handleSubmit(onSubmit)}
                         startIcon={<ArrowUpward />}
                         sx={{
@@ -109,7 +121,7 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                         }}
                     >
                         Submit
-                    </BasicButton>
+                    </Button>
                 </Box>
             </Box>
 
