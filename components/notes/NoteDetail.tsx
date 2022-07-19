@@ -7,18 +7,21 @@ import { Note } from '../../interfaces';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import { formatDate } from '../../lib/helpers';
+import Breadcrumbs from '../layout/Breadcrumbs';
+import LoadingIndicator from '../ui/LoadingIndicator';
 import Skeleton from '../ui/Skeleton';
 import Button from '../ui/Button';
 import OptionButton from '../ui/OptionButton';
 import { deleteNoteInit, updateNoteInit } from '../../store/notes/reducer';
-import Breadcrumbs from '../layout/Breadcrumbs';
 
 const NoteEditor = dynamic(() => import('../form/NoteEditor'), {
     ssr: false,
+    loading: () => <LoadingIndicator />,
 });
 
 const NoteDescription = dynamic(() => import('./NoteDescription'), {
     ssr: false,
+    loading: () => <LoadingIndicator />,
 });
 
 interface Props {
