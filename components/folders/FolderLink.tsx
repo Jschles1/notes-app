@@ -106,6 +106,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                     {isUpdatingCurrentFolder ? (
                         <Box>
                             <TextInput
+                                variant={isNav ? 'white' : 'gray'}
                                 autoFocus
                                 required
                                 {...register('name')}
