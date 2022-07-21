@@ -14,6 +14,7 @@ const MobileNavigation: React.FC = () => {
     return (
         <>
             <AppBar
+                elevation={0}
                 position="sticky"
                 sx={{
                     backgroundColor: 'secondary.light',
@@ -21,7 +22,7 @@ const MobileNavigation: React.FC = () => {
                     boxShadow: 'none',
                 }}
             >
-                <Toolbar>
+                <Toolbar sx={{ borderBottom: '2px solid #eee' }}>
                     <Box
                         sx={{
                             display: 'flex',

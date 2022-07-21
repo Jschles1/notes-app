@@ -30,13 +30,21 @@ const Layout: React.FC<Props> = ({ children }) => {
             </Head>
             <Box>{isMobile && isLoggedIn ? <MobileNavigation /> : null}</Box>
             <Box
-                sx={{
-                    height: isMobile ? 'calc(100vh - 56px)' : '100vh',
-                    display: 'flex',
-                    maxWidth: '100vw',
-                    overflowX: 'hidden',
-                    position: 'relative',
-                }}
+                sx={[
+                    {
+                        height: isMobile ? 'calc(100vh - 56px)' : '100vh',
+                        display: 'flex',
+                        maxWidth: '100vw',
+                        overflowX: 'hidden',
+                        position: 'relative',
+                    },
+                    isMobile || !isLoggedIn
+                        ? {
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                          }
+                        : {},
+                ]}
             >
                 {isLoggedIn && !isMobile ? (
                     <>
