@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { signOut } from 'next-auth/react';
 import { useDispatch } from 'react-redux';
-import NextImage from 'next/image';
 import { Box, Menu, MenuItem, ClickAwayListener } from '@mui/material';
 import DownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -20,7 +19,6 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const buttonRef = React.useRef();
-    console.log('user', user);
 
     const handleSignOut = async () => {
         dispatch(resetFolders());
