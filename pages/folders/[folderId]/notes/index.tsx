@@ -3,9 +3,9 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { serverSideAuthentication } from '../../../../lib/auth';
-import { fetchNotesInit } from '../../../../store/notes/reducer';
-import { selectRedirect } from '../../../../store/history/selectors';
-import { clearRedirect } from '../../../../store/history/reducer';
+import { fetchNotesInit } from '@store/notes/reducer';
+import { selectRedirect } from '@store/history/selectors';
+import { clearRedirect } from '@store/history/reducer';
 
 export const getServerSideProps = serverSideAuthentication();
 

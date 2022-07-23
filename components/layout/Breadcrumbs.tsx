@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/system';
-import Card from '../ui/Card';
 import Link from '../ui/Link';
 import Skeleton from '../ui/Skeleton';
 import { selectSelectedFolder } from '../../store/folders/selectors';

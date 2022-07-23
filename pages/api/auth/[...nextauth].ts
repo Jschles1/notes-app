@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import mongoose from 'mongoose';
-import User from '../../../lib/server/models/User';
-import Folder from '../../../lib/server/models/Folder';
-import connectToDatabase from '../../../lib/server/connectToDatabase';
+import User from '@lib/server/models/User';
+import Folder from '@lib/server/models/Folder';
+import connectToDatabase from '@lib/server/connectToDatabase';
 
 export default NextAuth({
     session: {

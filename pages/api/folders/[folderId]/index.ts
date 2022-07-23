@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import mongoose from 'mongoose';
-import User from '../../../../lib/server/models/User';
-import Folder from '../../../../lib/server/models/Folder';
-import connectToDatabase from '../../../../lib/server/connectToDatabase';
+import User from '@lib/server/models/User';
+import Folder from '@lib/server/models/Folder';
+import connectToDatabase from '@lib/server/connectToDatabase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });

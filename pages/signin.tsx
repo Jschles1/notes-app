@@ -1,10 +1,10 @@
 import { Box } from '@mui/system';
 import { NextPage } from 'next';
 import { getSession, signIn } from 'next-auth/react';
-import Card from '../components/ui/Card';
-import { wrapper } from '../store';
-import { setUser } from '../store/auth/reducer';
-import BasicButton from '../components/ui/BasicButton';
+import Card from '@components/ui/Card';
+import { wrapper } from '@store/index';
+import { setUser } from '@store/auth/reducer';
+import BasicButton from '@components/ui/BasicButton';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
     const session = await getSession({ req: ctx.req });

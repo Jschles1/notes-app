@@ -2,9 +2,9 @@ import * as React from 'react';
 import { AppProps } from 'next/app';
 import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
-import { wrapper } from '../store';
+import { wrapper } from '@store/index';
 import theme from '../lib/theme';
-import Layout from '../components/layout';
+import Layout from '@components/layout';
 
 const globalStyles = (
     <GlobalStyles

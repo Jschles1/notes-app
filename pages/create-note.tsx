@@ -4,18 +4,16 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { Box } from '@mui/material';
-// import NoteForm from '../components/form/NoteForm';
-import ChooseFolder from '../components/form/ChooseFolder';
-import { fetchFoldersInit, setSelectedFolder } from '../store/folders/reducer';
-import { selectSelectedFolder, selectFolders } from '../store/folders/selectors';
-import { createNoteInit } from '../store/notes/reducer';
-import { selectRedirect } from '../store/history/selectors';
-import { clearRedirect } from '../store/history/reducer';
+import { fetchFoldersInit, setSelectedFolder } from '@store/folders/reducer';
+import { selectSelectedFolder, selectFolders } from '@store/folders/selectors';
+import { createNoteInit } from '@store/notes/reducer';
+import { selectRedirect } from '@store/history/selectors';
+import { clearRedirect } from '@store/history/reducer';
 import { serverSideAuthentication } from '../lib/auth';
-import LoadingIndicator from '../components/ui/LoadingIndicator';
-import { selectIsLoading } from '../store/loading/selectors';
+import LoadingIndicator from '@components/ui/LoadingIndicator';
+import { selectIsLoading } from '@store/loading/selectors';
 
-const NoteEditor = dynamic(() => import('../components/form/NoteEditor'), {
+const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
 });
 

@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
-import CreateFolderForm from '../components/form/CreateFolderForm';
+import CreateFolderForm from '@components/form/CreateFolderForm';
 import { serverSideAuthentication } from '../lib/auth';
-import { createFolderInit } from '../store/folders/reducer';
-import { selectRedirect } from '../store/history/selectors';
-import { clearRedirect } from '../store/history/reducer';
+import { createFolderInit } from '@store/folders/reducer';
+import { selectRedirect } from '@store/history/selectors';
+import { clearRedirect } from '@store/history/reducer';
 
 export const getServerSideProps = serverSideAuthentication();
 

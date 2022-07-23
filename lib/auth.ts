@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
-import { wrapper } from '../store';
-import { setUser } from '../store/auth/reducer';
+import { wrapper } from '@store/index';
+import { setUser } from '@store/auth/reducer';
 
 export const serverSideAuthentication = () =>
     wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
