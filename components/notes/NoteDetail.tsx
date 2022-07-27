@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
-import { selectIsLoading } from '../../store/loading/selectors';
+import { Box, Typography } from '@mui/material';
+import { selectIsLoading } from '@store/loading/selectors';
 import { Note } from '../../interfaces';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
-import { formatDate } from '../../lib/helpers';
-import Breadcrumbs from '../layout/Breadcrumbs';
-import LoadingIndicator from '../ui/LoadingIndicator';
-import Skeleton from '../ui/Skeleton';
-import Button from '../ui/Button';
-import OptionButton from '../ui/OptionButton';
-import { deleteNoteInit, updateNoteInit } from '../../store/notes/reducer';
+import { formatDate } from '@lib/helpers';
+import Breadcrumbs from '@components/layout/Breadcrumbs';
+import LoadingIndicator from '@components/ui/LoadingIndicator';
+import Skeleton from '@components/ui/Skeleton';
+import Button from '@components/ui/Button';
+import OptionButton from '@components/ui/OptionButton';
+import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
+import { deleteNoteInit, updateNoteInit } from '@store/notes/reducer';
 
-const NoteEditor = dynamic(() => import('../form/NoteEditor'), {
+const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
     loading: () => <LoadingIndicator />,
 });
@@ -139,27 +140,13 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                 )}
             </Box>
 
-            <Dialog
+            <DeleteConfirmationModal
                 open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="delete-confirm-title"
-                aria-describedby="delete-confirm-description"
-            >
-                <DialogTitle id="delete-confirm-title">{'Delete Note?'}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="delete-confirm-description">
-                        Are you sure you want to delete "{note?.name}"?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="outlined" color="success" onClick={onDelete} disabled={isLoading}>
-                        Confirm
-                    </Button>
-                    <Button variant="outlined" color="error" onClick={handleClose} autoFocus disabled={isLoading}>
-                        Cancel
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                type="Note"
+                onClose={handleClose}
+                name={note?.name}
+                onConfirm={onDelete}
+            />
         </>
     );
 };

@@ -2,29 +2,20 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import {
-    Box,
-    Collapse,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Grid,
-    IconButton,
-} from '@mui/material';
+import { Box, Collapse, Grid, IconButton } from '@mui/material';
 import FolderIcon from '@mui/icons-material/FolderRounded';
 import MoreIcon from '@mui/icons-material/MoreHorizRounded';
 import { Folder } from '../../interfaces';
-import Skeleton from '../ui/Skeleton';
-import Button from '../ui/Button';
-import TextInput from '../ui/TextInput';
-import Link from '../ui/Link';
-import OptionButton from '../ui/OptionButton';
-import { selectUpdatingFolder } from '../../store/folders/selectors';
-import { deleteFolderInit, setUpdating, updateFolderInit } from '../../store/folders/reducer';
-import { selectUser } from '../../store/auth/selectors';
-import { selectIsLoading } from '../../store/loading/selectors';
+import Skeleton from '@components/ui/Skeleton';
+import Button from '@components/ui/Button';
+import TextInput from '@components/ui/TextInput';
+import Link from '@components/ui/Link';
+import OptionButton from '@components/ui/OptionButton';
+import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
+import { selectUpdatingFolder } from '@store/folders/selectors';
+import { deleteFolderInit, setUpdating, updateFolderInit } from '@store/folders/reducer';
+import { selectUser } from '@store/auth/selectors';
+import { selectIsLoading } from '@store/loading/selectors';
 
 interface Props extends Omit<Folder, 'user'> {
     isNav?: boolean;
@@ -175,27 +166,13 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                 </Box>
             </Skeleton>
 
-            <Dialog
+            <DeleteConfirmationModal
+                type="Folder"
                 open={isModalOpen}
+                name={name}
+                onConfirm={onDeleteFolderConfirm}
                 onClose={handleModalClose}
-                aria-labelledby="delete-confirm-title"
-                aria-describedby="delete-confirm-description"
-            >
-                <DialogTitle id="delete-confirm-title">{'Delete Folder?'}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="delete-confirm-description">
-                        Are you sure you want to delete "{name}"?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <OptionButton variant="success" onClick={onDeleteFolderConfirm} disabled={isLoading}>
-                        Confirm
-                    </OptionButton>
-                    <OptionButton variant="warning" onClick={handleModalClose} autoFocus disabled={isLoading}>
-                        Cancel
-                    </OptionButton>
-                </DialogActions>
-            </Dialog>
+            />
         </>
     );
 };
