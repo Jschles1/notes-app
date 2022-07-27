@@ -34,7 +34,7 @@ const AddButtonBase: React.FC<Omit<ButtonProps, 'children'> & { text: string }> 
     ...other
 }) => (
     <Button startIcon={<AddIcon />} {...other} fullWidth={fullWidth}>
-        Add New Folder
+        {text}
     </Button>
 );
 

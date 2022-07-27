@@ -2,17 +2,16 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import NotesList from './NotesList';
-import SelectionContainer from '../layout/SelectionContainer';
-import Button from '../ui/Button';
-import Link from '../ui/Link';
-import LoadingIndicator from '../ui/LoadingIndicator';
-import { selectSelectedFolder } from '../../store/folders/selectors';
-import { selectNotes, selectNotesSearchQuery } from '../../store/notes/selectors';
-import { fetchNotesInit } from '../../store/notes/reducer';
-import { selectIsLoading } from '../../store/loading/selectors';
-import { decodeHtml } from '../../lib/helpers';
+import SelectionContainer from '@components/layout/SelectionContainer';
+import AddButton from '@components/ui/AddButton';
+import LoadingIndicator from '@components/ui/LoadingIndicator';
+import { selectSelectedFolder } from '@store/folders/selectors';
+import { selectNotes, selectNotesSearchQuery } from '@store/notes/selectors';
+import { fetchNotesInit } from '@store/notes/reducer';
+import { selectIsLoading } from '@store/loading/selectors';
+import { decodeHtml } from '@lib/helpers';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
 
 const NoteSelection: React.FC = () => {
     const dispatch = useDispatch();
@@ -21,6 +20,7 @@ const NoteSelection: React.FC = () => {
     const searchQuery = useSelector(selectNotesSearchQuery);
     const isLoading = useSelector(selectIsLoading);
     const router = useRouter();
+    const { isMobile } = useMediaQuery();
 
     const folderId = router.query.folderId as string;
 
@@ -31,28 +31,26 @@ const NoteSelection: React.FC = () => {
         );
     });
 
-    console.log('selectedNotes', selectedNotes);
-
     React.useEffect(() => {
         dispatch(fetchNotesInit(folderId));
     }, [folderId]);
 
     return (
         <SelectionContainer>
-            <Box
-                sx={{
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                    marginBottom: '27px',
-                }}
-            >
-                {selectedFolder}
-            </Box>
-            <Link href={`/create-note?folderId=${folderId}`} sx={{ textDecoration: 'none' }}>
-                <Button color="bg.main" fullWidth startIcon={<AddIcon />}>
-                    Add New Note
-                </Button>
-            </Link>
+            {!isMobile && (
+                <>
+                    <Box
+                        sx={{
+                            fontSize: 24,
+                            fontWeight: 'bold',
+                            marginBottom: '27px',
+                        }}
+                    >
+                        {selectedFolder}
+                    </Box>
+                    <AddButton color="bg.main" resource="note" />
+                </>
+            )}
             {isLoading ? (
                 <LoadingIndicator />
             ) : (

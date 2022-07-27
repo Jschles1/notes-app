@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import { renderDescriptionFirstLine, decodeHtml, formatDate } from '../../lib/helpers';
-import Link from '../ui/Link';
+import { renderDescriptionFirstLine, decodeHtml, formatDate } from '@lib/helpers';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
+import Link from '@components/ui/Link';
 
 interface Props {
     folderId: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description, updatedAt, selectedNote }) => {
+    const { isMobile } = useMediaQuery();
     const isSelected = noteId === selectedNote;
     return (
         <Link href={`/folders/${folderId}/notes/${noteId}`} sx={{ textDecoration: 'none' }}>
@@ -24,7 +26,7 @@ const NoteCard: React.FC<Props> = ({ folderId, noteId, name, description, update
                     padding: 2,
                     borderRadius: 2,
                     transition: 'opacity 250ms',
-                    opacity: isSelected ? 1 : 0.5,
+                    opacity: isSelected || isMobile ? 1 : 0.5,
                     '&:hover': {
                         opacity: 1,
                         cursor: 'pointer',
