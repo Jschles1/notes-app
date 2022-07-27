@@ -10,12 +10,10 @@ import Skeleton from '@components/ui/Skeleton';
 import Button from '@components/ui/Button';
 import TextInput from '@components/ui/TextInput';
 import Link from '@components/ui/Link';
-import OptionButton from '@components/ui/OptionButton';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import { selectUpdatingFolder } from '@store/folders/selectors';
 import { deleteFolderInit, setUpdating, updateFolderInit } from '@store/folders/reducer';
 import { selectUser } from '@store/auth/selectors';
-import { selectIsLoading } from '@store/loading/selectors';
 
 interface Props extends Omit<Folder, 'user'> {
     isNav?: boolean;
@@ -25,7 +23,6 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const updatingFolder = useSelector(selectUpdatingFolder);
-    const isLoading = useSelector(selectIsLoading);
     const user = useSelector(selectUser);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
