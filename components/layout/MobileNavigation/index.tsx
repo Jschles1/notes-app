@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { AppBar, Toolbar, IconButton } from '@mui/material';
 import NavigationDrawer from './NavigationDrawer';
 import MobileUserInfo from './MobileUserInfo';
+import MobileBreadcrumbs from './MobileBreadcrumbs';
 import MoreIcon from '@mui/icons-material/MoreHorizRounded';
 
 import { selectUser } from '../../../store/auth/selectors';
@@ -12,7 +13,7 @@ const MobileNavigation: React.FC = () => {
     const router = useRouter();
     const user = useSelector(selectUser);
     const [open, setOpen] = React.useState(false);
-    const showBreadcrumbs = router.pathname.includes('/notes');
+    const showBreadcrumbs = !!router.query.noteId;
 
     return (
         <>
@@ -26,13 +27,9 @@ const MobileNavigation: React.FC = () => {
                 }}
             >
                 <Toolbar sx={{ borderBottom: '2px solid #eee' }}>
-                    {showBreadcrumbs ? null : <MobileUserInfo user={user} />}
+                    {showBreadcrumbs ? <MobileBreadcrumbs /> : <MobileUserInfo user={user} />}
 
-                    <IconButton
-                        color="primary"
-                        disableRipple
-                        onClick={() => setOpen(true)}
-                    >
+                    <IconButton color="primary" disableRipple onClick={() => setOpen(true)}>
                         <MoreIcon />
                     </IconButton>
                 </Toolbar>

@@ -37,20 +37,18 @@ const NoteSelection: React.FC = () => {
 
     return (
         <SelectionContainer>
-            {!isMobile && (
-                <>
-                    <Box
-                        sx={{
-                            fontSize: 24,
-                            fontWeight: 'bold',
-                            marginBottom: '27px',
-                        }}
-                    >
-                        {selectedFolder}
-                    </Box>
-                    <AddButton color="bg.main" resource="note" />
-                </>
-            )}
+            <Box
+                sx={{
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                    marginTop: isMobile ? 2 : 0,
+                    marginBottom: isMobile ? '27px' : 2,
+                }}
+            >
+                {selectedFolder}
+            </Box>
+            {!isMobile && <AddButton color="bg.main" resource="note" />}
+
             {isLoading ? (
                 <LoadingIndicator />
             ) : (

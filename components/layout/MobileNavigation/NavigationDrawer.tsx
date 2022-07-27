@@ -18,7 +18,11 @@ interface Props {
 const NavigationDrawer: React.FC<Props> = ({ open, onClose }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-    // TODO: render different links based on router
+    const folderId = router.query.folderId;
+    const noteId = router.query.noteId;
+
+    const showFolderOptions = folderId && !noteId;
+    const showNoteOptions = folderId && noteId;
 
     const handleSignOut = async () => {
         dispatch(resetFolders());
@@ -48,6 +52,22 @@ const NavigationDrawer: React.FC<Props> = ({ open, onClose }) => {
                     <Link href="/create-folder" passHref>
                         <AddButton variant="drawer" resource="folder" />
                     </Link>
+                    {showFolderOptions && (
+                        <>
+                            <ListItem button onClick={() => {}}>
+                                <ListItemIcon>
+                                    <UserIcon color="primary" />
+                                </ListItemIcon>
+                                <ListItemText primary="Update Folder" />
+                            </ListItem>
+                            <ListItem button onClick={() => {}}>
+                                <ListItemIcon>
+                                    <UserIcon color="primary" />
+                                </ListItemIcon>
+                                <ListItemText primary="Delete Folder" />
+                            </ListItem>
+                        </>
+                    )}
                 </List>
                 <Divider />
                 <List>
