@@ -5,10 +5,10 @@ import { signOut } from 'next-auth/react';
 import { Box, Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@mui/material';
 import UserIcon from '@mui/icons-material/AccountCircleRounded';
 import FolderIcon from '@mui/icons-material/FolderRounded';
-import AddIcon from '@mui/icons-material/Add';
-import Link from '../../ui/Link';
-import { resetFolders } from '../../../store/folders/reducer';
-import { resetNotes } from '../../../store/notes/reducer';
+import Link from '@components/ui/Link';
+import AddButton from '@components/ui/AddButton';
+import { resetFolders } from '@store/folders/reducer';
+import { resetNotes } from '@store/notes/reducer';
 
 interface Props {
     open: boolean;
@@ -46,12 +46,7 @@ const NavigationDrawer: React.FC<Props> = ({ open, onClose }) => {
                 <Divider />
                 <List>
                     <Link href="/create-folder" passHref>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AddIcon color="primary" />
-                            </ListItemIcon>
-                            <ListItemText primary="Add New Folder" />
-                        </ListItem>
+                        <AddButton variant="drawer" resource="folder" />
                     </Link>
                 </List>
                 <Divider />

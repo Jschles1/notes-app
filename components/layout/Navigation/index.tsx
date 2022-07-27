@@ -1,14 +1,12 @@
 import * as React from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Box, styled } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { selectUser } from '../../../store/auth/selectors';
+import { selectUser } from '@store/auth/selectors';
 import UserDropdown from './UserDropdown';
-import NoteSearchInput from '../../notes/NoteSearchInput';
-import FoldersList from '../../folders/FoldersList';
-import Button from '../../ui/Button';
+import NoteSearchInput from '@components/notes/NoteSearchInput';
+import FoldersList from '@components/folders/FoldersList';
+import AddButton from '@components/ui/AddButton';
 
 const NavigationContainer = styled(Box)(({ theme }) => ({
     height: '100%',
@@ -25,6 +23,7 @@ const Navigation: React.FC = () => {
     const user = useSelector(selectUser);
     const hasNotes = router.pathname.includes('notes');
     const isFoldersPage = router.pathname === '/folders';
+
     return (
         <NavigationContainer>
             <Box>
@@ -32,9 +31,7 @@ const Navigation: React.FC = () => {
                 {hasNotes && <NoteSearchInput />}
             </Box>
             {!isFoldersPage && <FoldersList isNav />}
-            <NextLink href="/create-folder" passHref>
-                <Button startIcon={<AddIcon />}>Add New Folder</Button>
-            </NextLink>
+            <AddButton resource="folder" />
         </NavigationContainer>
     );
 };

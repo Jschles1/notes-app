@@ -33,13 +33,14 @@ const Layout: React.FC<Props> = ({ children }) => {
                 sx={[
                     {
                         height: isMobile ? 'calc(100vh - 56px)' : '100vh',
-                        display: 'flex',
+                        display: isMobile ? 'block' : 'flex',
                         maxWidth: '100vw',
-                        overflowX: 'hidden',
+                        overflow: 'hidden',
                         position: 'relative',
                     },
-                    isMobile || !isLoggedIn
+                    isMobile && !isLoggedIn
                         ? {
+                              display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
                           }
