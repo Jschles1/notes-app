@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box } from '@mui/material';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '../../ckeditor5/build/ckeditor';
-import EditorContainer from '../ui/EditorContainer';
+import EditorContainer from '../layout/EditorContainer';
 
 interface Props {
     value: string;

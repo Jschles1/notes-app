@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import NotesList from './NotesList';
-import SelectionContainer from '../ui/SelectionContainer';
+import SelectionContainer from '../layout/SelectionContainer';
 import Button from '../ui/Button';
 import Link from '../ui/Link';
 import LoadingIndicator from '../ui/LoadingIndicator';

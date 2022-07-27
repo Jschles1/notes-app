@@ -7,7 +7,7 @@ import Cancel from '@mui/icons-material/Cancel';
 import { useForm, Controller } from 'react-hook-form';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
-import EditorContainer from '../ui/EditorContainer';
+import EditorContainer from '../layout/EditorContainer';
 
 interface Props {
     onSubmit(data): void;
