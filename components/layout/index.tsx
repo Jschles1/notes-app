@@ -21,6 +21,8 @@ const Layout: React.FC<Props> = ({ children }) => {
     const isLoggedIn = !!user;
     const isNotePage = router.pathname.includes('/notes') || router.pathname === '/create-note';
 
+    const isCenteredMobileLayout = isMobile && ['/create-folder', '/signin'].includes(router.pathname);
+
     return (
         <Box>
             <Head>
@@ -38,7 +40,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                         overflow: 'hidden',
                         position: 'relative',
                     },
-                    isMobile && !isLoggedIn
+                    isCenteredMobileLayout
                         ? {
                               display: 'flex',
                               alignItems: 'center',

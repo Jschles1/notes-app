@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, Theme } from '@mui/material';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import TextInput from '../ui/TextInput';
@@ -11,6 +11,7 @@ interface Props {
 
 const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
     const { register, handleSubmit, formState } = useForm();
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const hasNameError = !!formState?.errors?.name;
 
     return (
@@ -19,7 +20,7 @@ const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 'calc(100% - 300px)',
+                width: isMobile ? 'auto' : 'calc(100% - 300px)',
             }}
         >
             <Card
