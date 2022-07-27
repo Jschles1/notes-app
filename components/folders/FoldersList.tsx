@@ -1,9 +1,36 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { Stack, Box, useMediaQuery } from '@mui/material';
+import { Stack, Box, Grid } from '@mui/material';
 import Link from '../ui/Link';
 import FolderLink from './FolderLink';
-import { selectFolders } from '../../store/folders/selectors';
+import FolderLinkMobile from './FolderLinkMobile';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
+import { selectFolders } from '@store/folders/selectors';
+import { Folder } from '../../interfaces';
+
+const DesktopFoldersList: React.FC<{ folders: Folder[]; isNav?: boolean }> = ({ folders, isNav = false }) => (
+    <Stack
+        sx={{
+            overflowY: 'auto',
+            flex: 1,
+        }}
+        spacing={2}
+    >
+        {folders.map((folder) => (
+            <FolderLink key={folder._id} _id={folder._id} name={folder.name} isNav={isNav} />
+        ))}
+    </Stack>
+);
+
+const MobileFoldersList: React.FC<{ folders: Folder[] }> = ({ folders }) => (
+    <Grid spacing={2} container sx={{ paddingBottom: 2 }}>
+        {folders.map((folder) => (
+            <Grid item xs={6} key={folder._id}>
+                <FolderLinkMobile _id={folder._id} name={folder.name} />
+            </Grid>
+        ))}
+    </Grid>
+);
 
 interface Props {
     isNav?: boolean;
@@ -11,8 +38,8 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
-    // const sm = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-    console.log('fodlers', folders);
+    const { isMobile } = useMediaQuery();
+
     return (
         <Box
             sx={{
@@ -27,24 +54,15 @@ const FoldersList: React.FC<Props> = ({ isNav = false }) => {
                 href="/folders"
                 sx={{
                     fontWeight: 'bold',
-                    fontSize: isNav ? 24 : 32,
+                    fontSize: isNav || isMobile ? 24 : 32,
+                    marginTop: isMobile ? 2 : 0,
                     marginBottom: 2,
                     textDecoration: 'none',
                 }}
             >
                 Your Folders:
             </Link>
-            <Stack
-                sx={{
-                    overflowY: 'auto',
-                    flex: 1,
-                }}
-                spacing={2}
-            >
-                {folders.map((folder) => (
-                    <FolderLink key={folder._id} _id={folder._id} name={folder.name} isNav={isNav} />
-                ))}
-            </Stack>
+            {isMobile ? <MobileFoldersList folders={folders} /> : <DesktopFoldersList folders={folders} />}
         </Box>
     );
 };

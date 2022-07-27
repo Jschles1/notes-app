@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, useMediaQuery, Theme } from '@mui/material';
+import { Box } from '@mui/material';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import TextInput from '../ui/TextInput';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
 
 interface Props {
     onSubmit(data: any): void;
@@ -11,7 +12,7 @@ interface Props {
 
 const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
     const { register, handleSubmit, formState } = useForm();
-    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const { isMobile } = useMediaQuery();
     const hasNameError = !!formState?.errors?.name;
 
     return (
