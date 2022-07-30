@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton } from '@mui/material';
 import NavigationDrawer from './NavigationDrawer';
 import MobileUserInfo from './MobileUserInfo';
 import MobileBreadcrumbs from './MobileBreadcrumbs';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
+import NoteSearchInput from '@components/notes/NoteSearchInput';
 import MoreIcon from '@mui/icons-material/MoreHorizRounded';
 import { selectUser } from '@store/auth/selectors';
 import { selectSelectedFolder } from '@store/folders/selectors';
@@ -19,6 +20,7 @@ const MobileNavigation: React.FC = () => {
     const [open, setOpen] = React.useState(false);
     const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] = React.useState(false);
     const showBreadcrumbs = !!router.query.noteId || router.pathname === '/create-note';
+    const showSearch = !!router.query.folderId && !router.query.noteId;
 
     const onDeleteFolderConfirm = () => {
         dispatch(deleteFolderInit(router.query.folderId as string));
@@ -34,14 +36,18 @@ const MobileNavigation: React.FC = () => {
                     backgroundColor: 'secondary.light',
                     color: 'primary.main',
                     boxShadow: 'none',
+                    position: 'relative',
                 }}
             >
                 <Toolbar sx={{ borderBottom: '2px solid #eee' }}>
                     {showBreadcrumbs ? <MobileBreadcrumbs /> : <MobileUserInfo user={user} />}
 
-                    <IconButton color="primary" disableRipple onClick={() => setOpen(true)}>
-                        <MoreIcon />
-                    </IconButton>
+                    <Box sx={{ display: 'flex' }}>
+                        {showSearch && <NoteSearchInput />}
+                        <IconButton color="primary" disableRipple onClick={() => setOpen(true)}>
+                            <MoreIcon />
+                        </IconButton>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <NavigationDrawer

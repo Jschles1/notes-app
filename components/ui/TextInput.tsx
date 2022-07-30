@@ -1,30 +1,17 @@
 import * as React from 'react';
-import { OutlinedInput, OutlinedInputProps, OutlinedInputClasses, styled, outlinedInputClasses } from '@mui/material';
+import { OutlinedInput, OutlinedInputProps, styled, outlinedInputClasses } from '@mui/material';
 
 const CustomInput = styled(OutlinedInput, {
     shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant: 'white' | 'gray' }>(({ theme, variant }) => ({
-    // fontFamily: theme.typography.fontFamily,
-    // color: theme.palette.primary.main,
-    // padding: theme.spacing(1),
-    // fontSize: 16,
-    // display: 'block',
-    // width: '100%',
-    // borderRadius: 4,
-    // border: 'none',
     backgroundColor: variant === 'white' ? theme.palette.secondary.light : theme.palette.bg.main,
     border: 'none',
-    '&:hover': {
-        // [`& .${outlinedInputClasses.notchedOutline}`]: {
-        //     borderColor: theme.palette.secondary.main,
-        // },
-    },
-    '&:focus': {
-        // outline: `0.5px outset ${theme.palette.secondary.main}`,
-    },
     [`& .${outlinedInputClasses.notchedOutline}`]: {
         borderColor: 'transparent',
         borderWidth: '1px !important',
+        [theme.breakpoints.down('sm')]: {
+            border: 'none !important',
+        },
     },
     [`& .Mui-focused.${outlinedInputClasses.notchedOutline}`]: {
         borderWidth: 5,
