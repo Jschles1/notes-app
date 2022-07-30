@@ -15,7 +15,7 @@ export const getServerSideProps = serverSideAuthentication();
 const NotesPage: NextPage = () => {
     const dispatch = useDispatch();
     const successRedirect = useSelector(selectRedirect);
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
     const router = useRouter();
 
     const folderId = router.query.folderId as string;
@@ -31,7 +31,7 @@ const NotesPage: NextPage = () => {
         }
     }, [successRedirect, dispatch]);
 
-    return isMobile ? (
+    return !isDesktop ? (
         <>
             <NoteSelection />
             <AddButton variant="mobile" resource="note" />

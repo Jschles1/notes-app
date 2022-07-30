@@ -22,7 +22,7 @@ const NoteSelection: React.FC = () => {
     const searchQuery = useSelector(selectNotesSearchQuery);
     const isLoading = useSelector(selectIsLoading);
     const router = useRouter();
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
 
     const folderId = router.query.folderId as string;
 
@@ -39,22 +39,22 @@ const NoteSelection: React.FC = () => {
 
     return (
         <SelectionContainer>
-            {isUpdatingFolder && isMobile ? (
+            {isUpdatingFolder && !isDesktop ? (
                 <UpdateFolderForm name={selectedFolder} id={folderId} />
             ) : (
                 <Box
                     sx={{
                         fontSize: 24,
                         fontWeight: 'bold',
-                        marginTop: isMobile ? 2 : 0,
-                        marginBottom: isMobile ? '27px' : 2,
+                        marginTop: !isDesktop ? 2 : 0,
+                        marginBottom: !isDesktop ? '27px' : 2,
                     }}
                 >
                     {selectedFolder}
                 </Box>
             )}
 
-            {!isMobile && <AddButton color="bg.main" resource="note" />}
+            {isDesktop && <AddButton color="bg.main" resource="note" />}
 
             {isLoading ? (
                 <LoadingIndicator />

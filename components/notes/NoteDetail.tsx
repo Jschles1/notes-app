@@ -37,7 +37,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const [isUpdating, setIsUpdating] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const isLoading = useSelector(selectIsLoading);
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
 
     const onUpdate = (data) => {
         const payload = { ...data, folderId, noteId };
@@ -62,7 +62,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                 sx={{
                     paddingX: 2,
                     backgroundColor: 'secondary.light',
-                    height: isMobile ? '100vh' : '100%',
+                    height: !isDesktop ? '100vh' : '100%',
                     maxHeight: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
@@ -78,7 +78,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                     />
                 ) : (
                     <>
-                        {!isMobile && <Breadcrumbs />}
+                        {isDesktop && <Breadcrumbs />}
                         <Box
                             sx={{
                                 marginTop: 3,

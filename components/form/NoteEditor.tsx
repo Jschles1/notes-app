@@ -5,6 +5,7 @@ import ClassicEditor from '../../ckeditor5/build/ckeditor';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import Cancel from '@mui/icons-material/Cancel';
 import { useForm, Controller } from 'react-hook-form';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
 import EditorContainer from '../layout/EditorContainer';
@@ -26,11 +27,13 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
             description: description || '',
         },
     });
+    const { isDesktop, isMobile } = useMediaQuery();
 
     React.useEffect(() => {
+        const offset = !isDesktop ? 185 : 109;
         function changeEditorHeight(): void {
             setTimeout((): void => {
-                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - 109}px`);
+                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - offset}px`);
             }, 0);
         }
 
@@ -39,7 +42,7 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
         window.addEventListener('resize', changeEditorHeight);
 
         return () => window.removeEventListener('resize', changeEditorHeight);
-    }, []);
+    }, [isDesktop]);
 
     return (
         <Box
@@ -55,11 +58,11 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
             <Box
                 sx={{
                     display: 'flex',
-                    alignItems: 'start',
+                    alignItems: isMobile ? 'center' : 'start',
                     justifyContent: 'space-between',
                 }}
             >
-                <Box sx={{ width: '50%' }}>
+                <Box sx={isMobile ? { flex: 1, paddingRight: 2 } : { width: '50%' }}>
                     <Controller
                         name="name"
                         control={control}
@@ -81,21 +84,28 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                 </Box>
 
                 <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
+                    sx={[
+                        {
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        isMobile && {
+                            flexDirection: 'column-reverse',
+                        },
+                    ]}
                 >
                     {isUpdating ? (
                         <Button
                             color="bg.main"
                             onClick={onCancel}
                             startIcon={<Cancel />}
-                            sx={{
-                                paddingY: '16.5px',
-                                paddingX: 3,
-                                marginRight: 2,
-                            }}
+                            sx={
+                                !isMobile && {
+                                    paddingY: '16.5px',
+                                    paddingX: 3,
+                                    marginRight: 2,
+                                }
+                            }
                         >
                             Cancel
                         </Button>
@@ -104,10 +114,16 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                         color="bg.main"
                         onClick={handleSubmit(onSubmit)}
                         startIcon={<ArrowUpward />}
-                        sx={{
-                            paddingY: '16.5px',
-                            paddingX: 3,
-                        }}
+                        sx={
+                            !isMobile
+                                ? {
+                                      paddingY: '16.5px',
+                                      paddingX: 3,
+                                  }
+                                : {
+                                      marginBottom: 1,
+                                  }
+                        }
                     >
                         Submit
                     </Button>
@@ -118,10 +134,6 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
                 <CKEditor
                     editor={ClassicEditor}
                     data={description || '<p>Note Description *</p>'}
-                    onReady={(editor) => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor);
-                    }}
                     onChange={(_, editor) => {
                         const data = editor.getData();
                         setValue('description', data);

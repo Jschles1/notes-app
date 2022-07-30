@@ -19,7 +19,7 @@ const Notification: React.FC = () => {
     }, [alert.type]);
 
     return (
-        <Box sx={{ position: 'absolute', top: '2%', right: '2%' }}>
+        <Box sx={{ position: 'absolute', top: '2%', right: '2%', zIndex: 1101 }}>
             <Fade in={!!alert.message} appear>
                 <Alert severity={(alert.type as AlertColor) || 'info'} onClose={clearAlertDialog}>
                     {alert.message}

@@ -15,7 +15,7 @@ interface Props {
 }
 
 const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
     const router = useRouter();
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
@@ -54,7 +54,7 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     return (
         <Box
             sx={{
-                marginTop: isMobile ? 2 : 'auto',
+                marginTop: !isDesktop ? 2 : 'auto',
             }}
         >
             <TextInput

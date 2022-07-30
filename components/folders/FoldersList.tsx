@@ -22,10 +22,10 @@ const DesktopFoldersList: React.FC<{ folders: Folder[]; isNav?: boolean }> = ({ 
     </Stack>
 );
 
-const MobileFoldersList: React.FC<{ folders: Folder[] }> = ({ folders }) => (
+const MobileFoldersList: React.FC<{ folders: Folder[]; isTablet: boolean }> = ({ folders, isTablet }) => (
     <Grid spacing={2} container sx={{ paddingBottom: 2 }}>
         {folders.map((folder) => (
-            <Grid item xs={6} key={folder._id}>
+            <Grid item xs={isTablet ? 4 : 6} key={folder._id}>
                 <FolderLinkMobile _id={folder._id} name={folder.name} />
             </Grid>
         ))}
@@ -38,7 +38,7 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
-    const { isDesktop } = useMediaQuery();
+    const { isDesktop, isTablet } = useMediaQuery();
 
     return (
         <Box
@@ -63,7 +63,7 @@ const FoldersList: React.FC<Props> = ({ isNav = false }) => {
                 Your Folders:
             </Link>
             {!isDesktop ? (
-                <MobileFoldersList folders={folders} />
+                <MobileFoldersList folders={folders} isTablet={isTablet} />
             ) : (
                 <DesktopFoldersList folders={folders} isNav={isNav} />
             )}
