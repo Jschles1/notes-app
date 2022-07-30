@@ -21,8 +21,9 @@ const handleAuthError = () => ({
     message: 'Unauthenticated',
 });
 
-// Timestamps?
 const typeDefs = gql`
+    scalar ISODate
+
     type Query {
         getFolders(email: String!): GetFoldersResponse!
     }
@@ -46,6 +47,8 @@ const typeDefs = gql`
         name: String!
         user: ID!
         notes: [Note]!
+        createdAt: ISODate
+        updatedAt: ISODate
     }
 
     type Note {
@@ -53,6 +56,8 @@ const typeDefs = gql`
         name: String!
         description: String!
         folder: ID!
+        createdAt: ISODate
+        updatedAt: ISODate
     }
 
     type GetFoldersResponse {

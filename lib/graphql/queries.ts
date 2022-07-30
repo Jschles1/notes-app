@@ -9,11 +9,15 @@ export const GET_FOLDERS_QUERY = (email) => ({
             _id 
             name
             user
+            createdAt
+            updatedAt
             notes {
               _id
               name
               description
               folder
+              createdAt
+              updatedAt
             }
           } 
         } 
