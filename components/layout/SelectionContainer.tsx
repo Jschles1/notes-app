@@ -6,7 +6,7 @@ const SelectionContainer = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.light,
     borderRight: `2px solid ${theme.palette.bg.main}`,
     overflowY: 'auto',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
         flex: 1,
         width: 'auto',
         paddingTop: 0,

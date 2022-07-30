@@ -15,7 +15,7 @@ export const getServerSideProps = serverSideAuthentication();
 const FoldersPage: NextPage = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector(selectIsLoading);
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
 
     React.useEffect(() => {
         dispatch(fetchFoldersInit());
@@ -24,10 +24,8 @@ const FoldersPage: NextPage = () => {
 
     return (
         <>
-            <SelectionContainer>
-                {isLoading ? <LoadingIndicator /> : <FoldersList />}
-            </SelectionContainer>
-            {isMobile && <AddButton variant="mobile" resource="folder" />}
+            <SelectionContainer>{isLoading ? <LoadingIndicator /> : <FoldersList />}</SelectionContainer>
+            {!isDesktop && <AddButton variant="mobile" resource="folder" />}
         </>
     );
 };

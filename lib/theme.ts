@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
     interface Palette {
@@ -24,7 +24,6 @@ const theme = createTheme({
         },
         bg: {
             main: '#eee',
-            // dark: '#333',
         },
     },
     breakpoints: {
@@ -38,7 +37,6 @@ const theme = createTheme({
     },
     spacing: 8,
     typography: {
-        fontSize: 16,
         fontFamily: [
             'Nunito',
             '-apple-system',
@@ -82,4 +80,4 @@ const theme = createTheme({
     },
 });
 
-export default theme;
+export default responsiveFontSizes(theme);

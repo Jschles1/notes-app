@@ -38,7 +38,7 @@ interface Props {
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const folders = useSelector(selectFolders);
-    const { isMobile } = useMediaQuery();
+    const { isDesktop } = useMediaQuery();
 
     return (
         <Box
@@ -54,15 +54,15 @@ const FoldersList: React.FC<Props> = ({ isNav = false }) => {
                 href="/folders"
                 sx={{
                     fontWeight: 'bold',
-                    fontSize: isNav || isMobile ? 24 : 32,
-                    marginTop: isMobile ? 2 : 0,
+                    fontSize: isNav || !isDesktop ? 24 : 32,
+                    marginTop: !isDesktop ? 2 : 0,
                     marginBottom: 2,
                     textDecoration: 'none',
                 }}
             >
                 Your Folders:
             </Link>
-            {isMobile ? (
+            {!isDesktop ? (
                 <MobileFoldersList folders={folders} />
             ) : (
                 <DesktopFoldersList folders={folders} isNav={isNav} />
