@@ -23,6 +23,7 @@ const NotesList: React.FC<Props> = ({ notes }) => {
         >
             {notes.map((note) => (
                 <NoteCard
+                    key={note._id}
                     folderId={folderId}
                     noteId={note._id}
                     name={note.name}
