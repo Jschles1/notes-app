@@ -4,7 +4,7 @@ import { getSession, signIn } from 'next-auth/react';
 import Card from '@components/ui/Card';
 import { wrapper } from '@store/index';
 import { setUser } from '@store/auth/reducer';
-import BasicButton from '@components/ui/BasicButton';
+import Button from '@components/ui/Button';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx): Promise<any> => {
     const session = await getSession({ req: ctx.req });
@@ -47,7 +47,7 @@ const SignInPage: NextPage = (props) => {
             >
                 Welcome! Please Sign In.
             </Box>
-            <BasicButton
+            <Button
                 onClick={handleSignIn}
                 sx={{
                     display: 'block',
@@ -58,7 +58,7 @@ const SignInPage: NextPage = (props) => {
                 }}
             >
                 Sign In w/ Google
-            </BasicButton>
+            </Button>
         </Card>
     );
 };
