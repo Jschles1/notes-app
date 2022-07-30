@@ -36,6 +36,9 @@ const EditorContainer = styled(EditorContainerWrapper, {
         width: '100%',
         maxHeight,
     },
+    [theme.breakpoints.up('sm')]: {
+        maxWidth: '45vw',
+    },
 }));
 
 export default EditorContainer;
