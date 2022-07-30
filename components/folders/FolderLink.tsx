@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Box, Collapse, Grid, IconButton } from '@mui/material';
 import FolderIcon from '@mui/icons-material/FolderRounded';
@@ -8,12 +7,11 @@ import MoreIcon from '@mui/icons-material/MoreHorizRounded';
 import { Folder } from '../../interfaces';
 import Skeleton from '@components/ui/Skeleton';
 import Button from '@components/ui/Button';
-import TextInput from '@components/ui/TextInput';
 import Link from '@components/ui/Link';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
+import UpdateFolderForm from '@components/form/UpdateFolderForm';
 import { selectUpdatingFolder } from '@store/folders/selectors';
-import { deleteFolderInit, setUpdating, updateFolderInit } from '@store/folders/reducer';
-import { selectUser } from '@store/auth/selectors';
+import { deleteFolderInit, setUpdating } from '@store/folders/reducer';
 
 interface Props extends Omit<Folder, 'user'> {
     isNav?: boolean;
@@ -23,17 +21,8 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const updatingFolder = useSelector(selectUpdatingFolder);
-    const user = useSelector(selectUser);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const { register, handleSubmit } = useForm({
-        defaultValues: React.useMemo(
-            () => ({
-                name,
-            }),
-            [name]
-        ),
-    });
 
     const folderId = router.query.folderId as string;
     const isSelected = folderId && folderId === _id;
@@ -44,27 +33,9 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
 
     const handeUpdateClick = () => {
         setIsOptionsOpen(false);
-        dispatch(setUpdating(_id));
-    };
-
-    const onSubmit = (data: { name: string }) => {
-        const newName = data.name.trim();
-        if (newName && newName !== name) {
-            const updatedFolder = { name: newName, _id, user: user.id };
-            dispatch(updateFolderInit(updatedFolder));
-        } else {
-            dispatch(setUpdating(''));
-        }
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.keyCode === 13) {
-            handleSubmit(onSubmit)();
-        }
-    };
-
-    const handleBlur = () => {
-        handleSubmit(onSubmit)();
+        setTimeout(() => {
+            dispatch(setUpdating(_id));
+        }, 100);
     };
 
     const handleModalClose = () => {
@@ -96,20 +67,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                     }}
                 >
                     {isUpdatingCurrentFolder ? (
-                        <Box>
-                            <TextInput
-                                variant={isNav ? 'white' : 'gray'}
-                                autoFocus
-                                required
-                                {...register('name')}
-                                name="name"
-                                onKeyDown={handleKeyDown}
-                                onBlur={handleBlur}
-                                sx={{
-                                    width: '100%',
-                                }}
-                            />
-                        </Box>
+                        <UpdateFolderForm isNav={isNav} name={name} id={_id} />
                     ) : (
                         <Box
                             sx={{

@@ -36,8 +36,10 @@ const NavigationDrawer: React.FC<Props> = ({ open, onClose, onDeleteFolderClick 
     };
 
     const handleUpdateFolderClick = () => {
-        dispatch(setUpdating(folderId));
         onClose();
+        setTimeout(() => {
+            dispatch(setUpdating(folderId));
+        }, 0);
     };
 
     const handleDeleteFolderClick = () => {
