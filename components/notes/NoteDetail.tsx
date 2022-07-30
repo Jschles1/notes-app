@@ -7,6 +7,7 @@ import { Note } from '../../interfaces';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import { formatDate } from '@lib/helpers';
+import useMediaQuery from '@lib/hooks/useMediaQuery';
 import Breadcrumbs from '@components/layout/Breadcrumbs';
 import LoadingIndicator from '@components/ui/LoadingIndicator';
 import Skeleton from '@components/ui/Skeleton';
@@ -36,6 +37,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const [isUpdating, setIsUpdating] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const isLoading = useSelector(selectIsLoading);
+    const { isMobile } = useMediaQuery();
 
     const onUpdate = (data) => {
         const payload = { ...data, folderId, noteId };
@@ -53,8 +55,6 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     React.useEffect(() => {
         setIsUpdating(false);
     }, [note]);
-
-    console.log('NoteEditor', NoteEditor);
 
     return (
         <>
@@ -78,7 +78,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                     />
                 ) : (
                     <>
-                        <Breadcrumbs />
+                        {!isMobile && <Breadcrumbs />}
                         <Box
                             sx={{
                                 marginTop: 3,
