@@ -12,6 +12,12 @@ import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import UpdateFolderForm from '@components/form/UpdateFolderForm';
 import { selectUpdatingFolder } from '@store/folders/selectors';
 import { deleteFolderInit, setUpdating } from '@store/folders/reducer';
+import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import fetcher from '@lib/graphql/fetcher';
+import { mutate } from 'swr';
+import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
+import { setAlert } from '@store/alert/reducer';
+import useEmail from '@lib/hooks/useEmail';
 
 interface Props extends Omit<Folder, 'user'> {
     isNav?: boolean;
@@ -20,6 +26,7 @@ interface Props extends Omit<Folder, 'user'> {
 const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const { email } = useEmail();
     const updatingFolder = useSelector(selectUpdatingFolder);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -43,8 +50,26 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
         setIsOptionsOpen(false);
     };
 
-    const onDeleteFolderConfirm = () => {
-        dispatch(deleteFolderInit(_id));
+    const onDeleteFolderConfirm = async () => {
+        const mutation = DELETE_FOLDER_MUTATION(_id, email);
+        const response = await fetcher(mutation);
+        if (response.deleteFolder.success) {
+            setIsModalOpen(false);
+
+            mutate(GET_FOLDERS_QUERY(email));
+
+            dispatch(
+                setAlert({
+                    type: 'success',
+                    message: 'Folder Successfully Deleted!',
+                })
+            );
+
+            if (window.location.href.includes(_id)) {
+                router.push('/folders');
+            }
+        }
+        // dispatch(deleteFolderInit(_id));
     };
 
     const isUpdatingFolder = !!updatingFolder;
@@ -132,4 +157,4 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     );
 };
 
-export default FolderButton;
+export default React.memo(FolderButton);

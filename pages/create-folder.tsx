@@ -1,21 +1,34 @@
 import * as React from 'react';
+import { mutate } from 'swr';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import CreateFolderForm from '@components/form/CreateFolderForm';
 import { serverSideAuthentication } from '../lib/auth';
-import { createFolderInit } from '@store/folders/reducer';
 import { selectRedirect } from '@store/history/selectors';
 import { clearRedirect } from '@store/history/reducer';
+import useEmail from '@lib/hooks/useEmail';
+import fetcher from '@lib/graphql/fetcher';
+import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
+import { CREATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 
 export const getServerSideProps = serverSideAuthentication();
 
 const CreateFolderPage: NextPage = () => {
+    const { email } = useEmail();
     const dispatch = useDispatch();
     const router = useRouter();
     const successRedirect = useSelector(selectRedirect);
-    const onSubmit = (data) => {
-        dispatch(createFolderInit(data));
+
+    const onSubmit = async (data) => {
+        const mutation = CREATE_FOLDER_MUTATION(data.name, email);
+        const response = await fetcher(mutation);
+        if (response.createFolder.success) {
+            mutate(GET_FOLDERS_QUERY(email));
+            router.push('/folders');
+        } else {
+            // TODO: handle error
+        }
     };
 
     React.useEffect(() => {

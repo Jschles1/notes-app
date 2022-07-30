@@ -7,6 +7,8 @@ import FolderLinkMobile from './FolderLinkMobile';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import { selectFolders } from '@store/folders/selectors';
 import { Folder } from '../../interfaces';
+import { useFolders } from '@lib/graphql/hooks';
+import useEmail from '@lib/hooks/useEmail';
 
 const DesktopFoldersList: React.FC<{ folders: Folder[]; isNav?: boolean }> = ({ folders, isNav = false }) => (
     <Stack
@@ -37,7 +39,9 @@ interface Props {
 }
 
 const FoldersList: React.FC<Props> = ({ isNav = false }) => {
-    const folders = useSelector(selectFolders);
+    // const folders = useSelector(selectFolders);
+    const { email } = useEmail();
+    const { folders } = useFolders(email);
     const { isDesktop, isTablet } = useMediaQuery();
 
     return (

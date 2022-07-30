@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { wrapper } from '@store/index';
@@ -25,9 +26,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             {globalStyles}
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <SessionProvider session={pageProps.session}>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </SessionProvider>
         </ThemeProvider>
     );
 };

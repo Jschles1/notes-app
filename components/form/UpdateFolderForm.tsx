@@ -1,12 +1,17 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { mutate } from 'swr';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import TextInput from '@components/ui/TextInput';
-import { selectUser } from '@store/auth/selectors';
-import { setSelectedFolder, setUpdating, updateFolderInit } from '@store/folders/reducer';
+import { setSelectedFolder, setUpdating } from '@store/folders/reducer';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
+import useEmail from '@lib/hooks/useEmail';
+import { UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
+import fetcher from '@lib/graphql/fetcher';
+import { setAlert } from '@store/alert/reducer';
 
 interface Props {
     name: string;
@@ -18,7 +23,7 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     const { isDesktop } = useMediaQuery();
     const router = useRouter();
     const dispatch = useDispatch();
-    const user = useSelector(selectUser);
+    const { email } = useEmail();
     const { register, handleSubmit } = useForm({
         defaultValues: React.useMemo(
             () => ({
@@ -28,13 +33,25 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
         ),
     });
 
-    const onSubmit = (data: { name: string }) => {
+    const onSubmit = async (data: { name: string }) => {
         const newName = data.name.trim();
         if (newName && newName !== name) {
-            const updatedFolder = { name: newName, _id: id, user: user.id };
-            dispatch(updateFolderInit(updatedFolder));
-            if (id === router.query.folderId) {
-                dispatch(setSelectedFolder(newName));
+            const mutation = UPDATE_FOLDER_MUTATION(id, newName, email);
+            const response = await fetcher(mutation);
+            if (response.updateFolder.success) {
+                mutate(GET_FOLDERS_QUERY(email));
+                dispatch(
+                    setAlert({
+                        type: 'success',
+                        message: 'Folder Successfully Updated!',
+                    })
+                );
+                dispatch(setUpdating(''));
+                if (id === router.query.folderId) {
+                    dispatch(setSelectedFolder(newName));
+                }
+            } else {
+                // TODO: handle error
             }
         } else {
             dispatch(setUpdating(''));
