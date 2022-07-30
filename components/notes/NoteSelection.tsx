@@ -34,7 +34,9 @@ const NoteSelection: React.FC = () => {
     });
 
     React.useEffect(() => {
-        dispatch(fetchNotesInit(folderId));
+        if (folderId) {
+            dispatch(fetchNotesInit(folderId));
+        }
     }, [folderId]);
 
     return (
