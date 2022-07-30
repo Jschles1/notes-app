@@ -20,7 +20,7 @@ export const AddButton: React.FC<Props> = ({ variant = 'default', resource, ...o
     const text = resource === 'folder' ? 'Add New Folder' : 'Add New Note';
 
     return (
-        <Link href={href} passHref>
+        <Link href={href}>
             <StyledButton {...other} text={text} />
         </Link>
     );

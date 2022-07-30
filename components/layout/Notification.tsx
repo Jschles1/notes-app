@@ -9,7 +9,7 @@ const Notification: React.FC = () => {
     const alert = useSelector(selectAlert);
 
     const clearAlertDialog = () => {
-        dispatch(clearAlert);
+        dispatch(clearAlert());
     };
 
     React.useEffect(() => {
