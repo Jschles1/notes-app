@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { Skeleton as MuiSkeleton, SkeletonProps } from '@mui/material';
-import { selectIsLoading } from '../../store/loading/selectors';
+import { useFolders } from '@lib/graphql/hooks';
 
 interface Props extends SkeletonProps {
     children?: React.ReactNode;
@@ -9,7 +8,7 @@ interface Props extends SkeletonProps {
 }
 
 const Skeleton: React.FC<Props> = ({ children, width = '100%' }) => {
-    const isLoading = useSelector(selectIsLoading);
+    const { isLoading } = useFolders();
     return isLoading ? <MuiSkeleton animation="wave" width={width} /> : <>{children}</>;
 };
 

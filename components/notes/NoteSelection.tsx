@@ -26,18 +26,20 @@ const NoteSelection: React.FC = () => {
 
     const folderId = router.query.folderId as string;
 
-    const selectedNotes = notes.filter((note) => {
-        return (
-            note.name.toLowerCase().includes(searchQuery) ||
-            decodeHtml(note.description).toLowerCase().includes(searchQuery)
-        );
-    });
+    // const selectedNotes = notes.filter((note) => {
+    //     return (
+    //         note.name.toLowerCase().includes(searchQuery) ||
+    //         decodeHtml(note.description).toLowerCase().includes(searchQuery)
+    //     );
+    // });
 
-    React.useEffect(() => {
-        if (folderId) {
-            dispatch(fetchNotesInit(folderId));
-        }
-    }, [folderId]);
+    const selectedNotes = [];
+
+    // React.useEffect(() => {
+    //     if (folderId) {
+    //         dispatch(fetchNotesInit(folderId));
+    //     }
+    // }, [folderId]);
 
     return (
         <SelectionContainer>

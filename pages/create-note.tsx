@@ -48,12 +48,6 @@ const CreateNotePage: NextPage = () => {
     };
 
     React.useEffect(() => {
-        if (!folders.length) {
-            dispatch(fetchFoldersInit());
-        }
-    }, [folders]);
-
-    React.useEffect(() => {
         if (successRedirect) {
             router.push(successRedirect);
             dispatch(clearRedirect());

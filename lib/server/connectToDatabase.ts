@@ -14,11 +14,16 @@ const connectToDatabase = async () => {
         } as any)
         .asPromise();
 
-    db.model('users', userSchema);
-    db.model('folders', folderSchema);
-    db.model('notes', noteSchema);
+    const UserModel = db.model('users', userSchema);
+    const FolderModel = db.model('folders', folderSchema);
+    const NoteModel = db.model('notes', noteSchema);
 
-    return db;
+    return {
+        connection: db,
+        User: UserModel,
+        Folder: FolderModel,
+        Note: NoteModel,
+    };
 };
 
 export default connectToDatabase;
