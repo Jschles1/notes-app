@@ -7,7 +7,15 @@ export const CREATE_FOLDER_MUTATION = (name, email) => ({
           message 
           folder { 
             _id 
-            name 
+            name
+            notes {
+              _id
+              name
+              description
+              folder
+              createdAt
+              updatedAt
+            }
           } 
         } 
       }
@@ -25,6 +33,14 @@ export const UPDATE_FOLDER_MUTATION = (id, name, email) => ({
           folder {
             _id
             name
+            notes {
+              _id
+              name
+              description
+              folder
+              createdAt
+              updatedAt
+            }
           }
         }
       }

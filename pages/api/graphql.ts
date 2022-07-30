@@ -99,7 +99,6 @@ const resolvers = {
                 try {
                     const folders = await db.collection('folders').find({ user: user._id }).toArray();
 
-                    console.log('folder result', folders);
                     response = {
                         code: 200,
                         success: true,
@@ -165,14 +164,19 @@ const resolvers = {
                 const data = { name };
 
                 try {
-                    const result = await db.collection('folders').findOneAndUpdate({ _id: id, user: user._id }, data, {
-                        new: true,
-                    });
+                    const result = await db.collection('folders').findOneAndUpdate(
+                        {
+                            _id: new mongoose.Types.ObjectId(id),
+                            user: user._id,
+                        },
+                        { $set: { name: data.name } },
+                        { returnNewDocument: true }
+                    );
                     response = {
                         code: 200,
                         success: true,
                         message: 'Successfully updated folder',
-                        folder: result,
+                        folder: result.value,
                     };
                 } catch (e) {
                     response = {

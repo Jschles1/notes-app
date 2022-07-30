@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { mutate } from 'swr';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -9,9 +8,9 @@ import { setSelectedFolder, setUpdating } from '@store/folders/reducer';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import useEmail from '@lib/hooks/useEmail';
 import { UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
-import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
 import fetcher from '@lib/graphql/fetcher';
 import { setAlert } from '@store/alert/reducer';
+import { useFolders } from '@lib/graphql/hooks';
 
 interface Props {
     name: string;
@@ -24,6 +23,7 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { email } = useEmail();
+    const { revalidate } = useFolders();
     const { register, handleSubmit } = useForm({
         defaultValues: React.useMemo(
             () => ({
@@ -38,8 +38,9 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
         if (newName && newName !== name) {
             const mutation = UPDATE_FOLDER_MUTATION(id, newName, email);
             const response = await fetcher(mutation);
+            console.log('repsonse', response);
             if (response.updateFolder.success) {
-                mutate(GET_FOLDERS_QUERY(email));
+                revalidate();
                 dispatch(
                     setAlert({
                         type: 'success',

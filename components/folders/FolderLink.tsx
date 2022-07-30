@@ -11,13 +11,12 @@ import Link from '@components/ui/Link';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import UpdateFolderForm from '@components/form/UpdateFolderForm';
 import { selectUpdatingFolder } from '@store/folders/selectors';
-import { deleteFolderInit, setUpdating } from '@store/folders/reducer';
+import { setUpdating } from '@store/folders/reducer';
 import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
-import { mutate } from 'swr';
-import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
 import { setAlert } from '@store/alert/reducer';
 import useEmail from '@lib/hooks/useEmail';
+import { useFolders } from '@lib/graphql/hooks';
 
 interface Props extends Omit<Folder, 'user'> {
     isNav?: boolean;
@@ -27,6 +26,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const { email } = useEmail();
+    const { revalidate } = useFolders();
     const updatingFolder = useSelector(selectUpdatingFolder);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -56,7 +56,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
         if (response.deleteFolder.success) {
             setIsModalOpen(false);
 
-            mutate(GET_FOLDERS_QUERY(email));
+            await revalidate();
 
             dispatch(
                 setAlert({
@@ -69,7 +69,6 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                 router.push('/folders');
             }
         }
-        // dispatch(deleteFolderInit(_id));
     };
 
     const isUpdatingFolder = !!updatingFolder;
