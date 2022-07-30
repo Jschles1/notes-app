@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     const folder = await Folder.findById(folderId);
                     const notes = await Note.find({ folder: folderId });
                     const data = {
-                        collection: notes,
+                        collection: notes || [],
                         folderName: folder.name,
                     };
                     res.status(200).json({

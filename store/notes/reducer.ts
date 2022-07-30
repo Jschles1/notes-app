@@ -20,7 +20,6 @@ const notesSlice = createSlice({
         fetchNotesSuccess(state, action) {
             state.notes = action.payload;
         },
-        fetchNotesFail() {},
         createNoteInit: {
             reducer: () => {},
             prepare: (note: { name: string; description: string; id: string }) => ({
@@ -32,7 +31,6 @@ const notesSlice = createSlice({
             state.selected = action.payload.id;
             state.isCreatingNote = false;
         },
-        createNoteFail() {},
         updateNoteInit: {
             reducer: () => {},
             prepare: (note: { name: string; description: string; folderId: string; noteId: string }) => ({
@@ -47,7 +45,6 @@ const notesSlice = createSlice({
                 return note;
             });
         },
-        updateNoteFail() {},
         deleteNoteInit: {
             reducer: () => {},
             prepare: (data: { folderId: string; noteId: string }) => ({
@@ -58,7 +55,6 @@ const notesSlice = createSlice({
             state.notes = state.notes.filter((notes) => notes._id !== action.payload);
             state.selected = null;
         },
-        deleteNoteFail() {},
         setSearchQuery(state, action) {
             state.searchQuery = action.payload;
         },
@@ -77,16 +73,12 @@ const notesSlice = createSlice({
 export const {
     fetchNotesInit,
     fetchNotesSuccess,
-    fetchNotesFail,
     createNoteInit,
     createNoteSuccess,
-    createNoteFail,
     updateNoteInit,
     updateNoteSuccess,
-    updateNoteFail,
     deleteNoteInit,
     deleteNoteSuccess,
-    deleteNoteFail,
     setSearchQuery,
     resetNotes,
 } = notesSlice.actions;

@@ -9,10 +9,12 @@ interface Props {
     value: string;
 }
 
-const NoteDescription: React.FC<Props> = ({ value }) => {
+const NoteDescription: React.FC<Props> = ({ value = '' }) => {
     const [editorHeight, setEditorHeight] = React.useState('');
     const rootRef = React.useRef() as any;
     const { isDesktop } = useMediaQuery();
+
+    console.log({ value });
 
     // TODO: Make hook
     React.useEffect(() => {
@@ -38,6 +40,11 @@ const NoteDescription: React.FC<Props> = ({ value }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'start',
+                maxWidth: {
+                    lg: '100%',
+                    md: '45vw',
+                    sm: 'auto',
+                },
             }}
         >
             <EditorContainer maxHeight={editorHeight || '100%'}>

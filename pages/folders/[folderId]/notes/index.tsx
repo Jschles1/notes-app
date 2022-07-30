@@ -6,7 +6,6 @@ import NoteSelection from '@components/notes/NoteSelection';
 import AddButton from '@components/ui/AddButton';
 import { serverSideAuthentication } from '@lib/auth';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
-import { fetchNotesInit } from '@store/notes/reducer';
 import { selectRedirect } from '@store/history/selectors';
 import { clearRedirect } from '@store/history/reducer';
 
@@ -17,12 +16,6 @@ const NotesPage: NextPage = () => {
     const successRedirect = useSelector(selectRedirect);
     const { isDesktop } = useMediaQuery();
     const router = useRouter();
-
-    const folderId = router.query.folderId as string;
-
-    React.useEffect(() => {
-        dispatch(fetchNotesInit(folderId));
-    }, [folderId]);
 
     React.useEffect(() => {
         if (successRedirect) {

@@ -38,8 +38,8 @@ const NoteSearchInput: React.FC = () => {
             ]}
         >
             {!isDesktop && !isMobileSearchOpen ? (
-                <IconButton>
-                    <SearchIcon onClick={() => setIsMobileSearchOpen(true)} />
+                <IconButton onClick={() => setIsMobileSearchOpen(true)}>
+                    <SearchIcon />
                 </IconButton>
             ) : (
                 <TextInput
