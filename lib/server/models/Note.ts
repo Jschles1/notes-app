@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const { String, ObjectId } = Schema.Types;
 
-const noteSchema = new Schema(
+export const noteSchema = new Schema(
     {
         name: {
             type: String,
