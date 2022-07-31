@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect';
 import * as React from 'react';
 import { setupServer } from 'msw/node';
 import 'whatwg-fetch';
-import { ThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { StoreProvider } from 'easy-peasy';
 import { render as rtlRender, RenderResult, cleanup } from '@testing-library/react';
 import store from '@store/index';
@@ -29,6 +29,15 @@ jest.mock('next-auth/react', () => {
         getSession: jest.fn(() => {
             return { session: { data: mockSession, status: 'authenticated' } }; // return type is [] in v3 but changed to {} in v4
         }),
+    };
+});
+
+jest.mock('next/head', () => {
+    return {
+        __esModule: true,
+        default: ({ children }: { children: Array<React.ReactElement> }) => {
+            return <>{children}</>;
+        },
     };
 });
 
@@ -62,21 +71,7 @@ jest.mock('@lib/graphql/hooks', () => ({
     }),
 }));
 
-/**
- * TODO: Set up needed:
- * Custom Render
- *  - Next Auth Session Provider
- *  - EasyPeasy Store provider
- *  - MUI theme provider
- *
- * Mocks
- *  - GraphQL mocks
- *  - useSession mock
- *  - /api/[...nextauth] mock
- */
-
 const render = (ui: React.ReactElement, renderOptions = {}): RenderResult => {
-    // console.log('CUSTOM RENDER');
     const Wrapper: React.FC = ({ children }) => (
         <ThemeProvider theme={theme}>
             <StoreProvider store={store}>{children}</StoreProvider>
@@ -90,7 +85,13 @@ jest.mock('next/dist/client/router', () => require('next-router-mock'));
 const server = setupServer(...handlers);
 
 beforeAll(() => {
+    cleanup();
     server.listen();
+});
+
+afterEach(() => {
+    cleanup();
+    server.resetHandlers();
 });
 
 afterAll(() => {
