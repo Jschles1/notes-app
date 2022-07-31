@@ -2,7 +2,6 @@ import { rest } from 'msw';
 import { ApolloServer } from 'apollo-server-micro';
 import typeDefs from '@lib/graphql/typeDefs';
 import resolvers from '@lib/graphql/resolvers';
-import { NextApiRequest } from 'next';
 
 export const handlers = [
     rest.post('/api/graphql', async (req, res, ctx) => {
@@ -10,7 +9,13 @@ export const handlers = [
         const apolloServer = await new ApolloServer({
             typeDefs,
             resolvers,
-            mocks: true,
+            mocks: {
+                Response: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                }),
+            },
         });
 
         const result = await apolloServer.executeOperation({
