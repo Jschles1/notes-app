@@ -39,6 +39,11 @@ const FoldersList: React.FC<Props> = ({ isNav = false }) => {
     const { folders } = useFolders();
     const { isDesktop, isTablet } = useMediaQuery();
 
+    console.log({ folders });
+    folders.forEach((f) => {
+        if (f) console.log(f.notes);
+    });
+
     return (
         <Box
             sx={{

@@ -15,9 +15,29 @@ export const handlers = [
                     success: true,
                     message: 'success',
                 }),
-                Folder: () => ({
-                    _id: '123',
-                    name: 'Folder Name',
+                GetFoldersResponse: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                    folders: [
+                        {
+                            _id: '123',
+                            name: 'Folder Name',
+                            user: '321',
+                            createdAt: 'Hello World',
+                            updatedAt: 'Hello World',
+                            notes: [
+                                {
+                                    _id: '234',
+                                    name: 'Hello World',
+                                    description: 'Hello World',
+                                    folder: '123',
+                                    createdAt: 'Hello World',
+                                    updatedAt: 'Hello World',
+                                },
+                            ],
+                        },
+                    ],
                 }),
             },
         });
