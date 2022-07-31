@@ -1,16 +1,14 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import User from '@lib/server/models/User';
-import Folder from '@lib/server/models/Folder';
 import connectToDatabase from '@lib/server/connectToDatabase';
 
 export default NextAuth({
     session: {
         strategy: 'jwt',
     },
-    secret: 'testsecret',
+    secret: process.env.NEXTAUTH_SECRET,
     jwt: {
-        secret: 'testsecret',
+        secret: process.env.NEXTAUTH_SECRET,
     },
     providers: [
         GoogleProvider({
@@ -55,5 +53,4 @@ export default NextAuth({
             },
         }),
     ],
-    debug: true,
 });
