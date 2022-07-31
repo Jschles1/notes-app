@@ -12,11 +12,11 @@ describe('/folders/[folderId]/notes/[noteId] Page', () => {
         render(<NoteDetailPage />);
 
         await waitFor(() => {
-            const noteTitle = screen.getByText(/Note Name/i);
+            const noteTitle = screen.getAllByText(/Note Name/i);
             const noteDescription = screen.getByText(/Note Description/i);
             const noteEditorLabel = screen.getByText(/Rich Text Editor/i);
 
-            expect(noteTitle).toBeInTheDocument();
+            expect(noteTitle.length).toEqual(1);
             expect(noteDescription).toBeInTheDocument();
             expect(noteEditorLabel).toBeInTheDocument();
         });
