@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import TextInput from '@components/ui/TextInput';
-import { setSelectedFolder, setUpdating } from '@store/folders/reducer';
+import { setUpdating } from '@store/folders/reducer';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import useEmail from '@lib/hooks/useEmail';
 import { UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
@@ -48,9 +48,6 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
                     })
                 );
                 dispatch(setUpdating(''));
-                if (id === router.query.folderId) {
-                    dispatch(setSelectedFolder(newName));
-                }
             } else {
                 // TODO: handle error
             }

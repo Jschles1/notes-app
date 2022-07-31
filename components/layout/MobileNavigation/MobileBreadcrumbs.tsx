@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 import ArrowIcon from '@mui/icons-material/ArrowBackIos';
 import Link from '@components/ui/Link';
-import { selectSelectedFolder } from '@store/folders/selectors';
+import { useFolders } from '@lib/graphql/hooks';
 
 const MobileBreadcrumbs: React.FC = () => {
     const router = useRouter();
-    const selectedFolder = useSelector(selectSelectedFolder);
+    const { selectedFolder } = useFolders();
     const folderId = router.query.folderId as string;
 
     return (
@@ -22,7 +22,7 @@ const MobileBreadcrumbs: React.FC = () => {
                 }}
             >
                 <ArrowIcon />
-                <Box sx={{ marginTop: 0.5 }}>{selectedFolder}</Box>
+                <Box sx={{ marginTop: 0.5 }}>{selectedFolder?.name}</Box>
             </Link>
         </Box>
     );
