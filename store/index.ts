@@ -1,26 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import { createWrapper } from 'next-redux-wrapper';
 import { wrapMakeStore, nextReduxCookieMiddleware } from 'next-redux-cookie-wrapper';
-import authReducer from './auth/reducer';
 import foldersReducer from './folders/reducer';
 import notesReducer from './notes/reducer';
-import loadingReducer from './loading/reducer';
-import historyReducer from './history/reducer';
 import alertReducer from './alert/reducer';
-import rootSaga from './rootSaga';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export const makeStore = wrapMakeStore(() => {
-    const sagaMiddleware = createSagaMiddleware();
     const store = configureStore({
         reducer: {
-            auth: authReducer,
             folders: foldersReducer,
             notes: notesReducer,
-            loading: loadingReducer,
-            history: historyReducer,
             alert: alertReducer,
         },
         devTools: isDevelopment,
@@ -28,22 +19,12 @@ export const makeStore = wrapMakeStore(() => {
             getDefaultMiddleware({
                 serializableCheck: false,
                 thunk: false,
-            })
-                .prepend(
-                    nextReduxCookieMiddleware({
-                        subtrees: [
-                            'auth.user',
-                            'alert.type',
-                            'alert.message',
-                            'folders.selected',
-                            'folders.folders',
-                            'notes.notes',
-                        ],
-                    })
-                )
-                .concat(sagaMiddleware),
+            }).prepend(
+                nextReduxCookieMiddleware({
+                    subtrees: ['alert.type', 'alert.message'],
+                })
+            ),
     });
-    sagaMiddleware.run(rootSaga);
     return store;
 });
 
