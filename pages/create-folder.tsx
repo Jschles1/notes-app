@@ -6,10 +6,12 @@ import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import fetcher from '@lib/graphql/fetcher';
 import { CREATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import { useFolders } from '@lib/graphql/hooks';
+import { useStoreActions } from '@store/hooks';
 
 const CreateFolderPage: NextPage = () => {
     const { email } = useLoggedInUser();
     const { revalidate } = useFolders();
+    const setAlert = useStoreActions((actions) => actions.setAlert);
     const router = useRouter();
 
     const onSubmit = async (data) => {
@@ -19,7 +21,10 @@ const CreateFolderPage: NextPage = () => {
             revalidate();
             router.push('/folders');
         } else {
-            // TODO: handle error
+            setAlert({
+                type: 'error',
+                message: `Error creating folder: ${response?.createFolder?.message}`,
+            });
         }
     };
 

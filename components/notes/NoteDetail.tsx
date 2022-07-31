@@ -53,11 +53,15 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                 type: 'success',
                 message: 'Note Successfully Updated!',
             });
+
+            await revalidate();
+
             setIsUpdating(false);
-            // TODO: Handle loading state
-            revalidate();
         } else {
-            // TODO: handle error
+            setAlert({
+                type: 'error',
+                message: `Error updating note: ${response?.updateNote?.message}`,
+            });
         }
     };
 
@@ -74,7 +78,10 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
 
             router.push(`/folders/${folderId}/notes`);
         } else {
-            // TODO: handle error
+            setAlert({
+                type: 'error',
+                message: `Error deleting note: ${response?.deleteNote?.message}`,
+            });
         }
     };
 
@@ -100,8 +107,8 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
             >
                 {isUpdating ? (
                     <NoteEditor
-                        name={note.name}
-                        description={note.description}
+                        name={note?.name}
+                        description={note?.description}
                         onSubmit={onUpdate}
                         onCancel={() => setIsUpdating(false)}
                         isUpdating

@@ -43,7 +43,10 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
                 });
                 setUpdatingFolder('');
             } else {
-                // TODO: handle error
+                setAlert({
+                    type: 'error',
+                    message: `Error updating folder: ${response?.updateFolder?.message}`,
+                });
             }
         } else {
             setUpdatingFolder('');

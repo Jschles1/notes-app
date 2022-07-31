@@ -14,9 +14,6 @@ const NoteDescription: React.FC<Props> = ({ value = '' }) => {
     const rootRef = React.useRef() as any;
     const { isDesktop } = useMediaQuery();
 
-    console.log({ value });
-
-    // TODO: Make hook
     React.useEffect(() => {
         const offset = !isDesktop ? 88 : 32;
         function changeEditorHeight(): void {

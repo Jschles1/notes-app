@@ -67,7 +67,12 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
                 router.push('/folders');
             }
         } else {
-            // TODO: handle error
+            setAlert({
+                type: 'error',
+                message: `Error deleting folder: ${response?.deleteFolder?.message}`,
+            });
+
+            setIsModalOpen(false);
         }
     };
 
