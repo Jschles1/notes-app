@@ -8,18 +8,16 @@ import MobileBreadcrumbs from './MobileBreadcrumbs';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import NoteSearchInput from '@components/notes/NoteSearchInput';
 import MoreIcon from '@mui/icons-material/MoreHorizRounded';
-import { selectUser } from '@store/auth/selectors';
 import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
 import { useFolders } from '@lib/graphql/hooks';
-import useEmail from '@lib/hooks/useEmail';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { setAlert } from '@store/alert/reducer';
 
 const MobileNavigation: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const user = useSelector(selectUser);
-    const { email } = useEmail();
+    const { email, user } = useLoggedInUser();
     const { revalidate, selectedFolder } = useFolders();
     const [open, setOpen] = React.useState(false);
     const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] = React.useState(false);

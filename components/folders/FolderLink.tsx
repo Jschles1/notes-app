@@ -15,7 +15,7 @@ import { setUpdating } from '@store/folders/reducer';
 import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
 import { setAlert } from '@store/alert/reducer';
-import useEmail from '@lib/hooks/useEmail';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { useFolders } from '@lib/graphql/hooks';
 
 interface Props extends Omit<Folder, 'user'> {
@@ -25,7 +25,7 @@ interface Props extends Omit<Folder, 'user'> {
 const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { email } = useEmail();
+    const { email } = useLoggedInUser();
     const { revalidate } = useFolders();
     const updatingFolder = useSelector(selectUpdatingFolder);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);

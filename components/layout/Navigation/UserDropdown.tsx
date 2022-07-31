@@ -40,12 +40,12 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
                             fontSize: 20,
                             position: 'relative',
                         }}
-                        startIcon={<ProfileImage imageSrc={user.image} />}
+                        startIcon={user?.image && <ProfileImage imageSrc={user.image} />}
                         onClick={toggleOpen}
                         ref={buttonRef}
                         endIcon={open ? <UpIcon /> : <DownIcon />}
                     >
-                        {user.name}
+                        {user?.name}
                     </Button>
                     <Menu
                         elevation={0}

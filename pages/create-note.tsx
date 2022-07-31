@@ -4,11 +4,10 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { Box } from '@mui/material';
-import { serverSideAuthentication } from '../lib/auth';
 import LoadingIndicator from '@components/ui/LoadingIndicator';
 import { useFolders } from '@lib/graphql/hooks';
 import fetcher from '@lib/graphql/fetcher';
-import useEmail from '@lib/hooks/useEmail';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { CREATE_NOTE_MUTATION } from '@lib/graphql/mutations';
 import { setAlert } from '@store/alert/reducer';
 
@@ -16,12 +15,10 @@ const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
 });
 
-export const getServerSideProps = serverSideAuthentication();
-
 const CreateNotePage: NextPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { email } = useEmail();
+    const { email } = useLoggedInUser();
     const { isLoading, selectedFolder, revalidate } = useFolders();
     const [selectedFolderId, _] = React.useState((router.query.folderId as string) || '');
 

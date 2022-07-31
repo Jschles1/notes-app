@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { Box, styled } from '@mui/material';
-import { selectUser } from '@store/auth/selectors';
 import UserDropdown from './UserDropdown';
+import LoadingIndicator from '@components/ui/LoadingIndicator';
 import NoteSearchInput from '@components/notes/NoteSearchInput';
 import FoldersList from '@components/folders/FoldersList';
 import AddButton from '@components/ui/AddButton';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 
 const NavigationContainer = styled(Box)(({ theme }) => ({
     height: '100%',
@@ -20,17 +20,23 @@ const NavigationContainer = styled(Box)(({ theme }) => ({
 
 const Navigation: React.FC = () => {
     const router = useRouter();
-    const user = useSelector(selectUser);
+    const { user, isLoading } = useLoggedInUser();
     const hasNotes = router.pathname.includes('notes');
     const isFoldersPage = router.pathname === '/folders';
 
     return (
         <NavigationContainer>
-            <Box>
-                <UserDropdown user={user} />
-                {hasNotes && <NoteSearchInput />}
-            </Box>
-            {!isFoldersPage && <FoldersList isNav />}
+            {isLoading ? (
+                <LoadingIndicator />
+            ) : (
+                <>
+                    <Box>
+                        <UserDropdown user={user} />
+                        {hasNotes && <NoteSearchInput />}
+                    </Box>
+                    {!isFoldersPage && <FoldersList isNav />}
+                </>
+            )}
             <AddButton resource="folder" />
         </NavigationContainer>
     );

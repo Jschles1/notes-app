@@ -2,12 +2,9 @@ import * as React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import { serverSideAuthentication } from '@lib/auth';
 import { findNote } from '@lib/helpers';
 import NoteDetail from '@components/notes/NoteDetail';
 import { useFolders } from '@lib/graphql/hooks';
-
-export const getServerSideProps = serverSideAuthentication();
 
 const NoteDetailPage: NextPage = () => {
     const router = useRouter();

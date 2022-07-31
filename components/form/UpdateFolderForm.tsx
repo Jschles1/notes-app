@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import TextInput from '@components/ui/TextInput';
 import { setUpdating } from '@store/folders/reducer';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
-import useEmail from '@lib/hooks/useEmail';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
 import { setAlert } from '@store/alert/reducer';
@@ -20,7 +20,7 @@ interface Props {
 const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     const { isDesktop } = useMediaQuery();
     const dispatch = useDispatch();
-    const { email } = useEmail();
+    const { email } = useLoggedInUser();
     const { revalidate } = useFolders();
     const { register, handleSubmit } = useForm({
         defaultValues: React.useMemo(

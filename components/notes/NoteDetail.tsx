@@ -13,11 +13,10 @@ import Skeleton from '@components/ui/Skeleton';
 import Button from '@components/ui/Button';
 import OptionButton from '@components/ui/OptionButton';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
-import { deleteNoteInit } from '@store/notes/reducer';
 import { useFolders } from '@lib/graphql/hooks';
 import fetcher from '@lib/graphql/fetcher';
 import { UPDATE_NOTE_MUTATION, DELETE_NOTE_MUTATION } from '@lib/graphql/mutations';
-import useEmail from '@lib/hooks/useEmail';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { setAlert } from '@store/alert/reducer';
 import { useRouter } from 'next/router';
 
@@ -40,7 +39,7 @@ interface Props {
 const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { email } = useEmail();
+    const { email } = useLoggedInUser();
     const [isUpdating, setIsUpdating] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const { isLoading, revalidate } = useFolders();

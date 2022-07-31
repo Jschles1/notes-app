@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import Head from 'next/head';
-import { selectUser } from '@store/auth/selectors';
 import Navigation from './Navigation';
 import NoteSelection from '../notes/NoteSelection';
 import Notification from './Notification';
 import MobileNavigation from './MobileNavigation';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
+import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 
 interface Props {
     children?: React.ReactNode;
@@ -16,7 +15,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children }) => {
     const router = useRouter();
-    const user = useSelector(selectUser);
+    const { user } = useLoggedInUser();
     const { isDesktop } = useMediaQuery();
 
     const isLoggedIn = !!user;

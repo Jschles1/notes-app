@@ -5,10 +5,9 @@
 // import { User } from 'path/to/interfaces';
 
 export interface User {
-    id: number;
-    name: string;
-    email: string;
-    image: string;
+    name?: string;
+    email?: string;
+    image?: string;
 }
 
 export interface Folder {
