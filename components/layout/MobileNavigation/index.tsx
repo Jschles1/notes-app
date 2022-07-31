@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { mutate } from 'swr';
 import { Box, AppBar, Toolbar, IconButton } from '@mui/material';
 import NavigationDrawer from './NavigationDrawer';
 import MobileUserInfo from './MobileUserInfo';
@@ -15,6 +14,7 @@ import { deleteFolderInit } from '@store/folders/reducer';
 import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
 import fetcher from '@lib/graphql/fetcher';
+import { useFolders } from '@lib/graphql/hooks';
 import useEmail from '@lib/hooks/useEmail';
 import { setAlert } from '@store/alert/reducer';
 
@@ -23,11 +23,16 @@ const MobileNavigation: React.FC = () => {
     const router = useRouter();
     const user = useSelector(selectUser);
     const { email } = useEmail();
-    const selectedFolder = useSelector(selectSelectedFolder);
+    const { revalidate, selectedFolder } = useFolders();
     const [open, setOpen] = React.useState(false);
-    const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] = React.useState(false);
-    const showBreadcrumbs = !!router.query.noteId || router.pathname === '/create-note';
-    const showSearch = !!router.query.folderId && !router.query.noteId && router.pathname !== '/create-note';
+    const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] =
+        React.useState(false);
+    const showBreadcrumbs =
+        !!router.query.noteId || router.pathname === '/create-note';
+    const showSearch =
+        !!router.query.folderId &&
+        !router.query.noteId &&
+        router.pathname !== '/create-note';
 
     const onDeleteFolderConfirm = async () => {
         const id = router.query.folderId as string;
@@ -36,7 +41,7 @@ const MobileNavigation: React.FC = () => {
         if (response.deleteFolder.success) {
             setIsDeleteFolderModalOpen(false);
 
-            mutate(GET_FOLDERS_QUERY(email));
+            revalidate();
 
             dispatch(
                 setAlert({
@@ -64,11 +69,19 @@ const MobileNavigation: React.FC = () => {
                 }}
             >
                 <Toolbar sx={{ borderBottom: '2px solid #eee' }}>
-                    {showBreadcrumbs ? <MobileBreadcrumbs /> : <MobileUserInfo user={user} />}
+                    {showBreadcrumbs ? (
+                        <MobileBreadcrumbs />
+                    ) : (
+                        <MobileUserInfo user={user} />
+                    )}
 
                     <Box sx={{ display: 'flex' }}>
                         {showSearch && <NoteSearchInput />}
-                        <IconButton color="primary" disableRipple onClick={() => setOpen(true)}>
+                        <IconButton
+                            color="primary"
+                            disableRipple
+                            onClick={() => setOpen(true)}
+                        >
                             <MoreIcon />
                         </IconButton>
                     </Box>
@@ -83,7 +96,7 @@ const MobileNavigation: React.FC = () => {
             <DeleteConfirmationModal
                 type="Folder"
                 open={isDeleteFolderModalOpen}
-                name={selectedFolder}
+                name={selectedFolder?.name}
                 onConfirm={onDeleteFolderConfirm}
                 onClose={() => setIsDeleteFolderModalOpen(false)}
             />

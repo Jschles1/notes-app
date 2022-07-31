@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { Box } from '@mui/material';
-import { fetchFoldersInit, setSelectedFolder } from '@store/folders/reducer';
-import { selectSelectedFolder, selectFolders } from '@store/folders/selectors';
-import { createNoteInit } from '@store/notes/reducer';
-import { selectRedirect } from '@store/history/selectors';
-import { clearRedirect } from '@store/history/reducer';
 import { serverSideAuthentication } from '../lib/auth';
 import LoadingIndicator from '@components/ui/LoadingIndicator';
-import { selectIsLoading } from '@store/loading/selectors';
+import { useFolders } from '@lib/graphql/hooks';
+import fetcher from '@lib/graphql/fetcher';
+import useEmail from '@lib/hooks/useEmail';
+import { CREATE_NOTE_MUTATION } from '@lib/graphql/mutations';
+import { setAlert } from '@store/alert/reducer';
 
 const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
@@ -22,37 +21,26 @@ export const getServerSideProps = serverSideAuthentication();
 const CreateNotePage: NextPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const folders = useSelector(selectFolders);
-    const selectedFolder = useSelector(selectSelectedFolder);
-    const successRedirect = useSelector(selectRedirect);
-    const isLoading = useSelector(selectIsLoading);
-    const [selectedFolderId, setSelectedFolderId] = React.useState((router.query.folderId as string) || '');
-    const [isChoosingFolder, setIsChoosingFolder] = React.useState(!selectedFolder);
+    const { email } = useEmail();
+    const { isLoading, selectedFolder, revalidate } = useFolders();
+    const [selectedFolderId, _] = React.useState((router.query.folderId as string) || '');
 
-    const onFolderSelect = (data) => {
-        dispatch(setSelectedFolder(data.folder));
-        const newSelectedFolder = folders.find((folder) => folder.name === data.folder);
-        setSelectedFolderId(newSelectedFolder._id);
-        setIsChoosingFolder(false);
-        router.replace({
-            pathname: '/create-note',
-            query: {
-                folderId: newSelectedFolder._id,
-            },
-        });
-    };
-
-    const onNoteSubmit = (data) => {
-        const payload = { ...data, id: router.query.folderId };
-        dispatch(createNoteInit(payload));
-    };
-
-    React.useEffect(() => {
-        if (successRedirect) {
-            router.push(successRedirect);
-            dispatch(clearRedirect());
+    const onNoteSubmit = async (data) => {
+        const { name, description } = data;
+        const folderId = router.query.folderId;
+        const mutation = CREATE_NOTE_MUTATION(folderId, name, description, email);
+        const response = await fetcher(mutation);
+        if (response?.createNote?.success) {
+            dispatch(
+                setAlert({
+                    type: 'success',
+                    message: 'Note Successfully Created!',
+                })
+            );
+            revalidate();
+            router.push(`/folders/${folderId}/notes`);
         }
-    }, [successRedirect, dispatch]);
+    };
 
     return (
         <Box
