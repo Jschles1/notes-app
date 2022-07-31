@@ -32,6 +32,36 @@ jest.mock('next-auth/react', () => {
     };
 });
 
+jest.mock('@lib/graphql/hooks', () => ({
+    __esModule: true,
+    useFolders: jest.fn(() => {
+        const testFolder = {
+            _id: '123',
+            name: 'Folder Name',
+            user: '321',
+            createdAt: '1649370960451',
+            updatedAt: '1649370960451',
+            notes: [
+                {
+                    _id: '234',
+                    name: 'Note Name',
+                    description: 'Note Description',
+                    folder: '123',
+                    createdAt: '1649370960451',
+                    updatedAt: '1649370960451',
+                },
+            ],
+        };
+        return {
+            folders: [testFolder],
+            selectedFolder: testFolder,
+            loading: false,
+            revalidate: jest.fn(() => {}),
+            error: null,
+        };
+    }),
+}));
+
 /**
  * TODO: Set up needed:
  * Custom Render
