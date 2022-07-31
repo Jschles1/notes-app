@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 import NotesList from './NotesList';
@@ -7,17 +6,16 @@ import SelectionContainer from '@components/layout/SelectionContainer';
 import AddButton from '@components/ui/AddButton';
 import LoadingIndicator from '@components/ui/LoadingIndicator';
 import UpdateFolderForm from '@components/form/UpdateFolderForm';
-import { selectUpdatingFolder } from '@store/folders/selectors';
-import { selectNotesSearchQuery } from '@store/notes/selectors';
 import { decodeHtml } from '@lib/helpers';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import { useFolders } from '@lib/graphql/hooks';
+import { useStoreState } from '@store/hooks';
 
 const NoteSelection: React.FC = () => {
     const { selectedFolder, isLoading } = useFolders();
-    const isUpdatingFolder = useSelector(selectUpdatingFolder);
+    const isUpdatingFolder = !!useStoreState((state) => state.updatingFolder);
     const notes = selectedFolder?.notes || [];
-    const searchQuery = useSelector(selectNotesSearchQuery);
+    const searchQuery = useStoreState((state) => state.searchQuery);
     const router = useRouter();
     const { isDesktop } = useMediaQuery();
 

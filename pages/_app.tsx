@@ -3,8 +3,9 @@ import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider, Theme } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
-import { wrapper } from '@store/index';
-import theme from '../lib/theme';
+import { StoreProvider } from 'easy-peasy';
+import store from '@store/index';
+import theme from '@lib/theme';
 import Layout from '@components/layout';
 
 const globalStyles = (
@@ -27,12 +28,15 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             <CssBaseline />
             {globalStyles}
             <SessionProvider session={pageProps.session}>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
+                <StoreProvider store={store}>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </StoreProvider>
             </SessionProvider>
         </ThemeProvider>
     );
 };
 
-export default wrapper.withRedux(MyApp);
+// export default wrapper.withRedux(MyApp);
+export default MyApp;

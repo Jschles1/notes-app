@@ -1,36 +1,43 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { createWrapper } from 'next-redux-wrapper';
-import { wrapMakeStore, nextReduxCookieMiddleware } from 'next-redux-cookie-wrapper';
-import foldersReducer from './folders/reducer';
-import notesReducer from './notes/reducer';
-import alertReducer from './alert/reducer';
+import { createStore, persist, action, Action } from 'easy-peasy';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+type AlertModel = {
+    type: string;
+    message: string;
+};
 
-export const makeStore = wrapMakeStore(() => {
-    const store = configureStore({
-        reducer: {
-            folders: foldersReducer,
-            notes: notesReducer,
-            alert: alertReducer,
+export interface StoreModel {
+    updatingFolder: string;
+    setUpdatingFolder: Action<StoreModel, string>;
+    searchQuery: string;
+    setSearchQuery: Action<StoreModel, string>;
+    alert: AlertModel;
+    setAlert: Action<StoreModel, AlertModel>;
+    clearAlert: Action<StoreModel>;
+}
+
+const store = createStore<StoreModel>(
+    persist({
+        updatingFolder: '',
+        setUpdatingFolder: action((state, payload) => {
+            state.updatingFolder = payload;
+        }),
+        searchQuery: '',
+        setSearchQuery: action((state, payload) => {
+            state.searchQuery = payload;
+        }),
+        alert: {
+            type: '',
+            message: '',
         },
-        devTools: isDevelopment,
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({
-                serializableCheck: false,
-                thunk: false,
-            }).prepend(
-                nextReduxCookieMiddleware({
-                    subtrees: ['alert.type', 'alert.message'],
-                })
-            ),
-    });
-    return store;
-});
+        setAlert: action((state, payload) => {
+            state.alert.type = payload.type;
+            state.alert.message = payload.message;
+        }),
+        clearAlert: action((state) => {
+            state.alert.type = '';
+            state.alert.message = '';
+        }),
+    })
+);
 
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppState = ReturnType<AppStore['getState']>;
-
-export const wrapper = createWrapper<AppStore>(makeStore, {
-    debug: false,
-});
+export default store;

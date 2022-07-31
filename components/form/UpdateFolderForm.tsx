@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import TextInput from '@components/ui/TextInput';
-import { setUpdating } from '@store/folders/reducer';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
-import { setAlert } from '@store/alert/reducer';
 import { useFolders } from '@lib/graphql/hooks';
+import { useStoreActions } from '@store/hooks';
 
 interface Props {
     name: string;
@@ -19,7 +17,8 @@ interface Props {
 
 const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     const { isDesktop } = useMediaQuery();
-    const dispatch = useDispatch();
+    const setUpdatingFolder = useStoreActions((actions) => actions.setUpdatingFolder);
+    const setAlert = useStoreActions((actions) => actions.setAlert);
     const { email } = useLoggedInUser();
     const { revalidate } = useFolders();
     const { register, handleSubmit } = useForm({
@@ -38,18 +37,16 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
             const response = await fetcher(mutation);
             if (response?.updateFolder?.success) {
                 revalidate();
-                dispatch(
-                    setAlert({
-                        type: 'success',
-                        message: 'Folder Successfully Updated!',
-                    })
-                );
-                dispatch(setUpdating(''));
+                setAlert({
+                    type: 'success',
+                    message: 'Folder Successfully Updated!',
+                });
+                setUpdatingFolder('');
             } else {
                 // TODO: handle error
             }
         } else {
-            dispatch(setUpdating(''));
+            setUpdatingFolder('');
         }
     };
 

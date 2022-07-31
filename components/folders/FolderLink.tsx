@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Box, Collapse, Grid, IconButton } from '@mui/material';
 import FolderIcon from '@mui/icons-material/FolderRounded';
@@ -10,11 +9,9 @@ import Button from '@components/ui/Button';
 import Link from '@components/ui/Link';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import UpdateFolderForm from '@components/form/UpdateFolderForm';
-import { selectUpdatingFolder } from '@store/folders/selectors';
-import { setUpdating } from '@store/folders/reducer';
 import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
-import { setAlert } from '@store/alert/reducer';
+import { useStoreActions, useStoreState } from '@store/hooks';
 import useLoggedInUser from '@lib/hooks/useLoggedInUser';
 import { useFolders } from '@lib/graphql/hooks';
 
@@ -23,13 +20,16 @@ interface Props extends Omit<Folder, 'user'> {
 }
 
 const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
-    const dispatch = useDispatch();
+    const setUpdatingFolder = useStoreActions((actions) => actions.setUpdatingFolder);
+    const setAlert = useStoreActions((actions) => actions.setAlert);
     const router = useRouter();
     const { email } = useLoggedInUser();
     const { revalidate } = useFolders();
-    const updatingFolder = useSelector(selectUpdatingFolder);
+    const updatingFolder = useStoreState((state) => state.updatingFolder);
     const [isOptionsOpen, setIsOptionsOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    console.log({ updatingFolder });
 
     const folderId = router.query.folderId as string;
     const isSelected = folderId && folderId === _id;
@@ -41,7 +41,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const handeUpdateClick = () => {
         setIsOptionsOpen(false);
         setTimeout(() => {
-            dispatch(setUpdating(_id));
+            setUpdatingFolder(_id);
         }, 100);
     };
 
@@ -58,12 +58,10 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
 
             await revalidate();
 
-            dispatch(
-                setAlert({
-                    type: 'success',
-                    message: 'Folder Successfully Deleted!',
-                })
-            );
+            setAlert({
+                type: 'success',
+                message: 'Folder Successfully Deleted!',
+            });
 
             if (window.location.href.includes(_id)) {
                 router.push('/folders');

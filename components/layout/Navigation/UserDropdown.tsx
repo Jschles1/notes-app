@@ -1,28 +1,22 @@
 import * as React from 'react';
 import { signOut } from 'next-auth/react';
-import { useDispatch } from 'react-redux';
 import { Box, Menu, MenuItem, ClickAwayListener } from '@mui/material';
 import DownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import UserIcon from '@mui/icons-material/AccountCircleRounded';
 import { User } from '../../../interfaces';
-import Button from '../../ui/Button';
-import ProfileImage from '../../ui/ProfileImage';
-import { resetFolders } from '../../../store/folders/reducer';
-import { resetNotes } from '../../../store/notes/reducer';
+import Button from '@components/ui/Button';
+import ProfileImage from '@components/ui/ProfileImage';
 
 interface Props {
     user: User;
 }
 
 const UserDropdown: React.FC<Props> = ({ user }) => {
-    const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const buttonRef = React.useRef();
 
     const handleSignOut = async () => {
-        dispatch(resetFolders());
-        dispatch(resetNotes());
         await signOut();
     };
 

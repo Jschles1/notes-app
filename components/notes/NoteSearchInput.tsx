@@ -1,24 +1,23 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
 import { Box, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import TextInput from '../ui/TextInput';
 import { debounce } from '@lib/helpers';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
-import { setSearchQuery } from '@store/notes/reducer';
+import { useStoreActions } from '@store/hooks';
 
 const NoteSearchInput: React.FC = () => {
-    const dispatch = useDispatch();
+    const setSearchQuery = useStoreActions((actions) => actions.setSearchQuery);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
     const { isDesktop } = useMediaQuery();
 
     const handleSearchChange = (e) => {
-        dispatch(setSearchQuery(e.target.value));
+        setSearchQuery(e.target.value);
     };
 
     const handleSearchClose = () => {
-        dispatch(setSearchQuery(''));
+        setSearchQuery('');
         setIsMobileSearchOpen(false);
     };
 

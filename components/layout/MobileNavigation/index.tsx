@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Box, AppBar, Toolbar, IconButton } from '@mui/material';
 import NavigationDrawer from './NavigationDrawer';
@@ -12,10 +11,10 @@ import { DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 import fetcher from '@lib/graphql/fetcher';
 import { useFolders } from '@lib/graphql/hooks';
 import useLoggedInUser from '@lib/hooks/useLoggedInUser';
-import { setAlert } from '@store/alert/reducer';
+import { useStoreActions } from '@store/hooks';
 
 const MobileNavigation: React.FC = () => {
-    const dispatch = useDispatch();
+    const setAlert = useStoreActions((actions) => actions.setAlert);
     const router = useRouter();
     const { email, user } = useLoggedInUser();
     const { revalidate, selectedFolder } = useFolders();
@@ -33,12 +32,10 @@ const MobileNavigation: React.FC = () => {
 
             revalidate();
 
-            dispatch(
-                setAlert({
-                    type: 'success',
-                    message: 'Folder Successfully Deleted!',
-                })
-            );
+            setAlert({
+                type: 'success',
+                message: 'Folder Successfully Deleted!',
+            });
 
             if (window.location.href.includes(id)) {
                 router.push('/folders');

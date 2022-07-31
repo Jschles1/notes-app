@@ -1,20 +1,18 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Box, Fade, Alert, AlertColor } from '@mui/material';
-import { clearAlert } from '../../store/alert/reducer';
-import { selectAlert } from '../../store/alert/selectors';
+import { useStoreState, useStoreActions } from '@store/hooks';
 
 const Notification: React.FC = () => {
-    const dispatch = useDispatch();
-    const alert = useSelector(selectAlert);
+    const alert = useStoreState((state) => state.alert);
+    const clearAlert = useStoreActions((actions) => actions.clearAlert);
 
     const clearAlertDialog = () => {
-        dispatch(clearAlert());
+        clearAlert();
     };
 
     React.useEffect(() => {
         if (alert.type === 'success') {
-            setTimeout(() => dispatch(clearAlert()), 5000);
+            setTimeout(() => clearAlert(), 5000);
         }
     }, [alert.type]);
 
