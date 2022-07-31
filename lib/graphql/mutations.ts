@@ -1,7 +1,7 @@
 export const CREATE_FOLDER_MUTATION = (name: string, email: string) => ({
     query: `
-    mutation CreateFolder($name: String!, $email: String!) { 
-      createFolder(name: $name, email: $email) { 
+    mutation CreateFolder($input: FolderInput!) { 
+      createFolder(input: $input) { 
         code 
         success 
         message 
@@ -20,13 +20,13 @@ export const CREATE_FOLDER_MUTATION = (name: string, email: string) => ({
       } 
     }
   `,
-    variables: { name, email },
+    variables: { input: { name, email } },
 });
 
 export const UPDATE_FOLDER_MUTATION = (id: string, name: string, email: string) => ({
     query: `
-    mutation UpdateFolder($id: ID!, $name: String!, $email: String!) {
-      updateFolder(id: $id, name: $name, email: $email) {
+    mutation UpdateFolder($id: ID!, $input: FolderInput!) {
+      updateFolder(id: $id, input: $input) {
         code
         success
         message
@@ -45,7 +45,7 @@ export const UPDATE_FOLDER_MUTATION = (id: string, name: string, email: string) 
       }
     }
   `,
-    variables: { id, name, email },
+    variables: { id, input: { name, email } },
 });
 
 export const DELETE_FOLDER_MUTATION = (id: string, email: string) => ({
@@ -63,8 +63,8 @@ export const DELETE_FOLDER_MUTATION = (id: string, email: string) => ({
 
 export const CREATE_NOTE_MUTATION = (folderId: string, name: string, description: string, email: string) => ({
     query: `
-    mutation CreateNote($folderId: ID!, $name: String!, $description: String!, $email: String!) {
-      createNote(folderId: $folderId, name: $name, description: $description, email: $email) {
+    mutation CreateNote($folderId: ID!, $input: NoteInput!) {
+      createNote(folderId: $folderId, input: $input) {
         code
         success
         message
@@ -79,7 +79,7 @@ export const CREATE_NOTE_MUTATION = (folderId: string, name: string, description
       }
     }
   `,
-    variables: { folderId, name, description, email },
+    variables: { folderId, input: { name, description, email } },
 });
 
 export const UPDATE_NOTE_MUTATION = (
@@ -90,8 +90,8 @@ export const UPDATE_NOTE_MUTATION = (
     email: string
 ) => ({
     query: `
-  mutation UpdateNote($noteId: ID!, $folderId: ID!, $name: String!, $description: String!, $email: String!) {
-    updateNote(noteId: $noteId, folderId: $folderId, name: $name, description: $description, email: $email) {
+  mutation UpdateNote($noteId: ID!, $folderId: ID!, $input: NoteInput! ) {
+    updateNote(noteId: $noteId, folderId: $folderId, input: $input) {
       code
       success
       message
@@ -106,7 +106,7 @@ export const UPDATE_NOTE_MUTATION = (
     }
   }
 `,
-    variables: { noteId, folderId, name, description, email },
+    variables: { noteId, folderId, input: { name, description, email } },
 });
 
 export const DELETE_NOTE_MUTATION = (noteId: string, folderId: string, email: string) => ({

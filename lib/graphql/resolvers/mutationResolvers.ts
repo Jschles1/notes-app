@@ -5,12 +5,12 @@ const mutationResolvers = {
     createFolder: async (_, args, { session, db }) => {
         let response;
 
-        if (session.user.email === args.email) {
+        if (session.user.email === args.input.email) {
             const user = await getUser(db, session.user.email);
 
             try {
                 const result = await new db.Folder({
-                    name: args.name,
+                    name: args.input.name,
                     user: user._id,
                 });
                 await result.save();
@@ -36,7 +36,10 @@ const mutationResolvers = {
         return response;
     },
     updateFolder: async (_, args, { session, db }) => {
-        const { id, name, email } = args;
+        const {
+            id,
+            input: { name, email },
+        } = args;
         let response;
 
         if (session.user.email === email) {
@@ -44,7 +47,11 @@ const mutationResolvers = {
             const data = { name };
 
             try {
-                const result = await db.Folder.findOneAndUpdate({ _id: id, user: user._id }, data, { new: true });
+                const result = await db.Folder.findOneAndUpdate(
+                    { _id: id, user: user._id },
+                    data,
+                    { new: true }
+                );
                 response = {
                     code: 200,
                     success: true,
@@ -105,14 +112,20 @@ const mutationResolvers = {
         return response;
     },
     createNote: async (_, args, { session, db }) => {
-        const { folderId, name, description, email } = args;
+        const {
+            folderId,
+            input: { name, description, email },
+        } = args;
         let response;
 
         if (session.user.email === email) {
             const user = await getUser(db, session.user.email);
             const parentFolder = await db.Folder.findById(folderId);
 
-            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
+            if (
+                !!parentFolder &&
+                parentFolder.user.toString() === user._id.toString()
+            ) {
                 const data = {
                     name,
                     description: sanitize(description),
@@ -142,23 +155,34 @@ const mutationResolvers = {
         return response;
     },
     updateNote: async (_, args, { session, db }) => {
-        const { noteId, folderId, name, description, email } = args;
+        const {
+            noteId,
+            folderId,
+            input: { name, description, email },
+        } = args;
         let response;
 
         if (session.user.email === email) {
             const user = await getUser(db, session.user.email);
             const parentFolder = await db.Folder.findById(folderId);
 
-            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
+            if (
+                !!parentFolder &&
+                parentFolder.user.toString() === user._id.toString()
+            ) {
                 const data = {
                     name,
                     description: sanitize(description),
                 };
 
                 try {
-                    const note = await db.Note.findOneAndUpdate({ folder: folderId, _id: noteId }, data, {
-                        new: true,
-                    }).clone();
+                    const note = await db.Note.findOneAndUpdate(
+                        { folder: folderId, _id: noteId },
+                        data,
+                        {
+                            new: true,
+                        }
+                    ).clone();
 
                     response = {
                         code: 200,
@@ -186,7 +210,10 @@ const mutationResolvers = {
             const user = await getUser(db, session.user.email);
             const parentFolder = await db.Folder.findById(folderId);
 
-            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
+            if (
+                !!parentFolder &&
+                parentFolder.user.toString() === user._id.toString()
+            ) {
                 try {
                     await db.Note.findByIdAndDelete(noteId);
 
