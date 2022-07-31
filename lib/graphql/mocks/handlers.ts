@@ -15,6 +15,9 @@ export const handlers = [
                     success: true,
                     message: 'success',
                 }),
+                Folder: () => ({
+                    _id: '123',
+                }),
             },
         });
 
