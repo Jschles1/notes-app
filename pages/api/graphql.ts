@@ -32,6 +32,8 @@ const typeDefs = gql`
         updateFolder(id: ID!, name: String!, email: String!): UpdateFolderResponse!
         deleteFolder(id: ID!, email: String!): DeleteFolderResponse!
         createNote(folderId: ID!, name: String!, description: String!, email: String!): CreateNoteResponse!
+        updateNote(noteId: ID!, folderId: ID!, name: String!, description: String!, email: String!): UpdateNoteResponse!
+        deleteNote(noteId: ID!, folderId: ID!, email: String!): DeleteNoteResponse!
     }
 
     type User {
@@ -92,6 +94,19 @@ const typeDefs = gql`
         success: Boolean!
         message: String!
         note: Note
+    }
+
+    type UpdateNoteResponse {
+        code: Int!
+        success: Boolean!
+        message: String!
+        note: Note
+    }
+
+    type DeleteNoteResponse {
+        code: Int!
+        success: Boolean!
+        message: String!
     }
 `;
 
@@ -257,6 +272,53 @@ const resolvers = {
                             success: true,
                             message: 'Successfully created note',
                             note: result,
+                        };
+                    } catch (e) {
+                        response = handleGraphQLError(e);
+                    }
+                } else {
+                    response = handleAuthError();
+                }
+            } else {
+                response = handleAuthError();
+            }
+
+            return response;
+        },
+        updateNote: async (_, args, { session, db }) => {
+            const { noteId, folderId, name, description, email } = args;
+            let response;
+
+            if (session.user.email === email) {
+                const user = await getUser(db, session.user.email);
+                const parentFolder = await db.Folder.findById(folderId);
+
+                if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
+                    const data = {
+                        name,
+                        description: sanitize(description),
+                    };
+
+                    try {
+                        // const result = await new db.Note(data);
+                        // await result.save();
+                        // response = {
+                        //     code: 200,
+                        //     success: true,
+                        //     message: 'Successfully created note',
+                        //     note: result,
+                        // };
+                        const note = await db.Note.findOneAndUpdate({ folder: folderId, _id: noteId }, data, {
+                            new: true,
+                        }).clone();
+
+                        console.log('note result', note);
+
+                        response = {
+                            code: 200,
+                            success: true,
+                            message: 'Successfully updated note',
+                            note,
                         };
                     } catch (e) {
                         response = handleGraphQLError(e);

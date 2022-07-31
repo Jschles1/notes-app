@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import TextInput from '@components/ui/TextInput';
@@ -20,7 +19,6 @@ interface Props {
 
 const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
     const { isDesktop } = useMediaQuery();
-    const router = useRouter();
     const dispatch = useDispatch();
     const { email } = useEmail();
     const { revalidate } = useFolders();
@@ -38,7 +36,6 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
         if (newName && newName !== name) {
             const mutation = UPDATE_FOLDER_MUTATION(id, newName, email);
             const response = await fetcher(mutation);
-            console.log('repsonse', response);
             if (response?.updateFolder?.success) {
                 revalidate();
                 dispatch(

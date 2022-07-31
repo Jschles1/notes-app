@@ -13,8 +13,12 @@ import Skeleton from '@components/ui/Skeleton';
 import Button from '@components/ui/Button';
 import OptionButton from '@components/ui/OptionButton';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
-import { deleteNoteInit, updateNoteInit } from '@store/notes/reducer';
+import { deleteNoteInit } from '@store/notes/reducer';
 import { useFolders } from '@lib/graphql/hooks';
+import fetcher from '@lib/graphql/fetcher';
+import { UPDATE_NOTE_MUTATION } from '@lib/graphql/mutations';
+import useEmail from '@lib/hooks/useEmail';
+import { setAlert } from '@store/alert/reducer';
 
 const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
@@ -34,14 +38,27 @@ interface Props {
 
 const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const dispatch = useDispatch();
+    const { email } = useEmail();
     const [isUpdating, setIsUpdating] = React.useState(false);
     const [open, setOpen] = React.useState(false);
-    const { isLoading } = useFolders();
+    const { isLoading, revalidate } = useFolders();
     const { isDesktop } = useMediaQuery();
 
-    const onUpdate = (data) => {
-        const payload = { ...data, folderId, noteId };
-        dispatch(updateNoteInit(payload));
+    const onUpdate = async (data) => {
+        const { name, description } = data;
+        const mutation = UPDATE_NOTE_MUTATION(noteId, folderId, name, description, email);
+        const response = await fetcher(mutation);
+        if (response.updateNote.success) {
+            dispatch(
+                setAlert({
+                    type: 'success',
+                    message: 'Note Successfully Updated!',
+                })
+            );
+            setIsUpdating(false);
+            // TODO: Handle loading state
+            revalidate();
+        }
     };
 
     const onDelete = () => {
