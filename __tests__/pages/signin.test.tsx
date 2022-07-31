@@ -1,8 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../jest.setup';
 import Signin, { getServerSideProps } from '../../pages/signin';
 import { getSession } from 'next-auth/react';
-import { getPage } from 'next-page-tester';
-import { App, Page } from '@lib/wrapper';
 
 describe('/signin Page', () => {
     it('Renders without error', () => {

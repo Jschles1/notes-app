@@ -5,18 +5,20 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import * as React from 'react';
-import { getSession, useSession } from 'next-auth/react';
+import { setupServer } from 'msw/node';
+import 'whatwg-fetch';
 import { ThemeProvider, Theme } from '@mui/material/styles';
 import { StoreProvider } from 'easy-peasy';
 import { render as rtlRender, RenderResult, cleanup } from '@testing-library/react';
 import store from '@store/index';
 import theme from '@lib/theme';
+import { handlers } from '@lib/graphql/mocks/handlers';
 
 jest.mock('next-auth/react', () => {
     const originalModule = jest.requireActual('next-auth/react');
     const mockSession = {
         expires: new Date(Date.now() + 2 * 86400).toISOString(),
-        user: { username: 'admin' },
+        user: { username: 'admin', email: 'admin@email.com' },
     };
     return {
         __esModule: true,
@@ -55,5 +57,15 @@ const render = (ui: React.ReactElement, renderOptions = {}): RenderResult => {
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
+const server = setupServer(...handlers);
+
+beforeAll(() => {
+    server.listen();
+});
+
+afterAll(() => {
+    server.close();
+});
+
 export * from '@testing-library/react';
-export { render };
+export { render, server };
