@@ -17,6 +17,7 @@ export const handlers = [
                 }),
                 Folder: () => ({
                     _id: '123',
+                    name: 'Folder Name',
                 }),
             },
         });
