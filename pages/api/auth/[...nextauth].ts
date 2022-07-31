@@ -24,7 +24,7 @@ export default NextAuth({
                     }).clone();
 
                     if (!user) {
-                        const newUser = await new User({
+                        const newUser = await new db.User({
                             email: profile.email,
                             name: profile.name,
                             image: profile.picture,
@@ -32,7 +32,7 @@ export default NextAuth({
 
                         const savedUser = await newUser.save();
 
-                        const defaultFolder = await new Folder({
+                        const defaultFolder = await new db.Folder({
                             name: 'New Folder',
                             user: savedUser._id,
                         });
