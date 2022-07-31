@@ -27,48 +27,54 @@ const typeDefs = gql`
         updatedAt: String
     }
 
-    type GetFoldersResponse {
+    interface Response {
+        code: Int!
+        success: Boolean!
+        message: String!
+    }
+
+    type GetFoldersResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
         folders: [Folder]!
     }
 
-    type CreateFolderResponse {
+    type CreateFolderResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
         folder: Folder
     }
 
-    type UpdateFolderResponse {
+    type UpdateFolderResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
         folder: Folder
     }
 
-    type DeleteFolderResponse {
+    type DeleteFolderResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
     }
 
-    type CreateNoteResponse {
-        code: Int!
-        success: Boolean!
-        message: String!
-        note: Note
-    }
-
-    type UpdateNoteResponse {
+    type CreateNoteResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
         note: Note
     }
 
-    type DeleteNoteResponse {
+    type UpdateNoteResponse implements Response {
+        code: Int!
+        success: Boolean!
+        message: String!
+        note: Note
+    }
+
+    type DeleteNoteResponse implements Response {
         code: Int!
         success: Boolean!
         message: String!
@@ -94,16 +100,8 @@ const typeDefs = gql`
         updateFolder(id: ID!, input: FolderInput!): UpdateFolderResponse!
         deleteFolder(id: ID!, email: String!): DeleteFolderResponse!
         createNote(folderId: ID!, input: NoteInput!): CreateNoteResponse!
-        updateNote(
-            noteId: ID!
-            folderId: ID!
-            input: NoteInput!
-        ): UpdateNoteResponse!
-        deleteNote(
-            noteId: ID!
-            folderId: ID!
-            email: String!
-        ): DeleteNoteResponse!
+        updateNote(noteId: ID!, folderId: ID!, input: NoteInput!): UpdateNoteResponse!
+        deleteNote(noteId: ID!, folderId: ID!, email: String!): DeleteNoteResponse!
     }
 `;
 
