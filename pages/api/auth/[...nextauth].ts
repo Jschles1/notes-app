@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import mongoose from 'mongoose';
 import User from '@lib/server/models/User';
 import Folder from '@lib/server/models/Folder';
 import connectToDatabase from '@lib/server/connectToDatabase';
@@ -18,9 +17,9 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             async profile(profile) {
-                await connectToDatabase();
+                const db = await connectToDatabase();
                 try {
-                    const user = await User.findOne({
+                    const user = await db.User.findOne({
                         email: profile.email,
                     }).clone();
 
@@ -41,11 +40,11 @@ export default NextAuth({
                         await defaultFolder.save();
                     }
                 } catch (e) {
-                    mongoose.connection.close();
+                    db.connection.close();
                     throw new Error(`Error Signing In: ${e}`);
                 }
 
-                mongoose.connection.close();
+                db.connection.close();
 
                 return {
                     id: profile.sub,
