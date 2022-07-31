@@ -39,6 +39,8 @@ const CreateNotePage: NextPage = () => {
             );
             revalidate();
             router.push(`/folders/${folderId}/notes`);
+        } else {
+            // TODO: handle error
         }
     };
 

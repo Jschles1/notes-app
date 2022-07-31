@@ -25,20 +25,15 @@ const MobileNavigation: React.FC = () => {
     const { email } = useEmail();
     const { revalidate, selectedFolder } = useFolders();
     const [open, setOpen] = React.useState(false);
-    const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] =
-        React.useState(false);
-    const showBreadcrumbs =
-        !!router.query.noteId || router.pathname === '/create-note';
-    const showSearch =
-        !!router.query.folderId &&
-        !router.query.noteId &&
-        router.pathname !== '/create-note';
+    const [isDeleteFolderModalOpen, setIsDeleteFolderModalOpen] = React.useState(false);
+    const showBreadcrumbs = !!router.query.noteId || router.pathname === '/create-note';
+    const showSearch = !!router.query.folderId && !router.query.noteId && router.pathname !== '/create-note';
 
     const onDeleteFolderConfirm = async () => {
         const id = router.query.folderId as string;
         const mutation = DELETE_FOLDER_MUTATION(id, email);
         const response = await fetcher(mutation);
-        if (response.deleteFolder.success) {
+        if (response?.deleteFolder?.success) {
             setIsDeleteFolderModalOpen(false);
 
             revalidate();
@@ -53,6 +48,8 @@ const MobileNavigation: React.FC = () => {
             if (window.location.href.includes(id)) {
                 router.push('/folders');
             }
+        } else {
+            // TODO: handle error
         }
     };
 
@@ -69,19 +66,11 @@ const MobileNavigation: React.FC = () => {
                 }}
             >
                 <Toolbar sx={{ borderBottom: '2px solid #eee' }}>
-                    {showBreadcrumbs ? (
-                        <MobileBreadcrumbs />
-                    ) : (
-                        <MobileUserInfo user={user} />
-                    )}
+                    {showBreadcrumbs ? <MobileBreadcrumbs /> : <MobileUserInfo user={user} />}
 
                     <Box sx={{ display: 'flex' }}>
                         {showSearch && <NoteSearchInput />}
-                        <IconButton
-                            color="primary"
-                            disableRipple
-                            onClick={() => setOpen(true)}
-                        >
+                        <IconButton color="primary" disableRipple onClick={() => setOpen(true)}>
                             <MoreIcon />
                         </IconButton>
                     </Box>

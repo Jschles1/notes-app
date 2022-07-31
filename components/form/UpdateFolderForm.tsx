@@ -39,7 +39,7 @@ const UpdateFolderForm: React.FC<Props> = ({ name, id, isNav = false }) => {
             const mutation = UPDATE_FOLDER_MUTATION(id, newName, email);
             const response = await fetcher(mutation);
             console.log('repsonse', response);
-            if (response.updateFolder.success) {
+            if (response?.updateFolder?.success) {
                 revalidate();
                 dispatch(
                     setAlert({

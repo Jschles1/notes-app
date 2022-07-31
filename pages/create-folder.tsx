@@ -11,11 +11,13 @@ import useEmail from '@lib/hooks/useEmail';
 import fetcher from '@lib/graphql/fetcher';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
 import { CREATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import { useFolders } from '@lib/graphql/hooks';
 
 export const getServerSideProps = serverSideAuthentication();
 
 const CreateFolderPage: NextPage = () => {
     const { email } = useEmail();
+    const { revalidate } = useFolders();
     const dispatch = useDispatch();
     const router = useRouter();
     const successRedirect = useSelector(selectRedirect);
@@ -23,8 +25,8 @@ const CreateFolderPage: NextPage = () => {
     const onSubmit = async (data) => {
         const mutation = CREATE_FOLDER_MUTATION(data.name, email);
         const response = await fetcher(mutation);
-        if (response.createFolder.success) {
-            mutate(GET_FOLDERS_QUERY(email));
+        if (response?.createFolder?.success) {
+            revalidate();
             router.push('/folders');
         } else {
             // TODO: handle error

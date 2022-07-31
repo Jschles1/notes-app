@@ -53,7 +53,7 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
     const onDeleteFolderConfirm = async () => {
         const mutation = DELETE_FOLDER_MUTATION(_id, email);
         const response = await fetcher(mutation);
-        if (response.deleteFolder.success) {
+        if (response?.deleteFolder?.success) {
             setIsModalOpen(false);
 
             await revalidate();
@@ -68,6 +68,8 @@ const FolderButton: React.FC<Props> = ({ _id, name, isNav = false }) => {
             if (window.location.href.includes(_id)) {
                 router.push('/folders');
             }
+        } else {
+            // TODO: handle error
         }
     };
 
