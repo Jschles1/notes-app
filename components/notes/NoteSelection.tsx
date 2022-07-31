@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 import NotesList from './NotesList';
@@ -7,21 +7,17 @@ import SelectionContainer from '@components/layout/SelectionContainer';
 import AddButton from '@components/ui/AddButton';
 import LoadingIndicator from '@components/ui/LoadingIndicator';
 import UpdateFolderForm from '@components/form/UpdateFolderForm';
-import { selectSelectedFolder, selectUpdatingFolder } from '@store/folders/selectors';
-import { selectNotes, selectNotesSearchQuery } from '@store/notes/selectors';
-import { fetchNotesInit } from '@store/notes/reducer';
-import { selectIsLoading } from '@store/loading/selectors';
+import { selectUpdatingFolder } from '@store/folders/selectors';
+import { selectNotesSearchQuery } from '@store/notes/selectors';
 import { decodeHtml } from '@lib/helpers';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import { useFolders } from '@lib/graphql/hooks';
 
 const NoteSelection: React.FC = () => {
-    const dispatch = useDispatch();
-    const { selectedFolder } = useFolders();
+    const { selectedFolder, isLoading } = useFolders();
     const isUpdatingFolder = useSelector(selectUpdatingFolder);
     const notes = selectedFolder?.notes || [];
     const searchQuery = useSelector(selectNotesSearchQuery);
-    const isLoading = useSelector(selectIsLoading);
     const router = useRouter();
     const { isDesktop } = useMediaQuery();
 

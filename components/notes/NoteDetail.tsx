@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
-import { selectIsLoading } from '@store/loading/selectors';
 import { Note } from '../../interfaces';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
@@ -15,6 +14,7 @@ import Button from '@components/ui/Button';
 import OptionButton from '@components/ui/OptionButton';
 import DeleteConfirmationModal from '@components/ui/DeleteConfirmationModal';
 import { deleteNoteInit, updateNoteInit } from '@store/notes/reducer';
+import { useFolders } from '@lib/graphql/hooks';
 
 const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
@@ -36,7 +36,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const dispatch = useDispatch();
     const [isUpdating, setIsUpdating] = React.useState(false);
     const [open, setOpen] = React.useState(false);
-    const isLoading = useSelector(selectIsLoading);
+    const { isLoading } = useFolders();
     const { isDesktop } = useMediaQuery();
 
     const onUpdate = (data) => {

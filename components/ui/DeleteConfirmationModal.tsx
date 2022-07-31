@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Button from '@components/ui/Button';
-import { selectIsLoading } from '@store/loading/selectors';
+import { useFolders } from '@lib/graphql/hooks';
 
 interface Props {
     type: 'Folder' | 'Note';
@@ -13,7 +12,7 @@ interface Props {
 }
 
 const DeleteConfirmationModal: React.FC<Props> = ({ type, name, open, onClose, onConfirm }) => {
-    const isLoading = useSelector(selectIsLoading);
+    const { isLoading } = useFolders();
     return (
         <Dialog
             open={open}
