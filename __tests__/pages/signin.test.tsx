@@ -1,5 +1,5 @@
-import { render, screen } from '../../jest.setup';
-import Signin, { getServerSideProps } from '../../pages/signin';
+import { render, screen } from '@/jest.setup';
+import Signin, { getServerSideProps } from '@pages/signin';
 import { getSession } from 'next-auth/react';
 
 describe('/signin Page', () => {

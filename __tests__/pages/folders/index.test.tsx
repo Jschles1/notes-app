@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '../../../jest.setup';
-import FoldersPage from '../../../pages/folders';
+import { render, screen, waitFor } from '@/jest.setup';
+import FoldersPage from '@pages/folders';
 
 describe('/folders Page', () => {
     it('Renders without error', async () => {

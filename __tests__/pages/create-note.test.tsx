@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '../../jest.setup';
-import CreateNote from '../../pages/create-note';
+import { render, screen, waitFor } from '@/jest.setup';
+import CreateNote from '@pages/create-note';
 import mockRouter from 'next-router-mock';
 
 describe('/create-note Page', () => {

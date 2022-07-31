@@ -1,5 +1,5 @@
-import { render, screen, waitFor } from '../../../../../jest.setup';
-import FolderDetailPage from '../../../../../pages/folders/[folderId]/notes/index';
+import { render, screen, waitFor } from '@/jest.setup';
+import FolderDetailPage from '@pages/folders/[folderId]/notes/index';
 import mockRouter from 'next-router-mock';
 import 'next-router-mock/dynamic-routes';
 

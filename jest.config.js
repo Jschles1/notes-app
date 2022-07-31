@@ -16,6 +16,8 @@ const customJestConfig = {
         '^@components/(.*)$': '<rootDir>/components/$1',
         '^@store/(.*)$': '<rootDir>/store/$1',
         '^@lib/(.*)$': '<rootDir>/lib/$1',
+        '^@pages/(.*)$': '<rootDir>/pages/$1',
+        '^@/(.*)$': '<rootDir>/$1',
     },
     testEnvironment: 'jest-environment-jsdom',
 };

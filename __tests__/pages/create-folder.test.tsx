@@ -1,5 +1,5 @@
-import { render, screen } from '../../jest.setup';
-import CreateFolder from '../../pages/create-folder';
+import { render, screen } from '@/jest.setup';
+import CreateFolder from '@pages/create-folder';
 
 describe('/create-folder Page', () => {
     it('Renders without error', () => {
