@@ -9,11 +9,7 @@ import { setupServer } from 'msw/node';
 import 'whatwg-fetch';
 import { ThemeProvider } from '@mui/material/styles';
 import { StoreProvider } from 'easy-peasy';
-import {
-    render as rtlRender,
-    RenderResult,
-    cleanup,
-} from '@testing-library/react';
+import { render as rtlRender, RenderResult, cleanup } from '@testing-library/react';
 import store from '@store/index';
 import theme from '@lib/theme';
 import { handlers } from '@lib/graphql/mocks/handlers';
@@ -90,11 +86,7 @@ jest.mock('@lib/hooks/useLoggedInUser', () => ({
     }),
 }));
 
-const render = (
-    ui: React.ReactElement,
-    renderOptions = {},
-    mockStore = store
-): RenderResult => {
+const render = (ui: React.ReactElement, mockStore = store, renderOptions = {}): RenderResult => {
     const Wrapper: React.FC = ({ children }) => (
         <ThemeProvider theme={theme}>
             <StoreProvider store={mockStore}>{children}</StoreProvider>
