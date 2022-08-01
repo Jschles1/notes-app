@@ -15,29 +15,44 @@ export interface StoreModel {
     clearAlert: Action<StoreModel>;
 }
 
-const store = createStore<StoreModel>(
-    persist({
-        updatingFolder: '',
-        setUpdatingFolder: action((state, payload) => {
-            state.updatingFolder = payload;
+const initialStoreState = {
+    updatingFolder: '',
+    alert: {
+        type: '',
+        message: '',
+    },
+    searchQuery: '',
+};
+
+export const createGlobalStateStore = (initialState = initialStoreState) =>
+    createStore<StoreModel>(
+        persist({
+            updatingFolder: '',
+            setUpdatingFolder: action((state, payload) => {
+                state.updatingFolder = payload;
+            }),
+            searchQuery: '',
+            setSearchQuery: action((state, payload) => {
+                state.searchQuery = payload;
+            }),
+            alert: {
+                type: '',
+                message: '',
+            },
+            setAlert: action((state, payload) => {
+                state.alert.type = payload.type;
+                state.alert.message = payload.message;
+            }),
+            clearAlert: action((state) => {
+                state.alert.type = '';
+                state.alert.message = '';
+            }),
         }),
-        searchQuery: '',
-        setSearchQuery: action((state, payload) => {
-            state.searchQuery = payload;
-        }),
-        alert: {
-            type: '',
-            message: '',
-        },
-        setAlert: action((state, payload) => {
-            state.alert.type = payload.type;
-            state.alert.message = payload.message;
-        }),
-        clearAlert: action((state) => {
-            state.alert.type = '';
-            state.alert.message = '';
-        }),
-    })
-);
+        {
+            initialState: initialState as any,
+        }
+    );
+
+const store = createGlobalStateStore();
 
 export default store;
