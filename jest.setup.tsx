@@ -14,7 +14,11 @@ import store from '@store/index';
 import theme from '@lib/theme';
 import { handlers } from '@lib/graphql/mocks/handlers';
 
-const testUser = { username: 'admin', email: 'admin@email.com' };
+const testUser = {
+    username: 'admin',
+    email: 'admin@email.com',
+    image: 'https://lh3.googleusercontent.com/a/AATXAJzLlJXt90hZvSHUts5579HkWHGC5-o4xfGeaRk6=s96-c',
+};
 
 jest.mock('next-auth/react', () => {
     const originalModule = jest.requireActual('next-auth/react');
