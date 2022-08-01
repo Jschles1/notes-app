@@ -25,7 +25,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         (!isDesktop && ['/create-folder'].includes(router.pathname)) || ['/signin'].includes(router.pathname);
 
     return (
-        <Box>
+        <Box data-testid="layout">
             <Head>
                 <title>Next Notes</title>
                 <meta charSet="utf-8" />
@@ -50,6 +50,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                           }
                         : {},
                 ]}
+                data-testid={isCenteredLayout ? 'centered-layout' : 'app-layout'}
             >
                 {isLoggedIn && isDesktop ? (
                     <>

@@ -25,7 +25,7 @@ const Navigation: React.FC = () => {
     const isFoldersPage = router.pathname === '/folders';
 
     return (
-        <NavigationContainer>
+        <NavigationContainer data-testid="desktop-nav-container">
             {isLoading ? (
                 <LoadingIndicator />
             ) : (
