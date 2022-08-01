@@ -15,7 +15,7 @@ import theme from '@lib/theme';
 import { handlers } from '@lib/graphql/mocks/handlers';
 
 const testUser = {
-    username: 'admin',
+    name: 'admin',
     email: 'admin@email.com',
     image: 'https://lh3.googleusercontent.com/a/AATXAJzLlJXt90hZvSHUts5579HkWHGC5-o4xfGeaRk6=s96-c',
 };
