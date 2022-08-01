@@ -6,7 +6,11 @@ import Skeleton from '../ui/Skeleton';
 import { findNote } from '@lib/helpers';
 import { useFolders } from '@lib/graphql/hooks';
 
-const BreadcrumbArrow: React.FC = () => <Box sx={{ marginX: 1 }}>{'>'}</Box>;
+const BreadcrumbArrow: React.FC = () => (
+    <Box sx={{ marginX: 1 }} data-testid="arrow">
+        {'>'}
+    </Box>
+);
 
 const Breadcrumbs: React.FC = () => {
     const router = useRouter();
