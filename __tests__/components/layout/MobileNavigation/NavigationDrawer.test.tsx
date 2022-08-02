@@ -1,11 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@/jest.setup';
 import NavigationDrawer from '@components/layout/MobileNavigation/NavigationDrawer';
 import mockRouter from 'next-router-mock';
+import * as NextAuth from 'next-auth/react';
 import 'next-router-mock/dynamic-routes';
 
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 
 jest.mock('@lib/hooks/useMediaQuery');
+
+const onClose = jest.fn();
 
 describe('<NavigationDrawer />', () => {
     beforeAll(() => {
@@ -67,7 +70,6 @@ describe('<NavigationDrawer />', () => {
     });
 
     it('Calls onClose function when tapping off of drawer', async () => {
-        const onClose = jest.fn();
         render(
             <div>
                 <button>Drawer Close Test</button>
@@ -91,5 +93,35 @@ describe('<NavigationDrawer />', () => {
         await fireEvent.click(button);
 
         expect(onDeleteFolderClick).toHaveBeenCalled();
+    });
+
+    it('Closes drawer upon clicking "Update Folder"', async () => {
+        render(<NavigationDrawer open={true} onClose={onClose} onDeleteFolderClick={() => {}} />);
+
+        const button = screen.getByText('Update Folder');
+
+        await fireEvent.click(button);
+
+        expect(onClose).toHaveBeenCalled();
+    });
+
+    it('Signs out the user upon tapping "Sign Out"', async () => {
+        const signOut = jest.spyOn(NextAuth, 'signOut');
+
+        render(<NavigationDrawer open={true} onClose={() => {}} onDeleteFolderClick={() => {}} />);
+
+        const button = screen.getByText('Sign Out');
+
+        await fireEvent.click(button);
+
+        expect(signOut).toHaveBeenCalled();
+    });
+
+    it('Closes drawer on route change', async () => {
+        render(<NavigationDrawer open={true} onClose={onClose} onDeleteFolderClick={() => {}} />);
+
+        mockRouter.setCurrentUrl('/folders/123/notes');
+
+        expect(onClose).toHaveBeenCalled();
     });
 });
