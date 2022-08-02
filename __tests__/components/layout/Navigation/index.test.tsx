@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@/jest.setup';
+import { render, screen } from '@/jest.setup';
 import Navigation from '@components/layout/Navigation';
 import mockRouter from 'next-router-mock';
 import 'next-router-mock/dynamic-routes';
