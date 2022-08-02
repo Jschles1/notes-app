@@ -19,8 +19,6 @@ describe('<Link />', () => {
 
         const link = document.querySelector('.css-0');
 
-        screen.debug();
-
         expect(link).toBeInTheDocument();
     });
 });
