@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@/jest.setup';
+import { render, screen, fireEvent } from '@/jest.setup';
 import Card from '@components/ui/Card';
 
 describe('<Card />', () => {
