@@ -52,6 +52,9 @@ const CreateFolderForm: React.FC<Props> = ({ onSubmit }) => {
                     name="name"
                     placeholder="Folder Name"
                     error={hasNameError}
+                    inputProps={{
+                        'data-testid': 'f-form',
+                    }}
                 />
                 {hasNameError && <Box sx={{ marginY: 1, fontSize: 12, color: 'red' }}>Folder Name is required.</Box>}
                 <Button
