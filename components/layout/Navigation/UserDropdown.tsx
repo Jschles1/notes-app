@@ -24,6 +24,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
         setOpen((prev) => !prev);
     };
 
+    /* istanbul ignore next */
     return (
         <Box>
             <ClickAwayListener onClickAway={() => setOpen(false)}>

@@ -72,6 +72,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
 
     const isExternal = typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0);
 
+    /* istanbul ignore next */
     if (isExternal) {
         if (noLinkStyle) {
             return <Anchor className={className} href={href} ref={ref} {...other} />;
@@ -80,6 +81,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
         return <MuiLink className={className} href={href} ref={ref} {...other} />;
     }
 
+    /* istanbul ignore next */
     if (noLinkStyle) {
         return <NextLinkComposed className={className} ref={ref} to={href} {...other} />;
     }

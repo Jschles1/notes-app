@@ -8,6 +8,7 @@ interface Props {
 }
 
 const MobileUserInfo: React.FC<Props> = ({ user }) => {
+    /* istanbul ignore next */
     return (
         <Box
             sx={{
@@ -16,9 +17,7 @@ const MobileUserInfo: React.FC<Props> = ({ user }) => {
                 alignItems: 'center',
             }}
         >
-            {user?.image && (
-                <ProfileImage imageSrc={user.image} height={32} width={32} />
-            )}
+            {user?.image && <ProfileImage imageSrc={user.image} height={32} width={32} />}
             <Box
                 sx={{
                     fontSize: '18px',
