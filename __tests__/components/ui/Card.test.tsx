@@ -11,8 +11,6 @@ describe('<Card />', () => {
 
         const card = screen.getByText('Test');
 
-        screen.debug();
-
         expect(card).toBeInTheDocument();
     });
 
