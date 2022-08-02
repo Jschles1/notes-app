@@ -35,6 +35,7 @@ jest.mock('next-auth/react', () => {
         getSession: jest.fn(() => {
             return { session: { data: mockSession, status: 'authenticated' } }; // return type is [] in v3 but changed to {} in v4
         }),
+        signOut: jest.fn(() => {}),
     };
 });
 
