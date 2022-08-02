@@ -20,6 +20,7 @@ const customJestConfig = {
         '^@/(.*)$': '<rootDir>/$1',
     },
     testEnvironment: 'jest-environment-jsdom',
+    coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/ckeditor5/'],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
