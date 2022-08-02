@@ -18,6 +18,7 @@ const CardLink: FC<Props> = ({ children, href, sx, cardSx }) => {
 
     const isActive = router.pathname === href;
 
+    /* istanbul ignore next */
     return (
         <Link
             href={href}
