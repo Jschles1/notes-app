@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SxProps } from '@mui/system';
 import { Paper, PaperProps, Theme } from '@mui/material';
 
-interface Props {
+interface Props extends PaperProps {
     children?: React.ReactNode;
     sx?: SxProps<Theme>;
     isButton?: boolean;
@@ -10,7 +10,7 @@ interface Props {
     onClick?(): void;
 }
 
-const Card = React.forwardRef<HTMLDivElement, PaperProps>(function Card(
+const Card = React.forwardRef<HTMLDivElement, Props>(function Card(
     { children, sx = [], isButton = false, isActive = false, onClick = () => {} }: Props,
     ref
 ) {
