@@ -18,17 +18,24 @@ interface Props {
     isUpdating?: boolean;
 }
 
-const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, onCancel }) => {
+const NoteEditor: React.FC<Props> = ({
+    name,
+    description = '<p>Note Description *</p>',
+    onSubmit,
+    isUpdating,
+    onCancel,
+}) => {
     const [editorHeight, setEditorHeight] = React.useState('');
     const rootRef = React.useRef() as any;
     const { control, handleSubmit, formState, setValue } = useForm({
         defaultValues: {
             name: name || '',
-            description: description || '',
+            description: description,
         },
     });
     const { isDesktop, isMobile } = useMediaQuery();
 
+    /* istanbul ignore next */
     React.useEffect(() => {
         const offset = !isDesktop ? 185 : 109;
         function changeEditorHeight(): void {
@@ -138,11 +145,14 @@ const NoteEditor: React.FC<Props> = ({ name, description, onSubmit, isUpdating, 
             <EditorContainer maxHeight={editorHeight || '100%'}>
                 <CKEditor
                     editor={ClassicEditor}
-                    data={description || '<p>Note Description *</p>'}
-                    onChange={(_, editor) => {
-                        const data = editor.getData();
-                        setValue('description', data);
-                    }}
+                    data={description}
+                    onChange={
+                        /* istanbul ignore next */
+                        (_, editor) => {
+                            const data = editor.getData();
+                            setValue('description', data);
+                        }
+                    }
                     config={{
                         simpleUpload: {
                             uploadUrl: '/api/upload',
