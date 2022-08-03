@@ -16,8 +16,6 @@ describe('<FoldersList />', () => {
     it('Renders desktop variant without error', () => {
         render(<FoldersList />);
 
-        screen.debug();
-
         const title = screen.getByText('Your Folders:');
         const folder = screen.getByText('Folder Name');
 
@@ -27,8 +25,6 @@ describe('<FoldersList />', () => {
 
     it('Renders desktop variant without error when isNav prop is passed', () => {
         render(<FoldersList isNav />);
-
-        screen.debug();
 
         const title = screen.getByText('Your Folders:');
         const folder = screen.getByText('Folder Name');
@@ -45,8 +41,6 @@ describe('<FoldersList />', () => {
         }));
         render(<FoldersList />);
 
-        screen.debug();
-
         const title = screen.getByText('Your Folders:');
         const folder = screen.getByText('Folder Name');
 
@@ -61,8 +55,6 @@ describe('<FoldersList />', () => {
             isMobile: true,
         }));
         render(<FoldersList />);
-
-        screen.debug();
 
         const title = screen.getByText('Your Folders:');
         const folder = screen.getByText('Folder Name');
