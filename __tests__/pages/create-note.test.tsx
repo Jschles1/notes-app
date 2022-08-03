@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from '@/jest.setup';
 import CreateNote from '@pages/create-note';
 import mockRouter from 'next-router-mock';
+import 'next-router-mock/dynamic-routes';
+import { useFolders } from '@lib/graphql/hooks';
 
 describe('/create-note Page', () => {
     beforeEach(() => {
@@ -15,5 +17,23 @@ describe('/create-note Page', () => {
 
             expect(title).toBeInTheDocument();
         });
+    });
+
+    it('Shows loading indicator when waiting for API response', async () => {
+        (useFolders as jest.Mock).mockImplementationOnce(() => {
+            return {
+                folders: [],
+                selectedFolder: null,
+                isLoading: true,
+                revalidate: jest.fn(() => {}),
+                error: null,
+            };
+        });
+
+        render(<CreateNote />);
+
+        const title = screen.queryByText(/Submit/i);
+
+        expect(title).not.toBeInTheDocument();
     });
 });

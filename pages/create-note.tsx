@@ -19,8 +19,10 @@ const CreateNotePage: NextPage = () => {
     const router = useRouter();
     const { email } = useLoggedInUser();
     const { isLoading, selectedFolder, revalidate } = useFolders();
+    /* istanbul ignore next */
     const [selectedFolderId, _] = React.useState((router.query.folderId as string) || '');
 
+    /* istanbul ignore next */
     const onNoteSubmit = async (data) => {
         const { name, description } = data;
         const folderId = router.query.folderId as string;

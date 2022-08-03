@@ -14,6 +14,7 @@ const CreateFolderPage: NextPage = () => {
     const setAlert = useStoreActions((actions) => actions.setAlert);
     const router = useRouter();
 
+    /* istanbul ignore next */
     const onSubmit = async (data) => {
         const mutation = CREATE_FOLDER_MUTATION(data.name, email);
         const response = await fetcher(mutation);
