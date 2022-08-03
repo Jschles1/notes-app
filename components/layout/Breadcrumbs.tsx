@@ -15,6 +15,7 @@ const BreadcrumbArrow: React.FC = () => (
 const Breadcrumbs: React.FC = () => {
     const router = useRouter();
     const { selectedFolder } = useFolders();
+    /* istanbul ignore next */
     const notes = selectedFolder?.notes || [];
     const { folderId, noteId } = router.query;
     const selectedNote = React.useMemo(() => findNote(notes, noteId), [noteId, notes]);
@@ -37,14 +38,17 @@ const Breadcrumbs: React.FC = () => {
                         <Skeleton width="100px">{selectedFolder?.name}</Skeleton>
                     </Link>
 
-                    {!!selectedNote ? (
-                        <>
-                            <BreadcrumbArrow />
-                            <Link href={`/folders/${folderId}/notes/${noteId}`}>
-                                <Skeleton width="100px">{selectedNote.name}</Skeleton>
-                            </Link>
-                        </>
-                    ) : null}
+                    {
+                        /* istanbul ignore next */
+                        !!selectedNote ? (
+                            <>
+                                <BreadcrumbArrow />
+                                <Link href={`/folders/${folderId}/notes/${noteId}`}>
+                                    <Skeleton width="100px">{selectedNote.name}</Skeleton>
+                                </Link>
+                            </>
+                        ) : null
+                    }
                 </Box>
             </Box>
         );
