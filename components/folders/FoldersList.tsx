@@ -7,6 +7,7 @@ import useMediaQuery from '@lib/hooks/useMediaQuery';
 import { Folder } from '../../interfaces';
 import { useFolders } from '@lib/graphql/hooks';
 
+/* istanbul ignore next */
 const DesktopFoldersList: React.FC<{ folders: Folder[]; isNav?: boolean }> = ({ folders, isNav = false }) => (
     <Stack
         sx={{
