@@ -5,7 +5,7 @@ import useMediaQuery from '@lib/hooks/useMediaQuery';
 
 jest.mock('@lib/hooks/useMediaQuery');
 
-describe('<MobileUserInfo />', () => {
+describe('<FolderLinkMobile />', () => {
     beforeAll(() => {
         (useMediaQuery as jest.Mock).mockImplementation(() => ({
             isDesktop: false,
