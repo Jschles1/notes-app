@@ -39,6 +39,51 @@ export const handlers = [
                         },
                     ],
                 }),
+                UpdateFolderResponse: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                    folder: {
+                        _id: '123',
+                        name: 'Folder Name',
+                        user: '321',
+                        createdAt: '1649370960451',
+                        updatedAt: '1649370960451',
+                        notes: [
+                            {
+                                _id: '234',
+                                name: 'Note Name',
+                                description: 'Note Description',
+                                folder: '123',
+                                createdAt: '1649370960451',
+                                updatedAt: '1649370960451',
+                            },
+                        ],
+                    },
+                }),
+                DeleteFolderResponse: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                }),
+                UpdateNoteResponse: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                    note: {
+                        _id: '234',
+                        name: 'Note Name',
+                        description: 'Note Description',
+                        folder: '123',
+                        createdAt: '1649370960451',
+                        updatedAt: '1649370960451',
+                    },
+                }),
+                DeleteNoteResponse: () => ({
+                    code: 200,
+                    success: true,
+                    message: 'success',
+                }),
             },
         });
 
