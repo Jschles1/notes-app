@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@/jest.setup';
-import CreateNote from '@pages/create-note';
+import CreateNote from '@pages/create-note.page';
 import mockRouter from 'next-router-mock';
 import 'next-router-mock/dynamic-routes';
 import { useFolders } from '@lib/graphql/hooks';

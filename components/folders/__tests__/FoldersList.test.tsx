@@ -1,6 +1,7 @@
 import { render, screen } from '@/jest.setup';
 import FoldersList from '@components/folders/FoldersList';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
+import * as Mutations from '@lib/graphql/mutations';
 
 jest.mock('@lib/hooks/useMediaQuery');
 
