@@ -40,7 +40,9 @@ const NoteEditor: React.FC<Props> = ({
         const offset = !isDesktop ? 185 : 109;
         function changeEditorHeight(): void {
             setTimeout((): void => {
-                setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - offset}px`);
+                if (rootRef && rootRef.current) {
+                    setEditorHeight(`${rootRef?.current?.getBoundingClientRect().height - offset}px`);
+                }
             }, 0);
         }
 
@@ -49,7 +51,7 @@ const NoteEditor: React.FC<Props> = ({
         window.addEventListener('resize', changeEditorHeight);
 
         return () => window.removeEventListener('resize', changeEditorHeight);
-    }, [isDesktop]);
+    }, [isDesktop, rootRef]);
 
     return (
         <Box

@@ -21,12 +21,16 @@ import { useStoreActions } from '@store/hooks';
 
 const NoteEditor = dynamic(() => import('@components/form/NoteEditor'), {
     ssr: false,
-    loading: () => <LoadingIndicator />,
+    loading:
+        /* istanbul ignore next */
+        () => <LoadingIndicator />,
 });
 
 const NoteDescription = dynamic(() => import('./NoteDescription'), {
     ssr: false,
-    loading: () => <LoadingIndicator />,
+    loading:
+        /* istanbul ignore next */
+        () => <LoadingIndicator />,
 });
 
 interface Props {
@@ -44,6 +48,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
     const { isLoading, revalidate } = useFolders();
     const { isDesktop } = useMediaQuery();
 
+    /* istanbul ignore next */
     const onUpdate = async (data) => {
         const { name, description } = data;
         const mutation = UPDATE_NOTE_MUTATION(noteId, folderId, name, description, email);
@@ -58,6 +63,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
 
             setIsUpdating(false);
         } else {
+            /* istanbul ignore next */
             setAlert({
                 type: 'error',
                 message: `Error updating note: ${response?.updateNote?.message}`,
@@ -65,6 +71,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         }
     };
 
+    /* istanbul ignore next */
     const onDelete = async () => {
         const mutation = DELETE_NOTE_MUTATION(noteId, folderId, email);
         const response = await fetcher(mutation);
@@ -78,6 +85,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
 
             router.push(`/folders/${folderId}/notes`);
         } else {
+            /* istanbul ignore next */
             setAlert({
                 type: 'error',
                 message: `Error deleting note: ${response?.deleteNote?.message}`,
@@ -85,6 +93,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         }
     };
 
+    /* istanbul ignore next */
     const handleClose = () => {
         setOpen(false);
     };
@@ -93,6 +102,7 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
         setIsUpdating(false);
     }, [note]);
 
+    /* istanbul ignore next */
     return (
         <>
             <Box
@@ -110,7 +120,10 @@ const NoteDetail: React.FC<Props> = ({ note, folderId, noteId }) => {
                         name={note?.name}
                         description={note?.description}
                         onSubmit={onUpdate}
-                        onCancel={() => setIsUpdating(false)}
+                        onCancel={
+                            /* istanbul ignore next */
+                            () => setIsUpdating(false)
+                        }
                         isUpdating
                     />
                 ) : (
