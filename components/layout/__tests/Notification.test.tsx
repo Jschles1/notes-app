@@ -1,7 +1,6 @@
-import { render, screen, waitFor, fireEvent } from '@/jest.setup';
+import { render, screen, waitFor, fireEvent, act } from '@/jest.setup';
 import Notification from '@components/layout/Notification';
 import { createGlobalStateStore } from '@store/index';
-import { act } from 'react-dom/test-utils';
 
 const initialSuccessState = {
     updatingFolder: '',
