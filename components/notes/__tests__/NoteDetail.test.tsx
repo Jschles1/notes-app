@@ -18,8 +18,6 @@ const note = {
     updatedAt: '1649370960451',
 };
 
-// const spy = jest.spyOn(Mutations, 'UPDATE_FOLDER_MUTATION');
-
 describe('<NoteDetail />', () => {
     beforeAll(() => {
         (mockRouter as any).registerPaths(['/folders/[folderId]/notes/[noteId]']);
@@ -43,8 +41,6 @@ describe('<NoteDetail />', () => {
                 message: 'success',
             },
         }));
-
-        jest.setTimeout(10000);
     });
 
     afterEach(() => {
