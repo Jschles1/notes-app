@@ -49,8 +49,8 @@ const NavigationDrawer: React.FC<Props> = ({ open, onClose, onDeleteFolderClick 
         <Drawer open={open} anchor="right" onClose={onClose}>
             <Box>
                 <List>
-                    <Link href="/folders" passHref noLinkStyle>
-                        <ListItem button component="a">
+                    <Link href="/folders" passHref>
+                        <ListItem button>
                             <ListItemIcon>
                                 <FolderIcon color="primary" />
                             </ListItemIcon>
@@ -60,9 +60,7 @@ const NavigationDrawer: React.FC<Props> = ({ open, onClose, onDeleteFolderClick 
                 </List>
                 <Divider />
                 <List>
-                    <Link href="/create-folder" passHref noLinkStyle>
-                        <AddButton variant="drawer" resource="folder" />
-                    </Link>
+                    <AddButton variant="drawer" resource="folder" />
                     {showFolderOptions && (
                         <>
                             <ListItem button onClick={handleUpdateFolderClick}>

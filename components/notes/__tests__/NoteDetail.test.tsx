@@ -128,18 +128,6 @@ describe('<NoteDetail />', () => {
         expect(screen.queryByText('Delete Note?')).not.toBeInTheDocument();
 
         const deleteButton = screen.getByText('Delete');
-        await fireEvent.click(deleteButton);
-
-        await waitFor(() => {
-            expect(screen.getByText('Delete Note?')).toBeInTheDocument();
-        });
-
-        const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-        await fireEvent.click(cancelButton);
-
-        await waitFor(() => {
-            expect(screen.queryByText('Delete Note?')).not.toBeInTheDocument();
-        });
 
         await fireEvent.click(deleteButton);
 
