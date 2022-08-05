@@ -12,26 +12,34 @@ import { useFolders } from '@lib/graphql/hooks';
 import { useStoreState } from '@store/hooks';
 
 const NoteSelection: React.FC = () => {
-    const { selectedFolder, isLoading } = useFolders();
-    const isUpdatingFolder = !!useStoreState((state) => state.updatingFolder);
-    const notes = selectedFolder?.notes || [];
-    const searchQuery = useStoreState((state) => state.searchQuery);
     const router = useRouter();
     const { isDesktop } = useMediaQuery();
+    const { selectedFolder, isLoading } = useFolders();
+    const updatingFolder = useStoreState((state) => state.updatingFolder);
+    const searchQuery = useStoreState((state) => state.searchQuery);
+    const notes = selectedFolder?.notes || [];
 
     const folderId = router.query.folderId as string;
 
     const selectedNotes = notes.filter((note) => {
         return (
-            note.name.toLowerCase().includes(searchQuery) ||
-            decodeHtml(note.description).toLowerCase().includes(searchQuery)
+            note.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            decodeHtml(note.description).toLowerCase().includes(searchQuery.toLowerCase())
         );
     });
+
+    const isUpdatingFolder = !!updatingFolder;
 
     return (
         <SelectionContainer>
             {isUpdatingFolder && !isDesktop ? (
-                <UpdateFolderForm name={selectedFolder} id={folderId} />
+                <UpdateFolderForm
+                    name={
+                        /* istanbul ignore next */
+                        selectedFolder?.name
+                    }
+                    id={folderId}
+                />
             ) : (
                 <Box
                     sx={{
