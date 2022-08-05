@@ -35,7 +35,12 @@ const Breadcrumbs: React.FC = () => {
                     }}
                 >
                     <Link href={`/folders/${folderId}/notes`}>
-                        <Skeleton width="100px">{selectedFolder?.name}</Skeleton>
+                        <Skeleton width="100px">
+                            {
+                                /* istanbul ignore next */
+                                selectedFolder?.name
+                            }
+                        </Skeleton>
                     </Link>
 
                     {

@@ -21,7 +21,12 @@ const MobileBreadcrumbs: React.FC = () => {
                 }}
             >
                 <ArrowIcon />
-                <Box sx={{ marginTop: 0.5 }}>{selectedFolder?.name}</Box>
+                <Box sx={{ marginTop: 0.5 }}>
+                    {
+                        /* istanbul ignore next */
+                        selectedFolder?.name
+                    }
+                </Box>
             </Link>
         </Box>
     );
