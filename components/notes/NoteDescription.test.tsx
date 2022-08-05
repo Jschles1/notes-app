@@ -1,4 +1,4 @@
-import { render, screen } from '@/jest.setup';
+import { render, screen, waitFor } from '@/jest.setup';
 import NoteDescription from '@components/notes/NoteDescription';
 
 const note = {
@@ -11,13 +11,11 @@ const note = {
 };
 
 describe('<NoteDescription />', () => {
-    it('Renders without error', () => {
+    it('Renders without error', async () => {
         render(<NoteDescription value={note.description} />);
 
-        // expect(screen.getByText(note.name)).toBeInTheDocument();
-        // expect(screen.getByText(note.description)).toBeInTheDocument();
-        // expect(screen.getByText('04/07/2022')).toBeInTheDocument();
-
-        screen.debug();
+        await waitFor(() => {
+            expect(screen.getByText(note.description, { exact: false }));
+        });
     });
 });
