@@ -8,7 +8,7 @@ const queryResolvers = {
             const user = await getUser(db, args.email);
 
             try {
-                const folders = await await db.Folder.find({
+                const folders = await db.Folder.find({
                     user: user._id,
                 });
 
