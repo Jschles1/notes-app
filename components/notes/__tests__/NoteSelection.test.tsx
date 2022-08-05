@@ -54,19 +54,6 @@ describe('<NoteSelection />', () => {
             isTablet: false,
             isMobile: false,
         }));
-
-        // (fetcher as jest.Mock).mockImplementation(() => ({
-        //     updateNote: {
-        //         code: 200,
-        //         success: true,
-        //         message: 'success',
-        //     },
-        //     deleteNote: {
-        //         code: 200,
-        //         success: true,
-        //         message: 'success',
-        //     },
-        // }));
     });
 
     afterEach(() => {
@@ -167,21 +154,6 @@ describe('<NoteSelection />', () => {
 
         const store = createGlobalStateStore(updatingFolderState);
         render(<NoteSelection />, store);
-
-        // expect(screen.getByText('Folder Name')).toBeInTheDocument();
-        // expect(screen.queryByText(note.name)).not.toBeInTheDocument();
-        // expect(screen.queryByText(note.description)).not.toBeInTheDocument();
-        // expect(screen.queryByText('04/07/2022')).not.toBeInTheDocument();
-        // expect(screen.getByText('No notes found.')).toBeInTheDocument();
-        // // await store.dispatch({
-        // //     type: '@action.setSearchQuery',
-        // //     payload: 'Note Name',
-        // // });
-
-        // await waitFor(() => {
-        //     expect(screen.getByText(note.name)).toBeInTheDocument();
-        // });
-        // screen.debug();
 
         await waitFor(() => {
             expect(screen.getByRole('textbox')).toBeInTheDocument();
