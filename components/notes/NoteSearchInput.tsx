@@ -13,6 +13,7 @@ const NoteSearchInput: React.FC = () => {
     const { isDesktop } = useMediaQuery();
 
     const handleSearchChange = (e) => {
+        /* istanbul ignore next */
         setSearchQuery(e.target.value);
     };
 
