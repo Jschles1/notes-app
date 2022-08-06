@@ -10,6 +10,11 @@ export const getFolders = async (db, id) => {
     return folders;
 };
 
+export const getNotes = async (db, folderId) => {
+    const notes = await db.Note.find({ folder: folderId });
+    return notes;
+};
+
 export const createFolder = async (db, userId, name) => {
     const result = await new db.Folder({
         name,

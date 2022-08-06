@@ -11,7 +11,7 @@ import {
     deleteNote,
     handleGraphQLError,
     handleAuthError,
-} from '../helpers';
+} from '../../server/dbOperations';
 import sanitize from '@lib/server/sanitize';
 
 const mutationResolvers = {

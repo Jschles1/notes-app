@@ -1,4 +1,4 @@
-import { getUser, handleGraphQLError, handleAuthError } from '../helpers';
+import { getUser, getFolders, handleGraphQLError, handleAuthError } from '../../server/dbOperations';
 
 const queryResolvers = {
     getFolders: async (_, args, { session, db }) => {
@@ -8,9 +8,7 @@ const queryResolvers = {
             const user = await getUser(db, args.email);
 
             try {
-                const folders = await db.Folder.find({
-                    user: user._id,
-                });
+                const folders = await getFolders(db, user._id);
 
                 response = {
                     code: 200,

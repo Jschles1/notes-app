@@ -1,6 +1,8 @@
+import { getNotes } from '@lib/server/dbOperations';
+
 const folderResolvers = {
     notes: async (obj, _, { db }) => {
-        const notes = await db.Note.find({ folder: obj._id });
+        const notes = await getNotes(db, obj._id);
         return notes;
     },
 };

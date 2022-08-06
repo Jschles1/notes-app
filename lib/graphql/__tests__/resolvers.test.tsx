@@ -5,7 +5,7 @@
 import { ApolloServer } from 'apollo-server-micro';
 import typeDefs from '@lib/graphql/typeDefs';
 import resolvers from '@lib/graphql/resolvers';
-import * as DbHelpers from '@lib/graphql/helpers';
+import * as DbHelpers from '@lib/server/dbOperations';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
 import {
     CREATE_FOLDER_MUTATION,
