@@ -48,7 +48,7 @@ export const getFolderById = async (db, folderId) => {
     return result;
 };
 
-export const createNote = async (db, data: { name: string; description: string }) => {
+export const createNote = async (db, data: { name: string; description: string; folder: string }) => {
     const result = await new db.Note(data);
     return result;
 };

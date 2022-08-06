@@ -5,9 +5,9 @@ import { noteSchema } from './models/Note';
 
 const connectionString = process.env.ATLAS_URI as string;
 
-const connectToDatabase = async () => {
+const connectToDatabase = async (url: string = connectionString) => {
     const db: mongoose.Connection = await mongoose
-        .createConnection(connectionString, {
+        .createConnection(url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             dbName: 'notes-app',
