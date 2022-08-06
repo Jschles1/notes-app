@@ -7,7 +7,7 @@ import typeDefs from '@lib/graphql/typeDefs';
 import resolvers from '@lib/graphql/resolvers';
 import * as DbHelpers from '@lib/graphql/helpers';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
-import { CREATE_FOLDER_MUTATION, UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import { CREATE_FOLDER_MUTATION, UPDATE_FOLDER_MUTATION, DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 
 const email = 'admin@email.com';
 const userId = '61ba5a19ffecda0337360f3f';
@@ -124,6 +124,10 @@ describe('GraphQL Resolvers', () => {
             });
         });
 
+        jest.spyOn(DbHelpers, 'deleteFolder').mockImplementation(async () => {
+            return await Promise.resolve({ ok: true });
+        });
+
         jest.spyOn(DbHelpers, 'saveFolderToDatabase').mockImplementation(async () => await Promise.resolve());
         jest.spyOn(DbHelpers, 'saveNoteToDatabase').mockImplementation(async () => await Promise.resolve());
     });
@@ -195,6 +199,41 @@ describe('GraphQL Resolvers', () => {
         const result = await testServer.executeOperation(
             UPDATE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', 'Folder Name', email)
         );
+        expect(result.data).toBe(null);
+        expect(result.errors.length).toBe(1);
+    });
+
+    it('Executes deleteFolder mutation without error', async () => {
+        const result = await testServer.executeOperation(DELETE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', email));
+        expect(result.data.deleteFolder.code).toBe(200);
+        expect(result.data.deleteFolder.success).toBeTruthy();
+        expect(result.data.deleteFolder.message).toBe('Successfully deleted folder');
+    });
+
+    it('Throws Unauthenticated error on deleteFolder when wrong email is provided', async () => {
+        const result = await testServer.executeOperation(
+            DELETE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', 'wronguser@email.com')
+        );
+        expect(result.data.deleteFolder.code).toBe(401);
+        expect(result.data.deleteFolder.success).toBeFalsy();
+        expect(result.data.deleteFolder.message).toBe('Unauthenticated');
+    });
+
+    it('Throws 500 error on deleteFolder when database deletion fails', async () => {
+        jest.spyOn(DbHelpers, 'deleteFolder').mockImplementationOnce(async () => {
+            return await Promise.resolve({ ok: false });
+        });
+        const result = await testServer.executeOperation(DELETE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', email));
+        expect(result.data.deleteFolder.code).toBe(500);
+        expect(result.data.deleteFolder.success).toBeFalsy();
+        expect(result.data.deleteFolder.message).toBe('Sorry, something went wrong');
+    });
+
+    it('Throws GraphQL error on deleteFolder on error', async () => {
+        jest.spyOn(DbHelpers, 'deleteFolder').mockImplementationOnce(() => {
+            throw new Error();
+        });
+        const result = await testServer.executeOperation(DELETE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', email));
         expect(result.data).toBe(null);
         expect(result.errors.length).toBe(1);
     });
