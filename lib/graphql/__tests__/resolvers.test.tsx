@@ -198,6 +198,10 @@ describe('GraphQL Resolvers', () => {
             });
         });
 
+        jest.spyOn(DbHelpers, 'deleteNote').mockImplementation(async () => {
+            return await Promise.resolve();
+        });
+
         jest.spyOn(DbHelpers, 'saveFolderToDatabase').mockImplementation(async () => await Promise.resolve());
         jest.spyOn(DbHelpers, 'saveNoteToDatabase').mockImplementation(async () => await Promise.resolve());
     });
@@ -431,6 +435,55 @@ describe('GraphQL Resolvers', () => {
             )
         );
 
+        expect(result.data).toBe(null);
+        expect(result.errors.length).toBe(1);
+    });
+
+    it('Executes deleteNote mutation without error', async () => {
+        const result = await testServer.executeOperation(
+            DELETE_NOTE_MUTATION('62b1eef6a7774ff0d1cf3b8d', '61ba5a19ffecda0337360f42', email)
+        );
+        expect(result.data.deleteNote.code).toBe(200);
+        expect(result.data.deleteNote.success).toBeTruthy();
+        expect(result.data.deleteNote.message).toBe('Successfully deleted note');
+    });
+
+    it('Throws Unauthenticated error on deleteNote when wrong email is provided', async () => {
+        const result = await testServer.executeOperation(
+            DELETE_NOTE_MUTATION('62b1eef6a7774ff0d1cf3b8d', '61ba5a19ffecda0337360f42', 'wronguser@email.com')
+        );
+        expect(result.data.deleteNote.code).toBe(401);
+        expect(result.data.deleteNote.success).toBeFalsy();
+        expect(result.data.deleteNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws Unauthenticated error on deleteNote if parent folder of new note does not belong to current user', async () => {
+        jest.spyOn(DbHelpers, 'getFolderById').mockImplementationOnce(async () => {
+            return await Promise.resolve({
+                name: 'Test Folder',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                user: 'wrongUser',
+                notes: [],
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        const result = await testServer.executeOperation(
+            DELETE_NOTE_MUTATION('62b1eef6a7774ff0d1cf3b8d', '61ba5a19ffecda0337360f42', email)
+        );
+        expect(result.data.deleteNote.code).toBe(401);
+        expect(result.data.deleteNote.success).toBeFalsy();
+        expect(result.data.deleteNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws GraphQL error on deleteNote on error', async () => {
+        jest.spyOn(DbHelpers, 'deleteNote').mockImplementationOnce(() => {
+            throw new Error();
+        });
+        const result = await testServer.executeOperation(
+            DELETE_NOTE_MUTATION('62b1eef6a7774ff0d1cf3b8d', '61ba5a19ffecda0337360f42', email)
+        );
         expect(result.data).toBe(null);
         expect(result.errors.length).toBe(1);
     });
