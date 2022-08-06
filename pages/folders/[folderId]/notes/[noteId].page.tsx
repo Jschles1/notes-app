@@ -12,7 +12,10 @@ const NoteDetailPage: NextPage = () => {
     const notes = selectedFolder?.notes;
     const folderId = router.query.folderId as string;
     const noteId = router.query.noteId as string;
-    const note = React.useMemo(() => findNote(notes || [], noteId), [notes]);
+    const note = React.useMemo(
+        () => findNote(notes || [], noteId),
+        [notes, noteId]
+    );
 
     const redirectToNotesPage = () => router.push(`/folders/${folderId}/notes`);
 
