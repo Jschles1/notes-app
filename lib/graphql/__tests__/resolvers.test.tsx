@@ -178,4 +178,24 @@ describe('GraphQL Resolvers', () => {
         );
         expect(result.data.updateFolder).toEqual(testUpdateFolderResponse);
     });
+
+    it('Throws Unauthenticated error on updateFolder when wrong email is provided', async () => {
+        const result = await testServer.executeOperation(
+            UPDATE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', 'Folder Name', 'wronguser@email.com')
+        );
+        expect(result.data.updateFolder.code).toBe(401);
+        expect(result.data.updateFolder.success).toBeFalsy();
+        expect(result.data.updateFolder.message).toBe('Unauthenticated');
+    });
+
+    it('Throws GraphQL error on updateFolder error', async () => {
+        jest.spyOn(DbHelpers, 'updateFolder').mockImplementationOnce(() => {
+            throw new Error();
+        });
+        const result = await testServer.executeOperation(
+            UPDATE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', 'Folder Name', email)
+        );
+        expect(result.data).toBe(null);
+        expect(result.errors.length).toBe(1);
+    });
 });
