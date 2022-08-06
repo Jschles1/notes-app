@@ -15,11 +15,11 @@ export const formatDate = (
     let dateFormat = 'MM/dd/yyyy';
     let formattedDate;
 
-    if (dateObj.getMonth() == new Date().getMonth() && dateObj.getDate() === new Date().getDate()) {
+    if (dateObj.getMonth() === new Date().getMonth() && dateObj.getDate() === new Date().getDate()) {
         dateFormat = 'h:mm a';
     }
 
-    if (dateObj.getMonth() == new Date().getMonth() && dateObj.getDate() === new Date().getDate() - 1) {
+    if (dateObj.getMonth() === new Date().getMonth() && dateObj.getDate() === new Date().getDate() - 1) {
         formattedDate = 'Yesterday';
     } else {
         formattedDate = format(dateObj, dateFormat);
