@@ -1,4 +1,17 @@
-import { getUser, handleGraphQLError, handleAuthError } from '../helpers';
+import {
+    getUser,
+    createFolder,
+    saveFolderToDatabase,
+    updateFolder,
+    deleteFolder,
+    getFolderById,
+    createNote,
+    saveNoteToDatabase,
+    updateNote,
+    deleteNote,
+    handleGraphQLError,
+    handleAuthError,
+} from '../helpers';
 import sanitize from '@lib/server/sanitize';
 
 const mutationResolvers = {
@@ -9,11 +22,8 @@ const mutationResolvers = {
             const user = await getUser(db, session.user.email);
 
             try {
-                const result = await new db.Folder({
-                    name: args.input.name,
-                    user: user._id,
-                });
-                await result.save();
+                const result = await createFolder(db, user._id, args.input.name);
+                await saveFolderToDatabase(result);
                 response = {
                     code: 200,
                     success: true,
@@ -47,11 +57,7 @@ const mutationResolvers = {
             const data = { name };
 
             try {
-                const result = await db.Folder.findOneAndUpdate(
-                    { _id: id, user: user._id },
-                    data,
-                    { new: true }
-                );
+                const result = await updateFolder(db, id, user._id, data);
                 response = {
                     code: 200,
                     success: true,
@@ -81,13 +87,7 @@ const mutationResolvers = {
             const user = await getUser(db, session.user.email);
 
             try {
-                const result = await db.Folder.findOneAndDelete(
-                    {
-                        _id: id,
-                        user: user._id,
-                    },
-                    { rawResult: true }
-                );
+                const result = await deleteFolder(db, id, user._id);
 
                 if (result.ok) {
                     response = {
@@ -120,12 +120,9 @@ const mutationResolvers = {
 
         if (session.user.email === email) {
             const user = await getUser(db, session.user.email);
-            const parentFolder = await db.Folder.findById(folderId);
+            const parentFolder = await getFolderById(db, folderId);
 
-            if (
-                !!parentFolder &&
-                parentFolder.user.toString() === user._id.toString()
-            ) {
+            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
                 const data = {
                     name,
                     description: sanitize(description),
@@ -133,8 +130,8 @@ const mutationResolvers = {
                 };
 
                 try {
-                    const result = await new db.Note(data);
-                    await result.save();
+                    const result = await createNote(db, data);
+                    await saveNoteToDatabase(result);
 
                     response = {
                         code: 200,
@@ -164,25 +161,16 @@ const mutationResolvers = {
 
         if (session.user.email === email) {
             const user = await getUser(db, session.user.email);
-            const parentFolder = await db.Folder.findById(folderId);
+            const parentFolder = await getFolderById(db, folderId);
 
-            if (
-                !!parentFolder &&
-                parentFolder.user.toString() === user._id.toString()
-            ) {
+            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
                 const data = {
                     name,
                     description: sanitize(description),
                 };
 
                 try {
-                    const note = await db.Note.findOneAndUpdate(
-                        { folder: folderId, _id: noteId },
-                        data,
-                        {
-                            new: true,
-                        }
-                    ).clone();
+                    const note = updateNote(db, folderId, noteId, data);
 
                     response = {
                         code: 200,
@@ -208,14 +196,11 @@ const mutationResolvers = {
 
         if (session.user.email === email) {
             const user = await getUser(db, session.user.email);
-            const parentFolder = await db.Folder.findById(folderId);
+            const parentFolder = await getFolderById(db, folderId);
 
-            if (
-                !!parentFolder &&
-                parentFolder.user.toString() === user._id.toString()
-            ) {
+            if (!!parentFolder && parentFolder.user.toString() === user._id.toString()) {
                 try {
-                    await db.Note.findByIdAndDelete(noteId);
+                    await deleteNote(db, noteId);
 
                     response = {
                         code: 200,
