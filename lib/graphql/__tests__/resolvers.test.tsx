@@ -7,12 +7,19 @@ import typeDefs from '@lib/graphql/typeDefs';
 import resolvers from '@lib/graphql/resolvers';
 import * as DbHelpers from '@lib/graphql/helpers';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
-import { CREATE_FOLDER_MUTATION, UPDATE_FOLDER_MUTATION, DELETE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import {
+    CREATE_FOLDER_MUTATION,
+    UPDATE_FOLDER_MUTATION,
+    DELETE_FOLDER_MUTATION,
+    CREATE_NOTE_MUTATION,
+} from '@lib/graphql/mutations';
 
 const email = 'admin@email.com';
 const userId = '61ba5a19ffecda0337360f3f';
 const testNewFolderName = 'New Folder';
 const testUpdateFolderName = 'Updated Folder';
+const testCreateNoteName = 'Hello';
+const testCreateNoteDescription = 'World';
 
 const mockDbConnection = {
     connection: jest.fn(),
@@ -77,6 +84,19 @@ const testUpdateFolderResponse = {
     },
 };
 
+const testCreateNoteSuccessResponse = {
+    ...successResponse,
+    message: 'Successfully created note',
+    note: {
+        name: testCreateNoteName,
+        description: testCreateNoteDescription,
+        folder: '61ba5a19ffecda0337360f42',
+        _id: '62b1eef6a7774ff0d1cf3b8d',
+        createdAt: null,
+        updatedAt: null,
+    },
+};
+
 describe('GraphQL Resolvers', () => {
     beforeAll(() => {
         jest.spyOn(DbHelpers, 'getUser').mockImplementation(async () => {
@@ -126,6 +146,28 @@ describe('GraphQL Resolvers', () => {
 
         jest.spyOn(DbHelpers, 'deleteFolder').mockImplementation(async () => {
             return await Promise.resolve({ ok: true });
+        });
+
+        jest.spyOn(DbHelpers, 'createNote').mockImplementation(async () => {
+            return await Promise.resolve({
+                name: testCreateNoteName,
+                description: testCreateNoteDescription,
+                folder: '61ba5a19ffecda0337360f42',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        jest.spyOn(DbHelpers, 'getFolderById').mockImplementation(async () => {
+            return await Promise.resolve({
+                name: 'Test Folder',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                user: userId,
+                notes: [],
+                createdAt: null,
+                updatedAt: null,
+            });
         });
 
         jest.spyOn(DbHelpers, 'saveFolderToDatabase').mockImplementation(async () => await Promise.resolve());
@@ -234,6 +276,60 @@ describe('GraphQL Resolvers', () => {
             throw new Error();
         });
         const result = await testServer.executeOperation(DELETE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', email));
+        expect(result.data).toBe(null);
+        expect(result.errors.length).toBe(1);
+    });
+
+    it('Executes createNote mutation without error', async () => {
+        const result = await testServer.executeOperation(
+            CREATE_NOTE_MUTATION('61ba5a19ffecda0337360f42', testCreateNoteName, testCreateNoteDescription, email)
+        );
+        expect(result.data.createNote).toEqual(testCreateNoteSuccessResponse);
+    });
+
+    it('Throws Unauthenticated error on createNote when wrong email is provided', async () => {
+        const result = await testServer.executeOperation(
+            CREATE_NOTE_MUTATION(
+                '61ba5a19ffecda0337360f42',
+                testCreateNoteName,
+                testCreateNoteDescription,
+                'wronguser@email.com'
+            )
+        );
+        expect(result.data.createNote.code).toBe(401);
+        expect(result.data.createNote.success).toBeFalsy();
+        expect(result.data.createNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws Unauthenticated error on createNote if parent folder of new note does not belong to current user', async () => {
+        jest.spyOn(DbHelpers, 'getFolderById').mockImplementationOnce(async () => {
+            return await Promise.resolve({
+                name: 'Test Folder',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                user: 'wrongUser',
+                notes: [],
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        const result = await testServer.executeOperation(
+            CREATE_NOTE_MUTATION('62b1eef6a7774ff0d1cf3b8d', testCreateNoteName, testCreateNoteDescription, email)
+        );
+        expect(result.data.createNote.code).toBe(401);
+        expect(result.data.createNote.success).toBeFalsy();
+        expect(result.data.createNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws GraphQL error on createNote on error', async () => {
+        jest.spyOn(DbHelpers, 'createNote').mockImplementationOnce(() => {
+            throw new Error();
+        });
+
+        const result = await testServer.executeOperation(
+            CREATE_NOTE_MUTATION('61ba5a19ffecda0337360f42', testCreateNoteName, testCreateNoteDescription, email)
+        );
+
         expect(result.data).toBe(null);
         expect(result.errors.length).toBe(1);
     });
