@@ -7,11 +7,12 @@ import typeDefs from '@lib/graphql/typeDefs';
 import resolvers from '@lib/graphql/resolvers';
 import * as DbHelpers from '@lib/graphql/helpers';
 import { GET_FOLDERS_QUERY } from '@lib/graphql/queries';
-import { CREATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
+import { CREATE_FOLDER_MUTATION, UPDATE_FOLDER_MUTATION } from '@lib/graphql/mutations';
 
 const email = 'admin@email.com';
 const userId = '61ba5a19ffecda0337360f3f';
 const testNewFolderName = 'New Folder';
+const testUpdateFolderName = 'Updated Folder';
 
 const mockDbConnection = {
     connection: jest.fn(),
@@ -66,6 +67,16 @@ const testCreateFolderSuccessResponse = {
     },
 };
 
+const testUpdateFolderResponse = {
+    ...successResponse,
+    message: 'Successfully updated folder',
+    folder: {
+        name: testUpdateFolderName,
+        notes: [],
+        _id: '61ba5a19ffecda0337360f42',
+    },
+};
+
 describe('GraphQL Resolvers', () => {
     beforeAll(() => {
         jest.spyOn(DbHelpers, 'getUser').mockImplementation(async () => {
@@ -97,6 +108,17 @@ describe('GraphQL Resolvers', () => {
                 notes: [],
                 user: userId,
                 _id: '629e8c7cbaa9862de16e9000',
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        jest.spyOn(DbHelpers, 'updateFolder').mockImplementation(async () => {
+            return await Promise.resolve({
+                name: testUpdateFolderName,
+                notes: [],
+                user: userId,
+                _id: '61ba5a19ffecda0337360f42',
                 createdAt: null,
                 updatedAt: null,
             });
@@ -148,5 +170,12 @@ describe('GraphQL Resolvers', () => {
         expect(result.data.createFolder.code).toBe(401);
         expect(result.data.createFolder.success).toBeFalsy();
         expect(result.data.createFolder.message).toBe('Unauthenticated');
+    });
+
+    it('Executes updateFolder mutation without error', async () => {
+        const result = await testServer.executeOperation(
+            UPDATE_FOLDER_MUTATION('61ba5a19ffecda0337360f42', 'Folder Name', email)
+        );
+        expect(result.data.updateFolder).toEqual(testUpdateFolderResponse);
     });
 });
