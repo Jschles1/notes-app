@@ -170,7 +170,7 @@ const mutationResolvers = {
                 };
 
                 try {
-                    const note = updateNote(db, folderId, noteId, data);
+                    const note = await updateNote(db, folderId, noteId, data);
 
                     response = {
                         code: 200,

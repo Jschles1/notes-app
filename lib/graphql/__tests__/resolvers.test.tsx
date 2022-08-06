@@ -12,6 +12,8 @@ import {
     UPDATE_FOLDER_MUTATION,
     DELETE_FOLDER_MUTATION,
     CREATE_NOTE_MUTATION,
+    UPDATE_NOTE_MUTATION,
+    DELETE_NOTE_MUTATION,
 } from '@lib/graphql/mutations';
 
 const email = 'admin@email.com';
@@ -20,6 +22,8 @@ const testNewFolderName = 'New Folder';
 const testUpdateFolderName = 'Updated Folder';
 const testCreateNoteName = 'Hello';
 const testCreateNoteDescription = 'World';
+const testUpdateNoteName = 'Hello 2';
+const testUpdateNoteDescription = 'World 3';
 
 const mockDbConnection = {
     connection: jest.fn(),
@@ -97,6 +101,19 @@ const testCreateNoteSuccessResponse = {
     },
 };
 
+const testUpdateNoteSuccessResponse = {
+    ...successResponse,
+    message: 'Successfully updated note',
+    note: {
+        name: testUpdateNoteName,
+        description: testUpdateNoteDescription,
+        folder: '61ba5a19ffecda0337360f42',
+        _id: '62b1eef6a7774ff0d1cf3b8d',
+        createdAt: null,
+        updatedAt: null,
+    },
+};
+
 describe('GraphQL Resolvers', () => {
     beforeAll(() => {
         jest.spyOn(DbHelpers, 'getUser').mockImplementation(async () => {
@@ -152,6 +169,17 @@ describe('GraphQL Resolvers', () => {
             return await Promise.resolve({
                 name: testCreateNoteName,
                 description: testCreateNoteDescription,
+                folder: '61ba5a19ffecda0337360f42',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        jest.spyOn(DbHelpers, 'updateNote').mockImplementation(async () => {
+            return await Promise.resolve({
+                name: testUpdateNoteName,
+                description: testUpdateNoteDescription,
                 folder: '61ba5a19ffecda0337360f42',
                 _id: '62b1eef6a7774ff0d1cf3b8d',
                 createdAt: null,
@@ -328,6 +356,79 @@ describe('GraphQL Resolvers', () => {
 
         const result = await testServer.executeOperation(
             CREATE_NOTE_MUTATION('61ba5a19ffecda0337360f42', testCreateNoteName, testCreateNoteDescription, email)
+        );
+
+        expect(result.data).toBe(null);
+        expect(result.errors.length).toBe(1);
+    });
+
+    it('Executes updateNote mutation without error', async () => {
+        const result = await testServer.executeOperation(
+            UPDATE_NOTE_MUTATION(
+                '62b1eef6a7774ff0d1cf3b8d',
+                '61ba5a19ffecda0337360f42',
+                testUpdateNoteName,
+                testUpdateNoteDescription,
+                email
+            )
+        );
+        expect(result.data.updateNote).toEqual(testUpdateNoteSuccessResponse);
+    });
+
+    it('Throws Unauthenticated error on updateNote when wrong email is provided', async () => {
+        const result = await testServer.executeOperation(
+            UPDATE_NOTE_MUTATION(
+                '62b1eef6a7774ff0d1cf3b8d',
+                '61ba5a19ffecda0337360f42',
+                testUpdateNoteName,
+                testUpdateNoteDescription,
+                'wronguser@email.com'
+            )
+        );
+        expect(result.data.updateNote.code).toBe(401);
+        expect(result.data.updateNote.success).toBeFalsy();
+        expect(result.data.updateNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws Unauthenticated error on updateNote if parent folder of new note does not belong to current user', async () => {
+        jest.spyOn(DbHelpers, 'getFolderById').mockImplementationOnce(async () => {
+            return await Promise.resolve({
+                name: 'Test Folder',
+                _id: '62b1eef6a7774ff0d1cf3b8d',
+                user: 'wrongUser',
+                notes: [],
+                createdAt: null,
+                updatedAt: null,
+            });
+        });
+
+        const result = await testServer.executeOperation(
+            UPDATE_NOTE_MUTATION(
+                '62b1eef6a7774ff0d1cf3b8d',
+                '61ba5a19ffecda0337360f42',
+                testUpdateNoteName,
+                testUpdateNoteDescription,
+                email
+            )
+        );
+        expect(result.data.updateNote.code).toBe(401);
+        expect(result.data.updateNote.success).toBeFalsy();
+        expect(result.data.updateNote.message).toBe('Unauthenticated');
+    });
+
+    it('Throws GraphQL error on updateNote on error', async () => {
+        jest.spyOn(DbHelpers, 'updateNote').mockImplementationOnce(() => {
+            throw new Error();
+        });
+
+        const result = await testServer.executeOperation(
+            UPDATE_NOTE_MUTATION(
+                '62b1eef6a7774ff0d1cf3b8d',
+                '61ba5a19ffecda0337360f42',
+                testUpdateNoteName,
+                testUpdateNoteDescription,
+                email
+            )
         );
 
         expect(result.data).toBe(null);
