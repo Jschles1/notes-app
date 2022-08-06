@@ -75,10 +75,10 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
     /* istanbul ignore next */
     if (isExternal) {
         if (noLinkStyle) {
-            return <Anchor className={className} href={href} ref={ref} {...other} />;
+            return <Anchor className={className} href={href as any} ref={ref} {...other} />;
         }
 
-        return <MuiLink className={className} href={href} ref={ref} {...other} />;
+        return <MuiLink className={className} href={href as any} ref={ref} {...other} />;
     }
 
     /* istanbul ignore next */
