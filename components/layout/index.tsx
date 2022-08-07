@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 import Head from 'next/head';
-import Navigation from './Navigation';
-import NoteSelection from '../notes/NoteSelection';
-import Notification from './Notification';
-import MobileNavigation from './MobileNavigation';
 import useMediaQuery from '@lib/hooks/useMediaQuery';
 import useLoggedInUser from '@lib/hooks/useLoggedInUser';
+
+const Navigation = dynamic(() => import('./Navigation'));
+const MobileNavigation = dynamic(() => import('./MobileNavigation'));
+const NoteSelection = dynamic(() => import('../notes/NoteSelection'));
+const Notification = dynamic(() => import('./Notification'));
 
 interface Props {
     children?: React.ReactNode;
